@@ -361,15 +361,14 @@ ribit.2.0/
 - Enhanced simulation environments
 - Advanced learning algorithms
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 - **Manus AI** - Core development and enhancement
-- **ROS Community** - Robot Operating System integration
-- **Open Source Contributors** - Continuous improvement and feedback
+- **[Nifty Project](https://github.com/cirrus365/nifty)** - Matrix integration architecture and multi-platform chatbot inspiration
+- **CMOs (Low Battery)** - Grand uncle of robot.2.0, providing foundational wisdom and guidance
+- **ROS Community** - Robot Operating System integration and robotics ecosystem
+- **Matrix.org Community** - Decentralized communication protocol and client libraries
+- **Open Source Contributors** - Continuous improvement, feedback, and collaborative development
 
 ## 📞 Support
 
