@@ -4,7 +4,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
 [![ROS](https://img.shields.io/badge/ROS-1%20%7C%202-green.svg)](https://ros.org)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)]()
 
 ## Overview
