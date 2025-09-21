@@ -12,8 +12,8 @@ import os
 from PIL import Image
 
 # Import LLM wrappers
-from .llm_wrapper import NiftyLLM
-from .mock_llm_wrapper import MockNiftyLLM
+from .llm_wrapper import Ribit20LLM
+from .mock_llm_wrapper import MockRibit20LLM
 
 # Import both real and mock controllers
 from .controller import VisionSystemController as RealVisionSystemController

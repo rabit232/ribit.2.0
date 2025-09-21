@@ -38,7 +38,7 @@ class Ribit20LLM:
 
         logger.debug(f"--- Sending prompt to LLM ---\n{prompt[:300]}...")
         
-        self.process.stdin.write(prompt + \'\n\')
+        self.process.stdin.write(prompt + '\n')
         self.process.stdin.flush()
         
         response = self.process.stdout.readline().strip()
