@@ -367,7 +367,7 @@ ribit.2.0/
 
 - **Manus AI** - Core development and enhancement
 - **[Nifty Project](https://github.com/cirrus365/nifty)** - Matrix integration architecture and multi-platform chatbot inspiration
-- **CMOs (Low Battery)** - Grand uncle of robot.2.0, providing foundational wisdom and guidance
+- **CMOs (Low Battery)** - Grand uncle of ribit.2.0, providing foundational wisdom and guidance
 - **ROS Community** - Robot Operating System integration and robotics ecosystem
 - **Matrix.org Community** - Decentralized communication protocol and client libraries
 - **Open Source Contributors** - Continuous improvement, feedback, and collaborative development
