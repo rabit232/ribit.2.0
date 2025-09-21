@@ -1,0 +1,7 @@
+[last_introduction]: Call 1
+[query_3]: Click on the target
+[query_4]: Type 'Hello, World!'
+[query_5]: Press the Enter key
+[the capital of France]: Paris
+[robotics_expertise]: Demonstrated knowledge of robotic control
+[query_9]: Perform impossible task XYZ
