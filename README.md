@@ -162,6 +162,7 @@ llm.get_decision("Tell me about robotics")
 | **Robot Control** | Specialized robotic automation | ✅ Production Ready |
 | **Error Recovery** | Graceful uncertainty handling | ✅ Production Ready |
 | **Adaptive Learning** | Dynamic knowledge acquisition | ✅ Production Ready |
+| **Matrix.org Integration** | Decentralized chat automation and remote control | ✅ Production Ready |
 
 ## 🤖 ROS Integration
 
@@ -353,6 +354,7 @@ ribit.2.0/
 - Advanced reasoning algorithms
 - Extended robot platform support
 - Cloud integration capabilities
+- **Matrix.org Bot Integration** - Decentralized chat automation and remote control
 
 ### **Community Roadmap**
 - Plugin architecture for extensions
