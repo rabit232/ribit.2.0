@@ -27,6 +27,17 @@ opencv-python>=4.5.0
 # geometry_msgs (install via: sudo apt install ros-noetic-geometry-msgs)
 # sensor_msgs (install via: sudo apt install ros-noetic-sensor-msgs)
 
+# Matrix bot dependencies
+matrix-nio>=0.20.0
+aiofiles>=0.8.0
+asyncio-throttle>=1.0.2
+
+# System monitoring (optional but recommended)
+psutil>=5.9.0
+
+# Additional utilities for Matrix bot
+requests>=2.28.0
+
 # Development and testing
 pytest>=6.0.0
 pytest-asyncio>=0.18.0
