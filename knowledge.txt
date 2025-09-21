@@ -1,1 +1,4 @@
 [last_introduction]: Call 1
+[last_introduction]: Call 1
+[robotics_expertise]: Demonstrated knowledge of robotic control
+[Python]: a programming language
