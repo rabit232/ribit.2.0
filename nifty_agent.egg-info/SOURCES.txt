@@ -1,0 +1,15 @@
+README.md
+setup.py
+nifty_agent/__init__.py
+nifty_agent/agent.py
+nifty_agent/controller.py
+nifty_agent/knowledge_base.py
+nifty_agent/llm_wrapper.py
+nifty_agent/mock_controller.py
+nifty_agent/mock_llm_wrapper.py
+nifty_agent.egg-info/PKG-INFO
+nifty_agent.egg-info/SOURCES.txt
+nifty_agent.egg-info/dependency_links.txt
+nifty_agent.egg-info/entry_points.txt
+nifty_agent.egg-info/requires.txt
+nifty_agent.egg-info/top_level.txt

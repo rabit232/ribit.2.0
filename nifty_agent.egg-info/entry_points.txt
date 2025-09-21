@@ -1,0 +1,2 @@
+[console_scripts]
+nifty-agent = nifty_agent.agent:main_cli
