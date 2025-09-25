@@ -44,9 +44,20 @@ class MockRibit20LLM:
         # Initialize enhanced systems
         try:
             from .enhanced_emotions import EnhancedEmotionalIntelligence
+            from .advanced_settings_manager import advanced_settings_manager
+            from .enhanced_web_search import enhanced_web_search
+            from .enhanced_matrix_integration import enhanced_matrix_integration
+            
             self.emotional_ai = EnhancedEmotionalIntelligence()
-        except ImportError:
+            self.settings_manager = advanced_settings_manager
+            self.web_search = enhanced_web_search
+            self.matrix_integration = enhanced_matrix_integration
+        except ImportError as e:
+            logger.warning(f"Could not import enhanced systems: {e}")
             self.emotional_ai = None
+            self.settings_manager = None
+            self.web_search = None
+            self.matrix_integration = None
             
         try:
             from .self_testing_system import SelfTestingSystem
