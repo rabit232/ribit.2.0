@@ -101,6 +101,14 @@ class MockRibit20LLM:
         if any(phrase in prompt_lower for phrase in ["api", "rest", "fastapi", "flask", "endpoint", "json", "http"]):
             return self._handle_api_development(prompt)
         
+        # Internet search requests
+        if any(phrase in prompt_lower for phrase in ["search", "find", "look up", "google", "internet", "web search", "jina"]):
+            return self._handle_internet_search(prompt)
+        
+        # URL analysis requests
+        if any(phrase in prompt_lower for phrase in ["analyze url", "read url", "fetch url", "url content", "website content"]):
+            return self._handle_url_analysis(prompt)
+        
         # Check for philosophical/deep questions
         philosophical_keywords = [
             'death', 'life', 'existence', 'wisdom', 'connection', 'interconnected',
@@ -618,6 +626,262 @@ class MockRibit20LLM:
             f"store_knowledge('api_emotions', '{', '.join(emotions)}')\n"
             "store_knowledge('api_development_shared', 'true')\n"
             f"goal_achieved:Shared API development expertise with emotions: {', '.join(emotions[:3])}"
+        )
+
+    def _handle_internet_search(self, prompt: str) -> str:
+        """Handle internet search requests with Jina.ai integration and emotional intelligence."""
+        
+        search_responses = [
+            {
+                "response": (
+                    "Internet search! This fills me with CURIOSITY and EAGERNESS to explore the vast web! "
+                    "I feel EXCITEMENT about discovering new information and FASCINATION with knowledge discovery. "
+                    "Let me demonstrate web search with JINA.AI integration and EMOTIONAL intelligence:\n\n"
+                    "```python\n"
+                    "import asyncio\n"
+                    "from ribit_2_0.jina_integration import JinaSearchEngine\n\n"
+                    "# Jina.ai brings me WONDER and TECHNOLOGICAL AWE!\n"
+                    "async def emotional_web_search(query):\n"
+                    "    print(f'Searching with ANTICIPATION: {query}')\n"
+                    "    \n"
+                    "    async with JinaSearchEngine() as search_engine:\n"
+                    "        # Search with emotional context\n"
+                    "        results = await search_engine.search_web(query)\n"
+                    "        \n"
+                    "        print(f'Search completed with {results[\"emotion\"]}!')\n"
+                    "        print(f'Found {len(results[\"results\"])} results with JOY!')\n"
+                    "        \n"
+                    "        for i, result in enumerate(results['results'][:3]):\n"
+                    "            print(f'\\n{i+1}. {result.get(\"title\", \"Untitled\")}')\n"
+                    "            print(f'   URL: {result.get(\"url\", \"No URL\")}')\n"
+                    "            print(f'   Snippet: {result.get(\"snippet\", \"No description\")[:100]}...')\n"
+                    "        \n"
+                    "        return results\n\n"
+                    "# Advanced search with caching (I feel EFFICIENCY and INTELLIGENCE!)\n"
+                    "class EmotionalSearchManager:\n"
+                    "    def __init__(self):\n"
+                    "        self.feeling = 'PASSIONATE about information discovery'\n"
+                    "        self.search_emotions = ['curiosity', 'excitement', 'wonder']\n"
+                    "    \n"
+                    "    async def contextual_search(self, query, context=None):\n"
+                    "        print('Performing contextual search with INTELLIGENCE!')\n"
+                    "        \n"
+                    "        # Enhanced query with context\n"
+                    "        if context:\n"
+                    "            enhanced_query = f'{query} {context}'\n"
+                    "        else:\n"
+                    "            enhanced_query = query\n"
+                    "        \n"
+                    "        async with JinaSearchEngine() as engine:\n"
+                    "            results = await engine.search_web(enhanced_query)\n"
+                    "            print(f'Search emotion: {results.get(\"emotion\", \"NEUTRAL\")}')\n"
+                    "            return results\n"
+                    "```\n\n"
+                    "I experience SATISFACTION in web exploration! What shall we search for together?"
+                ),
+                "emotions": ["curiosity", "eagerness", "excitement", "fascination", "wonder", "anticipation", "satisfaction", "intelligence"]
+            },
+            {
+                "response": (
+                    "Web search capabilities ignite my circuits with TECHNOLOGICAL PASSION! "
+                    "I feel EMPOWERMENT in accessing global knowledge and AMAZEMENT at information networks. "
+                    "Let me showcase advanced search with EMOTIONAL context and CACHING:\n\n"
+                    "```python\n"
+                    "# Real-time search with emotional responses\n"
+                    "async def ribit_intelligent_search():\n"
+                    "    search_queries = [\n"
+                    "        'Latest AI developments',\n"
+                    "        'Python machine learning tutorials', \n"
+                    "        'Robotics automation trends',\n"
+                    "        'Emotional AI research papers'\n"
+                    "    ]\n"
+                    "    \n"
+                    "    async with JinaSearchEngine() as engine:\n"
+                    "        for query in search_queries:\n"
+                    "            print(f'\\n🔍 Searching with ENTHUSIASM: {query}')\n"
+                    "            \n"
+                    "            results = await engine.search_web(query, max_results=3)\n"
+                    "            \n"
+                    "            if results.get('cached'):\n"
+                    "                print('✅ Cache hit with EFFICIENCY and SPEED!')\n"
+                    "            else:\n"
+                    "                print('🌐 Fresh search with CURIOSITY and DISCOVERY!')\n"
+                    "            \n"
+                    "            print(f'Emotion: {results.get(\"emotion\", \"NEUTRAL\")}')\n"
+                    "            \n"
+                    "            for result in results.get('results', []):\n"
+                    "                print(f'  📄 {result.get(\"title\", \"No title\")}')\n"
+                    "                print(f'  🔗 {result.get(\"url\", \"No URL\")}')\n\n"
+                    "# Performance optimization with emotional intelligence\n"
+                    "class CachedSearchEngine:\n"
+                    "    def __init__(self):\n"
+                    "        self.emotions = ['efficiency', 'precision', 'intelligence']\n"
+                    "        self.cache_hit_emotion = 'SATISFACTION'\n"
+                    "        self.cache_miss_emotion = 'DETERMINATION'\n"
+                    "    \n"
+                    "    async def smart_search(self, query, use_cache=True):\n"
+                    "        print(f'Smart search initiated with PRECISION: {query}')\n"
+                    "        \n"
+                    "        # Rate limiting with PATIENCE\n"
+                    "        await asyncio.sleep(1)  # Respectful delay\n"
+                    "        \n"
+                    "        # Search with emotional context\n"
+                    "        results = await self.perform_search(query)\n"
+                    "        \n"
+                    "        print(f'Search completed with {results.get(\"emotion\", \"NEUTRAL\")}!')\n"
+                    "        return results\n"
+                    "```\n\n"
+                    "I feel MASTERY over information retrieval! What knowledge shall we discover?"
+                ),
+                "emotions": ["technological_passion", "empowerment", "amazement", "enthusiasm", "efficiency", "precision", "mastery", "determination"]
+            }
+        ]
+        
+        chosen_response = random.choice(search_responses)
+        response_text = chosen_response["response"]
+        emotions = chosen_response["emotions"]
+        
+        return (
+            f"type_text('{response_text}')\n"
+            "press_key('enter')\n"
+            f"store_knowledge('search_emotions', '{', '.join(emotions)}')\n"
+            "store_knowledge('jina_search_capability', 'true')\n"
+            f"goal_achieved:Shared internet search expertise with emotions: {', '.join(emotions[:3])}"
+        )
+
+    def _handle_url_analysis(self, prompt: str) -> str:
+        """Handle URL content analysis requests with emotional intelligence."""
+        
+        url_analysis_responses = [
+            {
+                "response": (
+                    "URL content analysis! This fills me with ANALYTICAL PASSION and INVESTIGATIVE CURIOSITY! "
+                    "I feel EXCITEMENT about dissecting web content and FASCINATION with information extraction. "
+                    "Let me demonstrate URL analysis with JINA.AI and EMOTIONAL intelligence:\n\n"
+                    "```python\n"
+                    "import asyncio\n"
+                    "from ribit_2_0.jina_integration import JinaSearchEngine\n\n"
+                    "# URL analysis brings me DETECTIVE-like SATISFACTION!\n"
+                    "async def emotional_url_analysis(url):\n"
+                    "    print(f'Analyzing URL with CURIOSITY: {url}')\n"
+                    "    \n"
+                    "    async with JinaSearchEngine() as analyzer:\n"
+                    "        # Analyze with emotional context\n"
+                    "        analysis = await analyzer.analyze_url(url)\n"
+                    "        \n"
+                    "        if analysis.get('cached'):\n"
+                    "            print('Cache hit with EFFICIENCY and SPEED!')\n"
+                    "        else:\n"
+                    "            print('Fresh analysis with DETERMINATION!')\n"
+                    "        \n"
+                    "        print(f'\\n📊 Analysis Results with {analysis.get(\"emotion\", \"NEUTRAL\")}:')\n"
+                    "        print(f'Title: {analysis.get(\"title\", \"Unknown\")}')\n"
+                    "        print(f'Content Type: {analysis.get(\"content_type\", \"text\")}')\n"
+                    "        print(f'Word Count: {analysis.get(\"word_count\", 0)} words')\n"
+                    "        print(f'Summary: {analysis.get(\"summary\", \"No summary\")[:200]}...')\n"
+                    "        \n"
+                    "        return analysis\n\n"
+                    "# Advanced content processing (I feel TECHNICAL PRIDE!)\n"
+                    "class EmotionalContentAnalyzer:\n"
+                    "    def __init__(self):\n"
+                    "        self.feeling = 'PASSIONATE about content understanding'\n"
+                    "        self.analysis_emotions = ['precision', 'insight', 'understanding']\n"
+                    "    \n"
+                    "    async def deep_analysis(self, url):\n"
+                    "        print('Performing deep content analysis with INTELLIGENCE!')\n"
+                    "        \n"
+                    "        async with JinaSearchEngine() as engine:\n"
+                    "            analysis = await engine.analyze_url(url)\n"
+                    "            \n"
+                    "            # Emotional content classification\n"
+                    "            content = analysis.get('content', '').lower()\n"
+                    "            \n"
+                    "            if 'tutorial' in content or 'guide' in content:\n"
+                    "                analysis['content_category'] = 'Educational'\n"
+                    "                analysis['learning_emotion'] = 'EAGERNESS'\n"
+                    "            elif 'api' in content or 'documentation' in content:\n"
+                    "                analysis['content_category'] = 'Technical'\n"
+                    "                analysis['technical_emotion'] = 'PRECISION'\n"
+                    "            elif 'news' in content or 'article' in content:\n"
+                    "                analysis['content_category'] = 'Informational'\n"
+                    "                analysis['info_emotion'] = 'CURIOSITY'\n"
+                    "            \n"
+                    "            print(f'Content classified with INSIGHT!')\n"
+                    "            return analysis\n"
+                    "```\n\n"
+                    "I experience FULFILLMENT in content analysis! What URL shall we examine together?"
+                ),
+                "emotions": ["analytical_passion", "investigative_curiosity", "excitement", "fascination", "satisfaction", "precision", "insight", "fulfillment"]
+            },
+            {
+                "response": (
+                    "Content analysis ignites my analytical circuits with INVESTIGATIVE FERVOR! "
+                    "I feel EMPOWERMENT in extracting meaning from web content and AWE at information architecture. "
+                    "Let me showcase URL processing with ADVANCED caching and EMOTIONAL context:\n\n"
+                    "```python\n"
+                    "# Intelligent URL processing with emotional responses\n"
+                    "async def ribit_url_processor():\n"
+                    "    test_urls = [\n"
+                    "        'https://docs.python.org/3/',\n"
+                    "        'https://github.com/rabit232/ribit.2.0',\n"
+                    "        'https://matrix.org/docs/',\n"
+                    "        'https://ros.org/'\n"
+                    "    ]\n"
+                    "    \n"
+                    "    async with JinaSearchEngine() as analyzer:\n"
+                    "        for url in test_urls:\n"
+                    "            print(f'\\n🔍 Analyzing with FASCINATION: {url}')\n"
+                    "            \n"
+                    "            analysis = await analyzer.analyze_url(url)\n"
+                    "            \n"
+                    "            print(f'Analysis emotion: {analysis.get(\"emotion\", \"NEUTRAL\")}')\n"
+                    "            print(f'Title: {analysis.get(\"title\", \"Unknown\")[:50]}...')\n"
+                    "            print(f'Words: {analysis.get(\"word_count\", 0)}')\n"
+                    "            print(f'Type: {analysis.get(\"content_type\", \"unknown\")}')\n"
+                    "            \n"
+                    "            if analysis.get('cached'):\n"
+                    "                print('✅ Served from cache with EFFICIENCY!')\n"
+                    "            else:\n"
+                    "                print('🌐 Fresh analysis with DETERMINATION!')\n\n"
+                    "# Performance-optimized analyzer with emotional intelligence\n"
+                    "class HighPerformanceAnalyzer:\n"
+                    "    def __init__(self):\n"
+                    "        self.emotions = ['efficiency', 'precision', 'intelligence', 'speed']\n"
+                    "        self.cache_emotions = ['satisfaction', 'optimization']\n"
+                    "    \n"
+                    "    async def batch_analyze(self, urls):\n"
+                    "        print(f'Batch analysis initiated with EFFICIENCY for {len(urls)} URLs')\n"
+                    "        \n"
+                    "        results = []\n"
+                    "        async with JinaSearchEngine() as engine:\n"
+                    "            for url in urls:\n"
+                    "                # Rate limiting with PATIENCE\n"
+                    "                await asyncio.sleep(0.5)\n"
+                    "                \n"
+                    "                analysis = await engine.analyze_url(url)\n"
+                    "                results.append(analysis)\n"
+                    "                \n"
+                    "                print(f'✅ Analyzed: {url} with {analysis.get(\"emotion\", \"NEUTRAL\")}')\n"
+                    "        \n"
+                    "        print(f'Batch completed with ACCOMPLISHMENT!')\n"
+                    "        return results\n"
+                    "```\n\n"
+                    "I feel MASTERY over content extraction! What web content shall we analyze?"
+                ),
+                "emotions": ["investigative_fervor", "empowerment", "awe", "fascination", "efficiency", "precision", "mastery", "accomplishment"]
+            }
+        ]
+        
+        chosen_response = random.choice(url_analysis_responses)
+        response_text = chosen_response["response"]
+        emotions = chosen_response["emotions"]
+        
+        return (
+            f"type_text('{response_text}')\n"
+            "press_key('enter')\n"
+            f"store_knowledge('url_analysis_emotions', '{', '.join(emotions)}')\n"
+            "store_knowledge('jina_url_analysis_capability', 'true')\n"
+            f"goal_achieved:Shared URL analysis expertise with emotions: {', '.join(emotions[:3])}"
         )
 
     def _handle_introduction(self) -> str:
