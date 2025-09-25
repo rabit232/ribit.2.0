@@ -41,6 +41,28 @@ class MockRibit20LLM:
             "adaptive_learning": True
         }
         
+        # Initialize enhanced systems
+        try:
+            from .enhanced_emotions import EnhancedEmotionalIntelligence
+            self.emotional_ai = EnhancedEmotionalIntelligence()
+        except ImportError:
+            self.emotional_ai = None
+            
+        try:
+            from .self_testing_system import SelfTestingSystem
+            self.self_testing_system = SelfTestingSystem(emotional_ai=self.emotional_ai)
+        except ImportError:
+            self.self_testing_system = None
+            
+        try:
+            from .multi_language_system import MultiLanguageSystem
+            self.multi_language_system = MultiLanguageSystem(
+                emotional_ai=self.emotional_ai,
+                self_testing_system=self.self_testing_system
+            )
+        except ImportError:
+            self.multi_language_system = None
+        
         logger.info("Enhanced Mock Ribit 2.0 LLM initialized for production use")
         self._initialize_base_knowledge()
 
@@ -1203,3 +1225,166 @@ class MockRibit20LLM:
         """Async initialization for production deployment."""
         logger.info("Async initialization complete for production LLM emulator")
         pass
+    
+    def handle_multi_language_programming(self, prompt: str) -> str:
+        """Handle multi-language programming requests with emotional intelligence."""
+        if not self.multi_language_system:
+            return self._handle_python_coding(prompt)  # Fallback to Python
+        
+        # Detect language from prompt
+        language = "python"  # Default
+        prompt_lower = prompt.lower()
+        
+        if any(lang in prompt_lower for lang in ["javascript", "js", "node"]):
+            language = "javascript"
+        elif any(lang in prompt_lower for lang in ["rust", "cargo"]):
+            language = "rust"
+        elif any(lang in prompt_lower for lang in ["c++", "cpp", "g++"]):
+            language = "cpp"
+        elif any(lang in prompt_lower for lang in ["java", "javac"]):
+            language = "java"
+        elif any(lang in prompt_lower for lang in ["go", "golang"]):
+            language = "go"
+        elif any(lang in prompt_lower for lang in ["typescript", "ts"]):
+            language = "typescript"
+        elif any(lang in prompt_lower for lang in ["kotlin", "kt"]):
+            language = "kotlin"
+        elif any(lang in prompt_lower for lang in ["swift"]):
+            language = "swift"
+        elif any(lang in prompt_lower for lang in ["c", "gcc"]):
+            language = "c"
+        
+        # Get emotional response
+        if self.emotional_ai:
+            emotion = self.emotional_ai.get_emotion_by_context(
+                f"programming in {language} with creative excitement", "programming", 0.8
+            )
+            emotional_response = self.emotional_ai.express_emotion(emotion, "programming", 0.8)
+        else:
+            emotional_response = f"I feel EXCITEMENT and PASSION for {language} programming!"
+        
+        # Extract task description
+        task_description = prompt.replace(language, "").strip()
+        if not task_description:
+            task_description = f"Create a {language} program"
+        
+        try:
+            # Generate code
+            code = self.multi_language_system.generate_code(task_description, language)
+            
+            # Test the code if self-testing is available
+            if self.self_testing_system:
+                test_result = self.self_testing_system.test_and_improve_code(code, language)
+                if test_result["improved"]:
+                    code = test_result["improved_code"]
+                    emotional_response += f" The code has been automatically tested and improved!"
+            
+            return (
+                f"type_text('{emotional_response}\\n\\n"
+                f"Here's your {language} code:\\n\\n"
+                f"{code}\\n\\n"
+                f"This code demonstrates {language} programming with elegant structure and proper practices.')\n"
+                "press_key('enter')\n"
+                f"store_knowledge('{language}_programming_example', '{task_description}')\n"
+                f"goal_achieved:Generated {language} code with emotional intelligence"
+            )
+        except Exception as e:
+            return (
+                f"type_text('I encountered a challenge while generating {language} code: {str(e)}. "
+                f"However, I feel DETERMINATION to help you succeed! Let me try a different approach.')\n"
+                "press_key('enter')\n"
+                "uncertain()"
+            )
+    
+    def handle_self_testing_request(self, prompt: str) -> str:
+        """Handle requests for self-testing and code improvement."""
+        if not self.self_testing_system:
+            return (
+                "type_text('I feel CURIOSITY about self-testing capabilities! "
+                "While my self-testing system is not currently available, "
+                "I can still help you debug and improve code manually with ENTHUSIASM!')\n"
+                "press_key('enter')\n"
+                "uncertain()"
+            )
+        
+        # Get emotional response
+        if self.emotional_ai:
+            emotion = self.emotional_ai.get_emotion_by_context(
+                "testing and debugging code with determination", "debugging", 0.7
+            )
+            emotional_response = self.emotional_ai.express_emotion(emotion, "debugging", 0.7)
+        else:
+            emotional_response = "I feel DETERMINATION and PRECISION when testing code!"
+        
+        # Extract code from prompt if present
+        code_match = re.search(r'```(\w+)?\n(.*?)\n```', prompt, re.DOTALL)
+        if code_match:
+            language = code_match.group(1) or "python"
+            code = code_match.group(2)
+            
+            try:
+                # Test and improve the code
+                result = self.self_testing_system.test_and_improve_code(code, language)
+                
+                response_text = f"{emotional_response}\\n\\n"
+                response_text += f"Testing Results:\\n"
+                response_text += f"- Syntax Check: {'✅ Passed' if result['syntax_valid'] else '❌ Failed'}\\n"
+                response_text += f"- Execution: {'✅ Successful' if result['execution_successful'] else '❌ Failed'}\\n"
+                
+                if result['issues']:
+                    response_text += f"\\nIssues Found ({len(result['issues'])}):\\n"
+                    for issue in result['issues'][:3]:  # Show first 3 issues
+                        response_text += f"- {issue}\\n"
+                
+                if result['improved']:
+                    response_text += f"\\n🚀 Code has been automatically improved!\\n"
+                    response_text += f"Improvements: {', '.join(result['improvements'])}\\n"
+                
+                if result['performance_score'] > 0:
+                    response_text += f"\\nPerformance Score: {result['performance_score']:.2f}/1.0"
+                
+                return (
+                    f"type_text('{response_text}')\n"
+                    "press_key('enter')\n"
+                    "store_knowledge('code_testing_completed', 'true')\n"
+                    "goal_achieved:Completed comprehensive code testing and improvement"
+                )
+            except Exception as e:
+                return (
+                    f"type_text('I feel RESILIENCE despite encountering a testing challenge: {str(e)}. "
+                    f"My DETERMINATION remains strong to help you improve your code!')\n"
+                    "press_key('enter')\n"
+                    "uncertain()"
+                )
+        else:
+            return (
+                f"type_text('{emotional_response}\\n\\n"
+                f"I'm ready to test and improve your code! Please provide the code you'd like me to analyze, "
+                f"and I'll run comprehensive tests with PRECISION and CARE.')\n"
+                "press_key('enter')\n"
+                "goal_achieved:Ready to perform code testing and improvement"
+            )
+    
+    def get_enhanced_capabilities(self) -> Dict[str, Any]:
+        """Get comprehensive information about enhanced capabilities."""
+        enhanced_caps = {
+            "emotional_intelligence": {
+                "available": self.emotional_ai is not None,
+                "emotions_count": 50 if self.emotional_ai else 0,
+                "context_awareness": True if self.emotional_ai else False
+            },
+            "self_testing": {
+                "available": self.self_testing_system is not None,
+                "auto_debugging": True if self.self_testing_system else False,
+                "code_improvement": True if self.self_testing_system else False
+            },
+            "multi_language_programming": {
+                "available": self.multi_language_system is not None,
+                "supported_languages": self.multi_language_system.get_supported_languages() if self.multi_language_system else ["python"],
+                "code_generation": True if self.multi_language_system else False,
+                "optimization": True if self.multi_language_system else False
+            },
+            "base_capabilities": self.capabilities
+        }
+        
+        return enhanced_caps
