@@ -239,7 +239,7 @@ Ribit 2.0 maintains a sophisticated personality characterized by:
 ### **Core Documentation**
 - [Enhanced LLM Emulator Guide](ENHANCED_LLM_EMULATOR.md) - Detailed technical documentation
 - [ROS Integration Guide](ROS_INTEGRATION_GUIDE.md) - Complete ROS setup and usage
-- [Integration Guidelines](integration_guidelines.md) - Custom system integration
+- [Integration Guidelines](INTEGRATION_GUIDELINES.md) - Custom system integration
 - [Project Summary](PROJECT_SUMMARY.md) - Comprehensive project overview
 
 ### **API Reference**
@@ -313,10 +313,12 @@ ribit.2.0/
 │   ├── ros_controller.py        # ROS integration
 │   ├── mock_controller.py       # Mock environment
 │   └── knowledge_base.py        # Persistent storage
-├── docs/
-│   ├── ENHANCED_LLM_EMULATOR.md
-│   ├── ROS_INTEGRATION_GUIDE.md
-│   └── integration_guidelines.md
+├── ENHANCED_LLM_EMULATOR.md
+├── ROS_INTEGRATION_GUIDE.md
+├── INTEGRATION_GUIDELINES.md
+├── API_REFERENCE.md
+├── PROJECT_SUMMARY.md
+├── MATRIX_BOT_GUIDE.md
 ├── requirements.txt
 ├── setup.py
 └── README.md
@@ -388,7 +390,7 @@ For comprehensive documentation, see:
 ## 📞 Support
 
 - **GitHub Issues**: [Report bugs and request features](https://github.com/rabit232/ribit.2.0/issues)
-- **Documentation**: [Complete guides and API reference](docs/)
+- **Documentation**: [Complete guides and API reference](API_REFERENCE.md)
 - **ROS Community**: [ROS Discourse](https://discourse.ros.org/)
 
 ---
