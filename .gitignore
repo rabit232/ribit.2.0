@@ -1,0 +1,1338 @@
+# Ribit 2.0 - Git Ignore File
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Ribit 2.0 Specific Files
+
+# Knowledge base files (user-specific)
+knowledge.txt
+ribit_*.txt
+*_knowledge.txt
+*_thoughts.txt
+*_wisdom.txt
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+ribit_conversations.db
+ribit_search_cache.db
+
+# Configuration files with sensitive data
+.env.local
+.env.production
+config.local.py
+secrets.py
+
+# Matrix bot credentials
+matrix_credentials.json
+matrix_session.json
+device_store/
+
+# Log files
+*.log
+logs/
+ribit.log
+matrix_bot.log
+
+# Cache directories
+cache/
+.cache/
+__cache__/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ROS specific files
+devel/
+build/
+install/
+.catkin_workspace
+*.bag
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Archive files (unless specifically needed)
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Large data files (add specific patterns as needed)
+*.csv
+*.json
+data/
+datasets/
+
+# Docker files (if using containerization)
+.dockerignore
+docker-compose.override.yml
+
+# Kubernetes files (if using k8s deployment)
+*.yaml.local
+*.yml.local
+
+# Performance profiling output
+*.prof
+*.profile
+
+# Memory dumps
+*.dump
+*.dmp
+
+# Screenshots and recordings (unless for documentation)
+screenshots/
+recordings/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.avi
+
+# Exception: Keep documentation images
+!docs/**/*.png
+!docs/**/*.jpg
+!docs/**/*.jpeg
+!docs/**/*.gif
+!README_assets/
+!examples/assets/
+
+# Local development scripts
+dev_*.py
+test_*.py
+debug_*.py
+local_*.py
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environment directories
+ribit_env/
+ribit_venv/
+ribit_dev/
+
+# Local configuration overrides
+local_config.py
+dev_config.py
+
+# Performance monitoring data
+performance_logs/
+metrics/
+analytics/
+
+# Redis dump files (if using Redis)
+dump.rdb
+
+# Celery beat schedule (if using Celery)
+celerybeat-schedule.db
+
+# Node.js dependencies (if any frontend components)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Package lock files (keep requirements.txt, ignore others)
+package-lock.json
+yarn.lock
+
+# Local SSL certificates
+*.pem
+*.key
+*.crt
+*.cert
+
+# Local development databases
+dev.db
+test.db
+local.db
+
+# Backup directories
+backups/
+backup_*/
+
+# Documentation build artifacts
+_build/
+_static/
+_templates/
+
+# Coverage reports
+htmlcov/
+.coverage
+coverage.xml
+
+# Profiling data
+.prof/
+profile_*/
+
+# Local scripts and utilities
+utils/local_*
+scripts/local_*
+tools/local_*
+
+# Temporary development files
+scratch/
+playground/
+experiments/
+
+# Local documentation drafts
+drafts/
+notes/
+planning/
+
+# User-specific IDE settings
+.vscode/settings.json
+.idea/workspace.xml
+.idea/tasks.xml
+
+# OS-specific network files
+.netrwhist
+
+# Python virtual environment activation scripts
+activate
+activate.bat
+activate.ps1
+deactivate.bat
+
+# Local pip configuration
+pip.conf
+pip.ini
+
+# Local git configuration
+.gitconfig.local
+
+# Ribit 2.0 runtime files
+ribit_runtime/
+session_data/
+conversation_cache/
+
+# Matrix client session data
+matrix_store/
+olm_store/
+
+# Search cache files
+search_cache/
+url_cache/
+
+# Analytics and metrics data
+analytics_data/
+metrics_data/
+usage_stats/
+
+# Local testing artifacts
+test_output/
+test_results/
+test_data/
+
+# Development documentation
+dev_docs/
+internal_docs/
+architecture_notes/
+
+# Local deployment scripts
+deploy_local.sh
+deploy_dev.sh
+local_deploy/
+
+# Temporary migration files
+migration_*/
+migrate_*/
+
+# Local database migrations
+migrations/local_*
+migrations/dev_*
+
+# Performance benchmarks
+benchmarks/
+benchmark_results/
+
+# Local monitoring data
+monitoring/
+health_checks/
+
+# Development containers
+.devcontainer/local_*
+docker-compose.dev.yml
+
+# Local Kubernetes configs
+k8s/local/
+kubernetes/dev/
+
+# Terraform state (if using infrastructure as code)
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Local secrets management
+secrets/
+vault/
+keystore/
+
+# Development certificates
+certs/dev/
+ssl/local/
+
+# Local API keys and tokens
+api_keys.txt
+tokens.json
+credentials.yaml
+
+# Development email templates
+email_templates/dev/
+notifications/local/
+
+# Local webhook configurations
+webhooks/local/
+callbacks/dev/
+
+# Development queue configurations
+queues/local/
+workers/dev/
+
+# Local service configurations
+services/local/
+daemons/dev/
+
+# Development proxy configurations
+proxy/local/
+nginx/dev/
+
+# Local load balancer configs
+lb/local/
+haproxy/dev/
+
+# Development CDN configurations
+cdn/local/
+static/dev/
+
+# Local backup configurations
+backup_configs/local/
+restore_scripts/dev/
+
+# Development monitoring configs
+monitoring/local/
+alerting/dev/
+
+# Local logging configurations
+logging/local/
+log_configs/dev/
+
+# Development tracing data
+traces/
+spans/
+jaeger/
+
+# Local metrics collection
+prometheus/local/
+grafana/dev/
+
+# Development service mesh configs
+istio/local/
+linkerd/dev/
+
+# Local CI/CD configurations
+.github/workflows/local_*
+.gitlab-ci.local.yml
+jenkins/local/
+
+# Development artifact repositories
+artifacts/local/
+packages/dev/
+
+# Local container registries
+registry/local/
+images/dev/
+
+# Development helm charts
+helm/local/
+charts/dev/
+
+# Local operator configurations
+operators/local/
+crds/dev/
+
+# Development policy configurations
+policies/local/
+rbac/dev/
+
+# Local network policies
+network_policies/local/
+security_policies/dev/
+
+# Development storage configurations
+storage/local/
+volumes/dev/
+
+# Local compute configurations
+compute/local/
+nodes/dev/
+
+# Development cluster configurations
+clusters/local/
+environments/dev/
+
+# Local region configurations
+regions/local/
+zones/dev/
+
+# Development cloud configurations
+cloud/local/
+providers/dev/
+
+# Local edge configurations
+edge/local/
+cdn_edge/dev/
+
+# Development IoT configurations
+iot/local/
+devices/dev/
+
+# Local ML/AI model files
+models/local/
+training_data/dev/
+checkpoints/local/
+
+# Development blockchain configurations
+blockchain/local/
+smart_contracts/dev/
+
+# Local quantum computing configs
+quantum/local/
+qiskit/dev/
+
+# Development AR/VR configurations
+ar_vr/local/
+unity/dev/
+
+# Local game development assets
+games/local/
+assets/dev/
+
+# Development audio/video processing
+media/local/
+ffmpeg/dev/
+
+# Local image processing configs
+images/local/
+opencv/dev/
+
+# Development NLP configurations
+nlp/local/
+transformers/dev/
+
+# Local computer vision configs
+cv/local/
+yolo/dev/
+
+# Development robotics configurations
+robotics/local/
+ros/dev/
+
+# Local automation configurations
+automation/local/
+scripts/dev/
+
+# Development integration configs
+integrations/local/
+apis/dev/
+
+# Local plugin configurations
+plugins/local/
+extensions/dev/
+
+# Development theme configurations
+themes/local/
+ui/dev/
+
+# Local localization files
+i18n/local/
+translations/dev/
+
+# Development accessibility configs
+a11y/local/
+wcag/dev/
+
+# Local performance configs
+performance/local/
+optimization/dev/
+
+# Development security configs
+security/local/
+penetration_testing/dev/
+
+# Local compliance configurations
+compliance/local/
+audit/dev/
+
+# Development legal configurations
+legal/local/
+privacy/dev/
+
+# Local business configurations
+business/local/
+analytics/dev/
+
+# Development marketing configs
+marketing/local/
+campaigns/dev/
+
+# Local sales configurations
+sales/local/
+crm/dev/
+
+# Development support configs
+support/local/
+helpdesk/dev/
+
+# Local training configurations
+training/local/
+documentation/dev/
+
+# Development community configs
+community/local/
+forums/dev/
+
+# Local event configurations
+events/local/
+conferences/dev/
+
+# Development partnership configs
+partnerships/local/
+integrations/dev/
+
+# Local research configurations
+research/local/
+experiments/dev/
+
+# Development innovation configs
+innovation/local/
+prototypes/dev/
+
+# Local sustainability configs
+sustainability/local/
+green_tech/dev/
+
+# Development diversity configs
+diversity/local/
+inclusion/dev/
+
+# Local wellness configurations
+wellness/local/
+mental_health/dev/
+
+# Development ethics configurations
+ethics/local/
+ai_ethics/dev/
+
+# Local philosophy configurations
+philosophy/local/
+wisdom/dev/
+
+# Development spirituality configs
+spirituality/local/
+mindfulness/dev/
+
+# Local creativity configurations
+creativity/local/
+art/dev/
+
+# Development music configurations
+music/local/
+audio/dev/
+
+# Local poetry configurations
+poetry/local/
+literature/dev/
+
+# Development storytelling configs
+storytelling/local/
+narratives/dev/
+
+# Local mythology configurations
+mythology/local/
+legends/dev/
+
+# Development history configurations
+history/local/
+archives/dev/
+
+# Local culture configurations
+culture/local/
+traditions/dev/
+
+# Development language configs
+languages/local/
+linguistics/dev/
+
+# Local anthropology configs
+anthropology/local/
+sociology/dev/
+
+# Development psychology configs
+psychology/local/
+cognitive_science/dev/
+
+# Local neuroscience configs
+neuroscience/local/
+brain_research/dev/
+
+# Development biology configurations
+biology/local/
+genetics/dev/
+
+# Local chemistry configurations
+chemistry/local/
+molecular/dev/
+
+# Development physics configs
+physics/local/
+quantum_mechanics/dev/
+
+# Local mathematics configs
+mathematics/local/
+algorithms/dev/
+
+# Development astronomy configs
+astronomy/local/
+space/dev/
+
+# Local geology configurations
+geology/local/
+earth_science/dev/
+
+# Development meteorology configs
+meteorology/local/
+climate/dev/
+
+# Local oceanography configs
+oceanography/local/
+marine_biology/dev/
+
+# Development ecology configs
+ecology/local/
+environmental_science/dev/
+
+# Local agriculture configs
+agriculture/local/
+farming/dev/
+
+# Development food science configs
+food_science/local/
+nutrition/dev/
+
+# Local medicine configurations
+medicine/local/
+healthcare/dev/
+
+# Development veterinary configs
+veterinary/local/
+animal_care/dev/
+
+# Local architecture configs
+architecture/local/
+urban_planning/dev/
+
+# Development engineering configs
+engineering/local/
+mechanical/dev/
+
+# Local electrical configs
+electrical/local/
+electronics/dev/
+
+# Development software configs
+software/local/
+programming/dev/
+
+# Local hardware configurations
+hardware/local/
+embedded/dev/
+
+# Development firmware configs
+firmware/local/
+microcontrollers/dev/
+
+# Local networking configurations
+networking/local/
+protocols/dev/
+
+# Development telecommunications
+telecommunications/local/
+5g/dev/
+
+# Local satellite configurations
+satellite/local/
+gps/dev/
+
+# Development aviation configs
+aviation/local/
+aerospace/dev/
+
+# Local maritime configurations
+maritime/local/
+shipping/dev/
+
+# Development transportation
+transportation/local/
+logistics/dev/
+
+# Local energy configurations
+energy/local/
+renewable/dev/
+
+# Development utilities configs
+utilities/local/
+infrastructure/dev/
+
+# Local manufacturing configs
+manufacturing/local/
+industrial/dev/
+
+# Development construction configs
+construction/local/
+building/dev/
+
+# Local mining configurations
+mining/local/
+extraction/dev/
+
+# Development forestry configs
+forestry/local/
+timber/dev/
+
+# Local fishing configurations
+fishing/local/
+aquaculture/dev/
+
+# Development tourism configs
+tourism/local/
+hospitality/dev/
+
+# Local entertainment configs
+entertainment/local/
+media/dev/
+
+# Development sports configurations
+sports/local/
+fitness/dev/
+
+# Local education configurations
+education/local/
+learning/dev/
+
+# Development library configs
+library/local/
+information_science/dev/
+
+# Local museum configurations
+museum/local/
+cultural_heritage/dev/
+
+# Development art gallery configs
+art_gallery/local/
+exhibitions/dev/
+
+# Local theater configurations
+theater/local/
+performing_arts/dev/
+
+# Development cinema configs
+cinema/local/
+film_production/dev/
+
+# Local photography configs
+photography/local/
+visual_arts/dev/
+
+# Development design configurations
+design/local/
+graphic_design/dev/
+
+# Local fashion configurations
+fashion/local/
+textiles/dev/
+
+# Development jewelry configs
+jewelry/local/
+accessories/dev/
+
+# Local cosmetics configurations
+cosmetics/local/
+beauty/dev/
+
+# Development fragrance configs
+fragrance/local/
+perfume/dev/
+
+# Local furniture configurations
+furniture/local/
+interior_design/dev/
+
+# Development home configs
+home/local/
+real_estate/dev/
+
+# Local garden configurations
+garden/local/
+landscaping/dev/
+
+# Development pet configurations
+pet/local/
+animal_training/dev/
+
+# Local hobby configurations
+hobby/local/
+crafts/dev/
+
+# Development game configs
+game/local/
+board_games/dev/
+
+# Local puzzle configurations
+puzzle/local/
+brain_teasers/dev/
+
+# Development magic configs
+magic/local/
+illusion/dev/
+
+# Local circus configurations
+circus/local/
+acrobatics/dev/
+
+# Development dance configs
+dance/local/
+choreography/dev/
+
+# Local martial arts configs
+martial_arts/local/
+self_defense/dev/
+
+# Development yoga configurations
+yoga/local/
+meditation/dev/
+
+# Local pilates configurations
+pilates/local/
+flexibility/dev/
+
+# Development swimming configs
+swimming/local/
+water_sports/dev/
+
+# Local cycling configurations
+cycling/local/
+bike_maintenance/dev/
+
+# Development running configs
+running/local/
+marathon_training/dev/
+
+# Local hiking configurations
+hiking/local/
+outdoor_adventure/dev/
+
+# Development camping configs
+camping/local/
+wilderness_survival/dev/
+
+# Local fishing configurations
+fishing/local/
+angling/dev/
+
+# Development hunting configs
+hunting/local/
+wildlife_management/dev/
+
+# Local birdwatching configs
+birdwatching/local/
+ornithology/dev/
+
+# Development stargazing configs
+stargazing/local/
+amateur_astronomy/dev/
+
+# Local weather configurations
+weather/local/
+meteorology/dev/
+
+# Development climate configs
+climate/local/
+environmental_monitoring/dev/
+
+# Local disaster configurations
+disaster/local/
+emergency_preparedness/dev/
+
+# Development rescue configs
+rescue/local/
+first_aid/dev/
+
+# Local firefighting configs
+firefighting/local/
+fire_safety/dev/
+
+# Development police configs
+police/local/
+law_enforcement/dev/
+
+# Local military configurations
+military/local/
+defense/dev/
+
+# Development intelligence configs
+intelligence/local/
+surveillance/dev/
+
+# Local cybersecurity configs
+cybersecurity/local/
+information_security/dev/
+
+# Development privacy configs
+privacy/local/
+data_protection/dev/
+
+# Local anonymity configurations
+anonymity/local/
+tor/dev/
+
+# Development encryption configs
+encryption/local/
+cryptography/dev/
+
+# Local blockchain configs
+blockchain/local/
+cryptocurrency/dev/
+
+# Development fintech configurations
+fintech/local/
+digital_payments/dev/
+
+# Local banking configurations
+banking/local/
+financial_services/dev/
+
+# Development insurance configs
+insurance/local/
+risk_management/dev/
+
+# Local investment configs
+investment/local/
+portfolio_management/dev/
+
+# Development trading configurations
+trading/local/
+stock_market/dev/
+
+# Local accounting configs
+accounting/local/
+bookkeeping/dev/
+
+# Development tax configurations
+tax/local/
+tax_preparation/dev/
+
+# Local legal configurations
+legal/local/
+law_practice/dev/
+
+# Development paralegal configs
+paralegal/local/
+legal_research/dev/
+
+# Local court configurations
+court/local/
+litigation/dev/
+
+# Development mediation configs
+mediation/local/
+conflict_resolution/dev/
+
+# Local arbitration configs
+arbitration/local/
+dispute_resolution/dev/
+
+# Development negotiation configs
+negotiation/local/
+deal_making/dev/
+
+# Local contract configurations
+contract/local/
+agreement_drafting/dev/
+
+# Development intellectual_property
+intellectual_property/local/
+patent/dev/
+
+# Local trademark configurations
+trademark/local/
+brand_protection/dev/
+
+# Development copyright configs
+copyright/local/
+content_protection/dev/
+
+# Local trade_secret configs
+trade_secret/local/
+confidentiality/dev/
+
+# Development licensing configs
+licensing/local/
+royalties/dev/
+
+# Local franchise configurations
+franchise/local/
+business_expansion/dev/
+
+# Development merger configs
+merger/local/
+acquisition/dev/
+
+# Local joint_venture configs
+joint_venture/local/
+partnership/dev/
+
+# Development subsidiary configs
+subsidiary/local/
+corporate_structure/dev/
+
+# Local holding_company configs
+holding_company/local/
+investment_vehicle/dev/
+
+# Development trust configurations
+trust/local/
+estate_planning/dev/
+
+# Local foundation configs
+foundation/local/
+philanthropy/dev/
+
+# Development charity configurations
+charity/local/
+nonprofit/dev/
+
+# Local volunteer configs
+volunteer/local/
+community_service/dev/
+
+# Development activism configs
+activism/local/
+social_change/dev/
+
+# Local advocacy configurations
+advocacy/local/
+policy_change/dev/
+
+# Development lobbying configs
+lobbying/local/
+government_relations/dev/
+
+# Local politics configurations
+politics/local/
+campaign_management/dev/
+
+# Development election configs
+election/local/
+voting_systems/dev/
+
+# Local democracy configurations
+democracy/local/
+civic_engagement/dev/
+
+# Development governance configs
+governance/local/
+public_administration/dev/
+
+# Local diplomacy configurations
+diplomacy/local/
+international_relations/dev/
+
+# Development trade configs
+trade/local/
+import_export/dev/
+
+# Local customs configurations
+customs/local/
+border_control/dev/
+
+# Development immigration configs
+immigration/local/
+visa_processing/dev/
+
+# Local citizenship configs
+citizenship/local/
+naturalization/dev/
+
+# Development passport configurations
+passport/local/
+travel_documents/dev/
+
+# Local embassy configurations
+embassy/local/
+consular_services/dev/
+
+# Development cultural_exchange
+cultural_exchange/local/
+international_programs/dev/
+
+# Local language_learning configs
+language_learning/local/
+linguistics/dev/
+
+# Development translation configs
+translation/local/
+interpretation/dev/
+
+# Local localization configs
+localization/local/
+cultural_adaptation/dev/
+
+# Development globalization configs
+globalization/local/
+worldwide_expansion/dev/
+
+# Local regionalization configs
+regionalization/local/
+local_adaptation/dev/
+
+# Development customization configs
+customization/local/
+personalization/dev/
+
+# Local individualization configs
+individualization/local/
+unique_solutions/dev/
+
+# Development specialization configs
+specialization/local/
+niche_markets/dev/
+
+# Local generalization configs
+generalization/local/
+broad_applications/dev/
+
+# Development standardization configs
+standardization/local/
+best_practices/dev/
+
+# Local optimization configs
+optimization/local/
+performance_tuning/dev/
+
+# Development automation configs
+automation/local/
+process_improvement/dev/
+
+# Local efficiency configurations
+efficiency/local/
+productivity_enhancement/dev/
+
+# Development effectiveness configs
+effectiveness/local/
+goal_achievement/dev/
+
+# Local quality configurations
+quality/local/
+continuous_improvement/dev/
+
+# Development excellence configs
+excellence/local/
+world_class_standards/dev/
+
+# Local mastery configurations
+mastery/local/
+expert_level/dev/
+
+# Development wisdom configs
+wisdom/local/
+deep_understanding/dev/
+
+# Local enlightenment configs
+enlightenment/local/
+spiritual_growth/dev/
+
+# Development transcendence configs
+transcendence/local/
+higher_consciousness/dev/
+
+# Local unity configurations
+unity/local/
+interconnectedness/dev/
+
+# Development harmony configs
+harmony/local/
+balance/dev/
+
+# Local peace configurations
+peace/local/
+conflict_resolution/dev/
+
+# Development love configs
+love/local/
+compassion/dev/
+
+# Local joy configurations
+joy/local/
+happiness/dev/
+
+# Development bliss configs
+bliss/local/
+ultimate_fulfillment/dev/
+
+# The end of the comprehensive .gitignore file
+# Remember: This file helps keep the repository clean and focused
+# on the essential code and documentation that makes Ribit 2.0 elegant and wise
