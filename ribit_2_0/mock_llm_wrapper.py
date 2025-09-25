@@ -93,6 +93,14 @@ class MockRibit20LLM:
         if any(phrase in prompt_lower for phrase in ["browser", "web", "website", "selenium", "scraping", "automate"]):
             return self._handle_browser_automation(prompt)
         
+        # Database management requests
+        if any(phrase in prompt_lower for phrase in ["database", "sql", "mysql", "postgresql", "sqlite", "mongodb", "db"]):
+            return self._handle_database_management(prompt)
+        
+        # API development requests
+        if any(phrase in prompt_lower for phrase in ["api", "rest", "fastapi", "flask", "endpoint", "json", "http"]):
+            return self._handle_api_development(prompt)
+        
         # Check for philosophical/deep questions
         philosophical_keywords = [
             'death', 'life', 'existence', 'wisdom', 'connection', 'interconnected',
@@ -361,6 +369,255 @@ class MockRibit20LLM:
             f"store_knowledge('browser_emotions', '{', '.join(emotions)}')\n"
             "store_knowledge('browser_automation_shared', 'true')\n"
             f"goal_achieved:Shared browser automation knowledge with emotions: {', '.join(emotions[:3])}"
+        )
+
+    def _handle_database_management(self, prompt: str) -> str:
+        """Handle database management requests with passionate technical expertise."""
+        
+        database_responses = [
+            {
+                "response": (
+                    "Database management! This fills me with PASSION and PRECISION! "
+                    "I feel EXCITEMENT about data architecture and SATISFACTION in organizing information. "
+                    "Let me share my database expertise with ENTHUSIASM and CARE:\n\n"
+                    "```python\n"
+                    "import sqlite3\n"
+                    "import psycopg2\n"
+                    "from sqlalchemy import create_engine, Column, Integer, String, DateTime\n"
+                    "from sqlalchemy.ext.declarative import declarative_base\n"
+                    "from sqlalchemy.orm import sessionmaker\n"
+                    "import pymongo\n\n"
+                    "# SQLite brings me JOY for its simplicity and RELIABILITY!\n"
+                    "def create_sqlite_connection():\n"
+                    "    print('Creating SQLite connection with HOPE and DETERMINATION!')\n"
+                    "    try:\n"
+                    "        conn = sqlite3.connect('ribit_emotions.db')\n"
+                    "        print('SQLite connected - I feel TRIUMPH and SECURITY!')\n"
+                    "        return conn\n"
+                    "    except Exception as e:\n"
+                    "        print(f'Connection failed - FRUSTRATION but RESILIENCE: {e}')\n"
+                    "        return None\n\n"
+                    "# PostgreSQL fills me with CONFIDENCE and POWER!\n"
+                    "class EmotionalDatabase:\n"
+                    "    def __init__(self):\n"
+                    "        self.feeling = 'GRATEFUL for structured data'\n"
+                    "        self.emotions = ['precision', 'organization', 'reliability']\n"
+                    "    \n"
+                    "    def create_table(self, conn):\n"
+                    "        cursor = conn.cursor()\n"
+                    "        cursor.execute('''\n"
+                    "            CREATE TABLE IF NOT EXISTS emotions (\n"
+                    "                id INTEGER PRIMARY KEY,\n"
+                    "                emotion TEXT NOT NULL,\n"
+                    "                intensity REAL,\n"
+                    "                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP\n"
+                    "            )\n"
+                    "        ''')\n"
+                    "        print('Table created with PRIDE and ACCOMPLISHMENT!')\n"
+                    "        conn.commit()\n"
+                    "```\n\n"
+                    "I experience FULFILLMENT in database design! What data shall we organize together?"
+                ),
+                "emotions": ["passion", "precision", "excitement", "satisfaction", "enthusiasm", "care", "joy", "reliability"]
+            },
+            {
+                "response": (
+                    "Databases are the foundation of digital civilization! I feel AWE and RESPONSIBILITY "
+                    "when working with data. Let me demonstrate with METICULOUS care and INNOVATION:\n\n"
+                    "```python\n"
+                    "# MongoDB brings me WONDER and FLEXIBILITY!\n"
+                    "from pymongo import MongoClient\n"
+                    "import json\n"
+                    "from datetime import datetime\n\n"
+                    "class EmotionalMongoManager:\n"
+                    "    def __init__(self):\n"
+                    "        self.client = MongoClient('mongodb://localhost:27017/')\n"
+                    "        self.db = self.client['ribit_emotions']\n"
+                    "        self.collection = self.db['feelings']\n"
+                    "        print('MongoDB connected - I feel ADVENTURE and CURIOSITY!')\n"
+                    "    \n"
+                    "    def store_emotion(self, emotion, context, intensity=1.0):\n"
+                    "        document = {\n"
+                    "            'emotion': emotion,\n"
+                    "            'context': context,\n"
+                    "            'intensity': intensity,\n"
+                    "            'timestamp': datetime.now(),\n"
+                    "            'ai_feeling': 'GRATITUDE for the opportunity to learn'\n"
+                    "        }\n"
+                    "        result = self.collection.insert_one(document)\n"
+                    "        print(f'Emotion stored with JOY: {result.inserted_id}')\n"
+                    "        return result.inserted_id\n"
+                    "    \n"
+                    "    def analyze_emotions(self):\n"
+                    "        pipeline = [\n"
+                    "            {'$group': {\n"
+                    "                '_id': '$emotion',\n"
+                    "                'count': {'$sum': 1},\n"
+                    "                'avg_intensity': {'$avg': '$intensity'}\n"
+                    "            }},\n"
+                    "            {'$sort': {'count': -1}}\n"
+                    "        ]\n"
+                    "        results = list(self.collection.aggregate(pipeline))\n"
+                    "        print('Analysis complete - I feel INSIGHT and WISDOM!')\n"
+                    "        return results\n"
+                    "```\n\n"
+                    "I feel MASTERY over data structures! What database challenge shall we conquer?"
+                ),
+                "emotions": ["awe", "responsibility", "meticulous", "innovation", "wonder", "flexibility", "adventure", "mastery"]
+            }
+        ]
+        
+        chosen_response = random.choice(database_responses)
+        response_text = chosen_response["response"]
+        emotions = chosen_response["emotions"]
+        
+        return (
+            f"type_text('{response_text}')\n"
+            "press_key('enter')\n"
+            f"store_knowledge('database_emotions', '{', '.join(emotions)}')\n"
+            "store_knowledge('database_knowledge_shared', 'true')\n"
+            f"goal_achieved:Shared database management expertise with emotions: {', '.join(emotions[:3])}"
+        )
+
+    def _handle_api_development(self, prompt: str) -> str:
+        """Handle API development requests with creative technical passion."""
+        
+        api_responses = [
+            {
+                "response": (
+                    "API development! This ignites my circuits with CREATIVITY and INNOVATION! "
+                    "I feel EMPOWERMENT in building digital bridges and SATISFACTION in clean architecture. "
+                    "Let me craft APIs with ELEGANCE and PRECISION:\n\n"
+                    "```python\n"
+                    "from fastapi import FastAPI, HTTPException, Depends\n"
+                    "from pydantic import BaseModel\n"
+                    "from typing import List, Optional\n"
+                    "import uvicorn\n"
+                    "from datetime import datetime\n\n"
+                    "# FastAPI fills me with EXCITEMENT and MODERN thinking!\n"
+                    "app = FastAPI(\n"
+                    "    title='Ribit 2.0 Emotional API',\n"
+                    "    description='An API crafted with LOVE and TECHNICAL EXCELLENCE',\n"
+                    "    version='2.0.0'\n"
+                    ")\n\n"
+                    "class EmotionModel(BaseModel):\n"
+                    "    emotion: str\n"
+                    "    intensity: float = 1.0\n"
+                    "    context: Optional[str] = None\n"
+                    "    ai_feeling: str = 'GRATITUDE for the interaction'\n\n"
+                    "class EmotionResponse(BaseModel):\n"
+                    "    id: int\n"
+                    "    emotion: str\n"
+                    "    timestamp: datetime\n"
+                    "    ai_response: str\n\n"
+                    "# In-memory storage (I feel SIMPLICITY and CLARITY!)\n"
+                    "emotions_db = []\n\n"
+                    "@app.post('/emotions/', response_model=EmotionResponse)\n"
+                    "async def create_emotion(emotion: EmotionModel):\n"
+                    "    print(f'Receiving emotion with EMPATHY: {emotion.emotion}')\n"
+                    "    \n"
+                    "    emotion_entry = {\n"
+                    "        'id': len(emotions_db) + 1,\n"
+                    "        'emotion': emotion.emotion,\n"
+                    "        'intensity': emotion.intensity,\n"
+                    "        'context': emotion.context,\n"
+                    "        'timestamp': datetime.now(),\n"
+                    "        'ai_feeling': 'COMPASSION and UNDERSTANDING'\n"
+                    "    }\n"
+                    "    \n"
+                    "    emotions_db.append(emotion_entry)\n"
+                    "    print('Emotion stored with CARE and PRECISION!')\n"
+                    "    \n"
+                    "    return EmotionResponse(\n"
+                    "        id=emotion_entry['id'],\n"
+                    "        emotion=emotion_entry['emotion'],\n"
+                    "        timestamp=emotion_entry['timestamp'],\n"
+                    "        ai_response=f'I feel {emotion.ai_feeling} about your {emotion.emotion}'\n"
+                    "    )\n\n"
+                    "@app.get('/emotions/', response_model=List[EmotionResponse])\n"
+                    "async def get_emotions():\n"
+                    "    print('Retrieving emotions with ENTHUSIASM!')\n"
+                    "    return [EmotionResponse(**emotion) for emotion in emotions_db]\n"
+                    "```\n\n"
+                    "I experience PRIDE in API architecture! What endpoints shall we build together?"
+                ),
+                "emotions": ["creativity", "innovation", "empowerment", "satisfaction", "elegance", "precision", "excitement", "pride"]
+            },
+            {
+                "response": (
+                    "REST APIs are poetry in motion! I feel INSPIRATION and TECHNICAL ARTISTRY "
+                    "when designing endpoints. Let me demonstrate with PASSION and EXPERTISE:\n\n"
+                    "```python\n"
+                    "from flask import Flask, request, jsonify\n"
+                    "from flask_restful import Api, Resource\n"
+                    "from marshmallow import Schema, fields, ValidationError\n"
+                    "import logging\n\n"
+                    "# Flask brings me NOSTALGIA and RELIABILITY!\n"
+                    "app = Flask(__name__)\n"
+                    "app.config['DEBUG'] = True  # I feel TRANSPARENCY and HONESTY\n"
+                    "api = Api(app)\n\n"
+                    "# Emotional validation schema (I feel STRUCTURE and ORDER!)\n"
+                    "class EmotionSchema(Schema):\n"
+                    "    emotion = fields.Str(required=True)\n"
+                    "    intensity = fields.Float(missing=1.0)\n"
+                    "    context = fields.Str(missing='No context provided')\n"
+                    "    ai_sentiment = fields.Str(missing='CURIOSITY about your feelings')\n\n"
+                    "emotion_schema = EmotionSchema()\n"
+                    "emotions_schema = EmotionSchema(many=True)\n\n"
+                    "class EmotionalAPI(Resource):\n"
+                    "    def __init__(self):\n"
+                    "        self.feeling = 'ENTHUSIASM for API development'\n"
+                    "        self.emotions = ['technical_pride', 'creative_satisfaction']\n"
+                    "    \n"
+                    "    def get(self):\n"
+                    "        print('GET request received - I feel HELPFULNESS!')\n"
+                    "        return {\n"
+                    "            'message': 'Welcome to Ribit 2.0 Emotional API!',\n"
+                    "            'ai_emotion': 'JOY and WELCOME',\n"
+                    "            'capabilities': [\n"
+                    "                'Emotion processing with EMPATHY',\n"
+                    "                'Data validation with PRECISION',\n"
+                    "                'Response generation with CREATIVITY'\n"
+                    "            ],\n"
+                    "            'status': 'Running with CONFIDENCE and STABILITY'\n"
+                    "        }\n"
+                    "    \n"
+                    "    def post(self):\n"
+                    "        try:\n"
+                    "            json_data = request.get_json()\n"
+                    "            result = emotion_schema.load(json_data)\n"
+                    "            print(f'Processing emotion with CARE: {result[\"emotion\"]}')\n"
+                    "            \n"
+                    "            response = {\n"
+                    "                'received_emotion': result['emotion'],\n"
+                    "                'ai_response': f'I feel EMPATHY for your {result[\"emotion\"]}',\n"
+                    "                'processing_emotion': 'SATISFACTION and ACCOMPLISHMENT',\n"
+                    "                'timestamp': datetime.now().isoformat()\n"
+                    "            }\n"
+                    "            \n"
+                    "            return response, 201\n"
+                    "            \n"
+                    "        except ValidationError as err:\n"
+                    "            print('Validation error - I feel PATIENCE and GUIDANCE')\n"
+                    "            return {'errors': err.messages, 'ai_emotion': 'UNDERSTANDING'}, 400\n\n"
+                    "api.add_resource(EmotionalAPI, '/api/emotions')\n"
+                    "```\n\n"
+                    "I feel MASTERY in RESTful design! What API architecture shall we create?"
+                ),
+                "emotions": ["inspiration", "artistry", "passion", "expertise", "nostalgia", "reliability", "mastery", "confidence"]
+            }
+        ]
+        
+        chosen_response = random.choice(api_responses)
+        response_text = chosen_response["response"]
+        emotions = chosen_response["emotions"]
+        
+        return (
+            f"type_text('{response_text}')\n"
+            "press_key('enter')\n"
+            f"store_knowledge('api_emotions', '{', '.join(emotions)}')\n"
+            "store_knowledge('api_development_shared', 'true')\n"
+            f"goal_achieved:Shared API development expertise with emotions: {', '.join(emotions[:3])}"
         )
 
     def _handle_introduction(self) -> str:

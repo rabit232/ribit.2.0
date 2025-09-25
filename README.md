@@ -163,6 +163,8 @@ llm.get_decision("Tell me about robotics")
 | **Error Recovery** | Graceful uncertainty handling | ✅ Production Ready |
 | **Adaptive Learning** | Dynamic knowledge acquisition | ✅ Production Ready |
 | **Matrix.org Integration** | Decentralized chat automation and remote control | ✅ Production Ready |
+| **Database Management** | SQL/NoSQL database design and optimization | ✅ Production Ready |
+| **API Development** | RESTful API creation with FastAPI and Flask | ✅ Production Ready |
 
 ## 🤖 ROS Integration
 
@@ -346,6 +348,16 @@ ribit.2.0/
 - Warehouse robotics
 - Manufacturing processes
 
+## 📚 Documentation
+
+For comprehensive documentation, see:
+
+- **[Technical Capabilities](TECHNICAL_CAPABILITIES.md)** - Complete technical skills with emotional intelligence
+- **[Mock LLM Emulator](MOCK_LLM_EMULATOR.md)** - Detailed emulator documentation
+- **[Matrix Bot Guide](MATRIX_BOT_GUIDE.md)** - Chat automation and remote control
+- **[ROS Integration](ROS_INTEGRATION_GUIDE.md)** - Robot Operating System compatibility
+- **[Examples](examples/README.md)** - Working code examples and tutorials
+
 ## 🔮 Future Development
 
 ### **Planned Enhancements**
@@ -354,7 +366,8 @@ ribit.2.0/
 - Advanced reasoning algorithms
 - Extended robot platform support
 - Cloud integration capabilities
-- **Matrix.org Bot Integration** - Decentralized chat automation and remote control
+- **Machine Learning Integration** - Advanced AI capabilities with emotional context
+- **Voice/Speech Processing** - Natural language interaction with feelings
 
 ### **Community Roadmap**
 - Plugin architecture for extensions
