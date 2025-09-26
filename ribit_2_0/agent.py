@@ -124,8 +124,8 @@ CURRENT KNOWLEDGE:
                     screenshot = pyautogui.screenshot()
                     processed_image_text = image_to_ascii_dithered(screenshot, use_blocks=True)
 
-                # Disable screen diff check if using MockNiftyLLM
-                if isinstance(self.llm, MockNiftyLLM):
+                # Disable screen diff check if using MockRibit20LLM
+                if isinstance(self.llm, MockRibit20LLM):
                     diff = 1.0 # Always trigger LLM query for mock
                 else:
                     diff = np.sum(np.frombuffer(self.last_ascii_art.encode(), dtype=np.uint8) != np.frombuffer(processed_image_text.encode(), dtype=np.uint8)) / len(processed_image_text) if self.last_ascii_art else 1.0
@@ -209,12 +209,12 @@ def main_cli():
             "get_all_knowledge()",
             "goal_achieved:Demonstrated knowledge storage and retrieval."
         ]
-        llm_instance = MockNiftyLLM(mock_responses)
+        llm_instance = MockRibit20LLM()
         controller_instance = RealVisionSystemController() if HAS_GUI_LIBS else MockVisionSystemController() # Use real if available, else mock
     else:
         if not args.llm_path:
             parser.error("--llm-path is required unless --mock-llm is used.")
-        llm_instance = NiftyLLM(args.llm_path)
+        llm_instance = Ribit20LLM(args.llm_path)
         controller_instance = RealVisionSystemController() if HAS_GUI_LIBS else MockVisionSystemController()
 
     asyncio.run(main_async(llm_instance, controller_instance, args.goal))

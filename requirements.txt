@@ -1,12 +1,42 @@
 # Ribit 2.0 Requirements
 # Core dependencies for Ribit 2.0 agent
 
+# ========================================
+# IMPORTANT SETUP NOTES
+# ========================================
+# Before installing Python packages, ensure you have the necessary system dependencies:
+#
+# For Ubuntu/Debian systems:
+#   sudo apt update
+#   sudo apt install -y build-essential python3-dev python3-pip
+#   sudo apt install -y libffi-dev libssl-dev
+#
+# For CentOS/RHEL/Fedora systems:
+#   sudo yum groupinstall "Development Tools"
+#   sudo yum install python3-devel python3-pip
+#   # OR for newer versions:
+#   sudo dnf groupinstall "Development Tools"
+#   sudo dnf install python3-devel python3-pip
+#
+# For macOS:
+#   Install Xcode Command Line Tools:
+#   xcode-select --install
+#
+# For Windows:
+#   Install Microsoft Visual C++ Build Tools or Visual Studio
+#   https://visualstudio.microsoft.com/visual-cpp-build-tools/
+#
+# Note: build-essential (or equivalent) is required to compile native extensions
+# for packages like evdev (dependency of pynput) and other C-based libraries.
+# ========================================
+
 # Core Python packages
 numpy>=1.21.0
 Pillow>=8.3.0
 numba>=0.56.0
 
 # GUI automation (optional - for desktop environments)
+# Note: These require system libraries and may fail in headless environments
 pyautogui>=0.9.53
 pynput>=1.7.3
 
@@ -64,3 +94,33 @@ pytest-asyncio>=0.18.0
 # scipy>=1.7.0
 # matplotlib>=3.4.0
 # scikit-image>=0.18.0
+
+# ========================================
+# INSTALLATION INSTRUCTIONS
+# ========================================
+# 1. Install system dependencies (see above)
+# 2. Create a virtual environment (recommended):
+#    python3 -m venv ribit_env
+#    source ribit_env/bin/activate  # On Windows: ribit_env\Scripts\activate
+# 3. Install Python packages:
+#    pip install -r requirements.txt
+# 4. For GUI functionality, ensure you have a display server running
+# 5. For Matrix bot, set up environment variables (see env.example.txt)
+# ========================================
+
+# ========================================
+# TROUBLESHOOTING
+# ========================================
+# If you encounter "error: Microsoft Visual C++ 14.0 is required" on Windows:
+#   Install Visual C++ Build Tools from Microsoft
+#
+# If you encounter "error: command 'gcc' failed" on Linux:
+#   sudo apt install build-essential python3-dev
+#
+# If pyautogui fails to install:
+#   Try installing without GUI dependencies first:
+#   pip install --no-deps pyautogui
+#
+# If pynput fails with evdev errors:
+#   This is normal in headless environments - the code will fall back to mock mode
+# ========================================

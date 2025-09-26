@@ -7,6 +7,7 @@ import asyncio
 import aiohttp
 import re
 import logging
+import os
 from urllib.parse import quote, urlparse
 from typing import Optional, List, Dict, Any
 from .enhanced_emotions import EnhancedEmotionalIntelligence

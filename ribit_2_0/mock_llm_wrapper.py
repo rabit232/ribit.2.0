@@ -3,6 +3,7 @@ import asyncio
 import re
 import json
 import random
+import os
 from typing import Dict, List, Any, Optional
 from .knowledge_base import KnowledgeBase
 
