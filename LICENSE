@@ -1,0 +1,42 @@
+MIT License
+
+Copyright (c) 2024 Ribit 2.0 Project
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+SECURITY NOTICE:
+
+This software includes End-to-End Encryption (E2EE) capabilities. Users are 
+responsible for compliance with local encryption laws and export regulations. 
+The encryption implementation is provided for legitimate security purposes and 
+educational use.
+
+DISCLAIMER:
+
+While this implementation uses military-grade encryption algorithms, no system 
+is 100% secure. Users should:
+- Regularly update cryptographic libraries
+- Follow proper operational security practices
+- Conduct regular security audits
+- Implement proper key management procedures
+
+The authors and contributors are not responsible for any security breaches, 
+data loss, or misuse of the encryption capabilities provided by this software.

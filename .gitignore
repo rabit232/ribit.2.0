@@ -1336,3 +1336,45 @@ ultimate_fulfillment/dev/
 # The end of the comprehensive .gitignore file
 # Remember: This file helps keep the repository clean and focused
 # on the essential code and documentation that makes Ribit 2.0 elegant and wise
+
+
+# ===== RIBIT 2.0 E2EE SPECIFIC ADDITIONS =====
+
+# E2EE Key Storage Directories
+ribit_e2ee_keys/
+ribit_secure_storage/
+ribit_test_storage/
+ribit_integrated_storage/
+test_e2ee_keys/
+test_keys/
+test_integration_keys/
+
+# E2EE Virtual Environment
+ribit_e2ee_env/
+
+# E2EE Log Files
+ribit_2_0_secure.log
+e2ee_audit.log
+security_events.log
+
+# E2EE Test Archives (keep source files, ignore generated archives)
+ribit_2_0_e2ee_complete.zip
+ribit_2_0_e2ee_final_complete.zip
+
+# Matrix E2EE Session Data
+matrix_e2ee_store/
+olm_e2ee_store/
+device_keys/
+cross_signing_keys/
+
+# E2EE Performance Data
+e2ee_performance_logs/
+encryption_benchmarks/
+security_metrics/
+
+# E2EE Development Files
+e2ee_dev_keys/
+test_encryption_data/
+security_test_results/
+
+# ===== END E2EE SPECIFIC ADDITIONS =====
