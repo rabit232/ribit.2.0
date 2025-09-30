@@ -54,7 +54,7 @@ def main():
     components = [
         ("Core AI Engine", "ribit_2_0.mock_llm_wrapper", "MockRibit20LLM"),
         ("Emotional Intelligence", "ribit_2_0.enhanced_emotions", "EnhancedEmotionalIntelligence"),
-        ("Conversation Manager", "ribit_2_0.conversation_manager", "ConversationManager"),
+        ("Conversation Manager", "ribit_2_0.conversation_manager", "AdvancedConversationManager"),
         ("Knowledge Base", "ribit_2_0.knowledge_base", "KnowledgeBase"),
         ("Agent Controller", "ribit_2_0.agent", "Ribit20Agent"),
     ]
@@ -87,7 +87,7 @@ def main():
     matrix_components = [
         ("Matrix Integration", "ribit_2_0.enhanced_matrix_integration", "EnhancedMatrixIntegration"),
         ("Matrix Command Handler", "ribit_2_0.matrix_command_handler", "MatrixCommandHandler"),
-        ("Matrix Bot", "ribit_2_0.matrix_bot", "MatrixBot"),
+        ("Matrix Bot", "ribit_2_0.matrix_bot", "RibitMatrixBot"),
     ]
     
     matrix_status = {}
@@ -102,7 +102,7 @@ def main():
     robot_components = [
         ("ROS Controller", "ribit_2_0.ros_controller", "RibitROSController"),
         ("Vision System", "ribit_2_0.ros_controller", "VisionSystemController"),
-        ("Device Controller", "ribit_2_0.controller", "Controller"),
+        ("Device Controller", "ribit_2_0.controller", "VisionSystemController"),
     ]
     
     robot_status = {}
@@ -119,7 +119,7 @@ def main():
         ("Settings Manager", "ribit_2_0.advanced_settings_manager", "AdvancedSettingsManager"),
         ("Multi-Language System", "ribit_2_0.multi_language_system", "MultiLanguageSystem"),
         ("Self-Testing System", "ribit_2_0.self_testing_system", "SelfTestingSystem"),
-        ("Jina Integration", "ribit_2_0.jina_integration", "JinaIntegration"),
+        ("Jina Integration", "ribit_2_0.jina_integration", "JinaSearchEngine"),
     ]
     
     additional_status = {}
@@ -176,7 +176,7 @@ def main():
         from ribit_2_0.matrix_e2ee_protocol import MatrixE2EEProtocol
         # Initialize with dummy values for testing
         e2ee = MatrixE2EEProtocol("@test:matrix.org", "TEST_DEVICE")
-        test_msg = e2ee.encrypt_message('Test', level='basic')
+        test_msg = e2ee.encrypt_message('Test', 'basic')  # Fixed method signature
         print("✅ E2EE Encryption: Working")
     except Exception as e:
         print(f"❌ E2EE Encryption: Error - {e}")
@@ -185,7 +185,7 @@ def main():
     try:
         from ribit_2_0.enhanced_emotions import EnhancedEmotionalIntelligence
         emotions = EnhancedEmotionalIntelligence()
-        emotion_state = emotions.analyze_emotional_context("I am happy")
+        emotion_state = emotions.get_emotion_by_context("I am happy")
         print("✅ Emotional Intelligence: Working")
     except Exception as e:
         print(f"❌ Emotional Intelligence: Error - {e}")
