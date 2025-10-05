@@ -135,8 +135,8 @@ Complete Matrix bot integration with all autonomous features.
 
 **Running the Bot:**
 ```bash
-export MATRIX_HOMESERVER="https://matrix.anarchists.space"
-export MATRIX_USER_ID="@ribit:matrix.anarchists.space"
+export MATRIX_HOMESERVER="https://envs.net"
+export MATRIX_USER_ID="@ribit.2.0:envs.net"
 export MATRIX_ACCESS_TOKEN="your_token"
 python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
 ```

@@ -122,8 +122,8 @@ Ribit autonomously responds to discussions about:
 
 #### Environment Variables
 ```bash
-MATRIX_HOMESERVER="https://matrix.anarchists.space"
-MATRIX_USER_ID="@ribit:matrix.anarchists.space"
+MATRIX_HOMESERVER="https://envs.net"
+MATRIX_USER_ID="@ribit.2.0:envs.net"
 MATRIX_ACCESS_TOKEN="your_token_here"
 MATRIX_DEVICE_ID="optional_device_id"
 ```
@@ -156,8 +156,8 @@ MATRIX_DEVICE_ID="optional_device_id"
 #### Running Enhanced Matrix Bot
 ```bash
 cd ribit.2.0
-export MATRIX_HOMESERVER="https://matrix.anarchists.space"
-export MATRIX_USER_ID="@ribit:matrix.anarchists.space"
+export MATRIX_HOMESERVER="https://envs.net"
+export MATRIX_USER_ID="@ribit.2.0:envs.net"
 export MATRIX_ACCESS_TOKEN="your_token"
 python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
 ```

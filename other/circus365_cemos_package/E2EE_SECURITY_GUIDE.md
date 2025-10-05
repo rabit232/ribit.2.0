@@ -95,7 +95,7 @@ from ribit_2_0.secure_matrix_bot import SecureMatrixBot
 
 # Create secure bot instance
 bot = SecureMatrixBot(
-    homeserver="https://matrix.anarchists.space",
+    homeserver="https://envs.net",
     user_id="@ribit.2.0:matrix.anarchists.space",
     password=os.getenv("MATRIX_PASSWORD"),
     device_id="RIBIT_2_0_SECURE"
@@ -160,7 +160,7 @@ Would you like to enable terminator mode? (Just kidding! 😄)
 Create `.env.ribit2.0` file:
 ```bash
 # Matrix Configuration
-MATRIX_HOMESERVER=https://matrix.anarchists.space
+MATRIX_HOMESERVER=https://envs.net
 MATRIX_USER_ID=@ribit.2.0:matrix.anarchists.space
 MATRIX_PASSWORD=your_secure_password
 MATRIX_DEVICE_ID=RIBIT_2_0_SECURE

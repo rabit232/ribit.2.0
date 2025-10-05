@@ -41,7 +41,7 @@ except ImportError:
 class IntegratedBotConfig:
     """Configuration for the integrated secure Matrix bot"""
     # Matrix connection
-    homeserver: str = "https://matrix.anarchists.space"
+    homeserver: str = "https://envs.net"
     user_id: str = "@ribit.2.0:matrix.anarchists.space"
     device_id: str = "RIBIT_2_0_INTEGRATED_SECURE"
     
@@ -906,7 +906,7 @@ async def run_integrated_secure_bot():
     
     # Configuration
     config = IntegratedBotConfig(
-        homeserver=os.getenv("MATRIX_HOMESERVER", "https://matrix.anarchists.space"),
+        homeserver=os.getenv("MATRIX_HOMESERVER", "https://envs.net"),
         user_id=os.getenv("MATRIX_USER_ID", "@ribit.2.0:matrix.anarchists.space"),
         device_id=os.getenv("MATRIX_DEVICE_ID", "RIBIT_2_0_INTEGRATED_SECURE"),
         enable_e2ee=True,
