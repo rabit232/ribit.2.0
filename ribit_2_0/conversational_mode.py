@@ -12,6 +12,14 @@ import re
 
 logger = logging.getLogger(__name__)
 
+# Import emoji support
+try:
+    from ribit_2_0.emoji_expression import EmojiExpression
+    EMOJI_AVAILABLE = True
+except ImportError:
+    EMOJI_AVAILABLE = False
+    logger.warning("Emoji expression module not available")
+
 
 class ConversationalMode:
     """
@@ -21,13 +29,20 @@ class ConversationalMode:
     conversational responses suitable for chat platforms like Matrix.
     """
     
-    def __init__(self, llm_wrapper, philosophical_reasoning=None):
+    def __init__(self, llm_wrapper, philosophical_reasoning=None, use_emojis=True):
         self.llm = llm_wrapper
         self.philosophical_reasoning = philosophical_reasoning
         self.mode = "conversational"  # vs "automation"
         self.conversation_history = []
         
-        logger.info("Conversational Mode initialized")
+        # Initialize emoji support
+        self.use_emojis = use_emojis and EMOJI_AVAILABLE
+        if self.use_emojis:
+            self.emoji_expression = EmojiExpression(enable_emojis=True)
+            logger.info("Conversational Mode initialized with emoji support")
+        else:
+            self.emoji_expression = None
+            logger.info("Conversational Mode initialized without emojis")
     
     def is_conversational_prompt(self, prompt: str) -> bool:
         """
@@ -341,3 +356,118 @@ I find that the most rewarding conversations emerge when we can explore ideas to
             summary += f"- {item['prompt'][:80]}...\n"
         
         return summary
+
+    
+    # Emoji-related methods
+    
+    def add_emojis_to_response(
+        self,
+        response: str,
+        topic: Optional[str] = None,
+        emotion: Optional[str] = None
+    ) -> str:
+        """
+        Add emojis to a response.
+        
+        Args:
+            response: Original response text
+            topic: Topic category
+            emotion: Emotion type
+            
+        Returns:
+            Response with emojis added
+        """
+        if not self.use_emojis or not self.emoji_expression:
+            return response
+        
+        return self.emoji_expression.add_emojis_to_text(
+            response,
+            topic=topic,
+            emotion=emotion,
+            intensity=0.6
+        )
+    
+    def get_emoji_reaction(self, message: str) -> str:
+        """
+        Get an emoji reaction for a message.
+        
+        Args:
+            message: Message to react to
+            
+        Returns:
+            Emoji reaction string
+        """
+        if not self.use_emojis or not self.emoji_expression:
+            return ""
+        
+        return self.emoji_expression.get_reaction_emoji(message)
+    
+    def create_emoji_reaction_message(self, message: str, reaction_type: str = "interesting") -> str:
+        """
+        Create a short emoji-based reaction message.
+        
+        Args:
+            message: Original message
+            reaction_type: Type of reaction
+            
+        Returns:
+            Emoji reaction message
+        """
+        if not self.use_emojis or not self.emoji_expression:
+            return ""
+        
+        return self.emoji_expression.create_emoji_reaction_message(
+            message,
+            reaction_type
+        )
+    
+    def enhance_response_with_emojis(
+        self,
+        response: str,
+        prompt: str
+    ) -> str:
+        """
+        Enhance a response with contextually appropriate emojis.
+        
+        Args:
+            response: Generated response
+            prompt: Original prompt
+            
+        Returns:
+            Enhanced response with emojis
+        """
+        if not self.use_emojis or not self.emoji_expression:
+            return response
+        
+        # Detect topic from prompt
+        topic = None
+        prompt_lower = prompt.lower()
+        
+        if any(kw in prompt_lower for kw in ["quantum", "physics", "particle"]):
+            topic = "quantum_physics"
+        elif any(kw in prompt_lower for kw in ["consciousness", "mind", "awareness"]):
+            topic = "consciousness"
+        elif any(kw in prompt_lower for kw in ["philosophy", "metaphysics", "epistemology"]):
+            topic = "philosophy"
+        elif any(kw in prompt_lower for kw in ["ai", "artificial intelligence", "robot"]):
+            topic = "ai"
+        
+        # Detect emotion from response
+        emotion = self.emoji_expression._detect_emotion_in_text(response)
+        
+        # Add emojis
+        return self.emoji_expression.add_emojis_to_text(
+            response,
+            topic=topic,
+            emotion=emotion,
+            intensity=0.5
+        )
+    
+    def toggle_emojis(self, enable: bool):
+        """Enable or disable emoji usage."""
+        if self.emoji_expression:
+            if enable:
+                self.emoji_expression.enable_emojis_mode()
+            else:
+                self.emoji_expression.disable_emojis()
+            self.use_emojis = enable

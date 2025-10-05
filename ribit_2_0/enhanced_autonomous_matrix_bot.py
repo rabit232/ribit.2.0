@@ -148,8 +148,21 @@ class EnhancedAutonomousMatrixBot:
                 message, sender, interest or "general"
             )
             
+            # Enhance response with emojis
+            if hasattr(self.conversational_mode, 'enhance_response_with_emojis'):
+                response = self.conversational_mode.enhance_response_with_emojis(
+                    response, message
+                )
+            
             # Send response
             await self.send_message(room.room_id, response)
+            
+            # Optionally send emoji reaction
+            if hasattr(self.conversational_mode, 'get_emoji_reaction'):
+                emoji_reaction = self.conversational_mode.get_emoji_reaction(message)
+                if emoji_reaction:
+                    # Send as a reaction to the original message
+                    await self.send_reaction(room.room_id, event.event_id, emoji_reaction)
             
             # Learn from interaction
             self.autonomous_interaction.learn_from_interaction(message, response)
@@ -326,6 +339,31 @@ I could work on any of these tasks independently:
             logger.info(f"Sent message to {room_id}")
         except Exception as e:
             logger.error(f"Failed to send message: {e}")
+    
+    async def send_reaction(self, room_id: str, event_id: str, emoji: str):
+        """
+        Send an emoji reaction to a message.
+        
+        Args:
+            room_id: Room ID
+            event_id: Event ID of the message to react to
+            emoji: Emoji to react with
+        """
+        try:
+            await self.client.room_send(
+                room_id=room_id,
+                message_type="m.reaction",
+                content={
+                    "m.relates_to": {
+                        "rel_type": "m.annotation",
+                        "event_id": event_id,
+                        "key": emoji
+                    }
+                }
+            )
+            logger.info(f"Sent reaction {emoji} to {event_id} in {room_id}")
+        except Exception as e:
+            logger.error(f"Failed to send reaction: {e}")
     
     async def invite_callback(self, room: MatrixRoom, event: InviteMemberEvent):
         """Handle room invitations."""
