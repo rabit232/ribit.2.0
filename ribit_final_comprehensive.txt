@@ -1,2 +1,0 @@
-[robotics_expertise]: Demonstrated knowledge of robotic control
-[query_7]: Send a message via Matrix

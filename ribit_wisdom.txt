@@ -1,4 +1,0 @@
-[query_1]: Tell me about wisdom and existence
-[query_3]: Share your thoughts on life and death
-[query_4]: What does it mean to be interconnected?
-[query_5]: Speak about the web of connection that unites us
