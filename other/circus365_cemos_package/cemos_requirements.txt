@@ -1,0 +1,47 @@
+# CEMOS E2EE Matrix Integration Requirements
+# Package prepared for circus365/cemos project
+
+# Core Matrix and E2EE Dependencies (REQUIRED)
+matrix-nio[e2e]>=0.20.0
+cryptography>=41.0.0
+pycryptodome>=3.18.0
+keyring>=24.0.0
+python-olm>=3.2.0
+
+# Async and HTTP Support (REQUIRED)
+asyncio-mqtt>=0.13.0
+aiohttp>=3.8.0
+aiofiles>=23.0.0
+requests>=2.31.0
+
+# Data Processing (REQUIRED)
+numpy>=1.24.0
+pandas>=2.0.0
+beautifulsoup4>=4.12.0
+
+# Optional: Enhanced Features
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.15.0
+
+# Optional: Web Framework Support
+flask>=2.3.0
+fastapi>=0.100.0
+uvicorn>=0.23.0
+
+# Optional: Additional Security
+bcrypt>=4.0.0
+passlib>=1.7.0
+python-jose>=3.3.0
+
+# Development and Testing (OPTIONAL)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.7.0
+flake8>=6.0.0
+
+# CEMOS Specific Dependencies
+# Add any CEMOS-specific packages here
+# Example:
+# cemos-core>=1.0.0
+# circus365-utils>=2.0.0
