@@ -124,3 +124,6 @@ pytest-asyncio>=0.18.0
 # If pynput fails with evdev errors:
 #   This is normal in headless environments - the code will fall back to mock mode
 # ========================================
+wikipedia-api
+requests
+beautifulsoup4

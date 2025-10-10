@@ -1,3 +1,4 @@
+
 """
 Humor Engine for Ribit 2.0
 Adds wit, jokes, and playful personality to responses
@@ -5,6 +6,9 @@ Adds wit, jokes, and playful personality to responses
 
 import random
 import re
+import logging
+
+logger = logging.getLogger(__name__)
 
 class HumorEngine:
     """Generates humorous and witty responses for Ribit 2.0"""
@@ -146,15 +150,16 @@ class HumorEngine:
         
         query_lower = query.lower()
         
-        # Try history responder first for historical questions
+        # Try intelligent responder first (includes history + web knowledge)
         try:
-            from .history_responder import HistoryResponder
-            history = HistoryResponder()
-            history_response = history.get_response(query)
-            if history_response:
-                return history_response
+            from .intelligent_responder import IntelligentResponder
+            intelligent = IntelligentResponder()
+            intelligent_response = intelligent.get_response(query)
+            if intelligent_response:
+                return intelligent_response
         except Exception as e:
-            pass  # Fall through to other handlers
+            logger.debug(f"Intelligent responder not available: {e}")
+            # Fall through to other handlers
         
         # Math questions
         if 'how much is' in query_lower or 'what is' in query_lower:
