@@ -290,12 +290,56 @@ class RibitMatrixBot:
     def _is_message_for_bot(self, message: str) -> bool:
         """Check if message is directed at the bot.
         
-        Now responds to ALL messages for natural conversation,
-        not just explicit mentions.
+        Intelligent detection:
+        - Responds to questions (ends with ? or contains question words)
+        - Responds to direct mentions (ribit, ribit.2.0)
+        - Responds to commands (?help, !reset)
         """
-        # Always respond to all messages for natural conversation
-        # Commands and special triggers still work
-        return True
+        message_lower = message.lower()
+        
+        # Check for direct mentions
+        if self.bot_name in message_lower or 'ribit' in message_lower:
+            return True
+        
+        # Check for commands
+        if message.startswith('?') or '!reset' in message_lower:
+            return True
+        
+        # Check if it's a question (ends with ?)
+        if message.strip().endswith('?'):
+            return True
+        
+        # Check for question words
+        question_words = [
+            'what', 'how', 'why', 'when', 'where', 'who', 'which',
+            'can', 'could', 'would', 'should', 'is', 'are', 'do', 'does',
+            'will', 'did', 'has', 'have', 'was', 'were'
+        ]
+        
+        # Check if message starts with a question word
+        first_word = message_lower.split()[0] if message_lower.split() else ''
+        if first_word in question_words:
+            return True
+        
+        # Check if message contains question patterns
+        question_patterns = [
+            'tell me',
+            'explain',
+            'describe',
+            'what about',
+            'how about',
+            'what do you think',
+            'do you know',
+            'can you',
+            'could you',
+            'would you'
+        ]
+        
+        for pattern in question_patterns:
+            if pattern in message_lower:
+                return True
+        
+        return False
     
     def _clean_message(self, message: str) -> str:
         """Clean the message by removing bot mentions."""
