@@ -272,11 +272,47 @@ class RibitMatrixBot:
                     del self.conversation_context[room_id]
                 return "🔄 Conversation context reset. How may I assist you?"
             
+            # Try humor engine for casual questions first
+            try:
+                from .humor_engine import HumorEngine
+                humor = HumorEngine()
+                casual_response = humor.get_casual_response(clean_message)
+                if casual_response:
+                    self._add_to_context(room_id, f"User: {clean_message}")
+                    self._add_to_context(room_id, f"Ribit: {casual_response}")
+                    return casual_response
+            except Exception as e:
+                logger.debug(f"Humor engine not available: {e}")
+            
             # Add to conversation context
             self._add_to_context(room_id, f"User: {clean_message}")
             
             # Get AI response
             ai_response = self.llm.get_decision(clean_message)
+            
+            # Clean up the response (remove action commands if present)
+            if '\n' in ai_response:
+                # Extract just the text content, not the action commands
+                lines = ai_response.split('\n')
+                text_lines = [line for line in lines if not line.startswith(('type_text', 'press_key', 'store_knowledge', 'goal_achieved', 'uncertain'))]
+                if text_lines:
+                    ai_response = ' '.join(text_lines).strip()
+                else:
+                    # Extract from type_text if that's all we have
+                    for line in lines:
+                        if line.startswith('type_text'):
+                            match = re.search(r"type_text\('(.+?)'\)", line)
+                            if match:
+                                ai_response = match.group(1)
+                                break
+            
+            # Add humor if appropriate
+            try:
+                from .humor_engine import HumorEngine
+                humor = HumorEngine()
+                ai_response = humor.add_humor_to_response(ai_response, clean_message)
+            except Exception as e:
+                logger.debug(f"Could not add humor: {e}")
             
             # Add AI response to context
             self._add_to_context(room_id, f"Ribit: {ai_response}")
@@ -294,19 +330,56 @@ class RibitMatrixBot:
         - Responds to questions (ends with ? or contains question words)
         - Responds to direct mentions (ribit, ribit.2.0)
         - Responds to commands (?help, !reset)
+        - Ignores group greetings (good morning all, how's everyone, etc.)
         """
         message_lower = message.lower()
         
-        # Check for direct mentions
+        # Check for direct mentions (always respond)
         if self.bot_name in message_lower or 'ribit' in message_lower:
             return True
         
-        # Check for commands
+        # Check for commands (always respond)
         if message.startswith('?') or '!reset' in message_lower:
             return True
         
+        # Ignore group greetings and social messages
+        group_greeting_patterns = [
+            'good morning all',
+            'good morning everyone',
+            'good night all',
+            'good night everyone',
+            'hello all',
+            'hello everyone',
+            'hi all',
+            'hi everyone',
+            'hey all',
+            'hey everyone',
+            'how are you all',
+            'how is everyone',
+            'hows everyone',
+            'how\'s everyone',
+            'how are u all',
+            'how r u all',
+            'how r you all',
+            'how are y\'all',
+            'sup everyone',
+            'sup all',
+            'wassup everyone',
+            'what\'s up everyone',
+            'whats up all'
+        ]
+        
+        # Check if it's a group greeting
+        for pattern in group_greeting_patterns:
+            if pattern in message_lower:
+                return False  # Ignore group greetings
+        
         # Check if it's a question (ends with ?)
         if message.strip().endswith('?'):
+            # Additional check: make sure it's not a rhetorical group question
+            if any(word in message_lower for word in ['everyone', 'all', 'y\'all', 'you all', 'u all']):
+                # If it mentions "everyone" or "all", it's probably for the group, not the bot
+                return False
             return True
         
         # Check for question words
@@ -319,6 +392,9 @@ class RibitMatrixBot:
         # Check if message starts with a question word
         first_word = message_lower.split()[0] if message_lower.split() else ''
         if first_word in question_words:
+            # Check if it's directed at the group
+            if any(word in message_lower for word in ['everyone', 'all', 'y\'all', 'you all', 'u all', 'guys']):
+                return False  # Ignore questions directed at the group
             return True
         
         # Check if message contains question patterns
@@ -332,11 +408,24 @@ class RibitMatrixBot:
             'do you know',
             'can you',
             'could you',
-            'would you'
+            'would you',
+            'how much is',
+            'what is',
+            'what was',
+            'what were',
+            'who was',
+            'who were',
+            'when was',
+            'when were',
+            'where is',
+            'where was'
         ]
         
         for pattern in question_patterns:
             if pattern in message_lower:
+                # Still check for group-directed questions
+                if any(word in message_lower for word in ['everyone', 'all', 'y\'all', 'you all', 'u all']):
+                    return False
                 return True
         
         return False
