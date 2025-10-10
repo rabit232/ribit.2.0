@@ -150,7 +150,18 @@ class HumorEngine:
         
         query_lower = query.lower()
         
-        # Try intelligent responder first (includes history + web knowledge)
+        # Try programming assistant first for code/tech questions
+        try:
+            from .programming_assistant import ProgrammingAssistant
+            prog_assistant = ProgrammingAssistant()
+            if prog_assistant.is_programming_question(query):
+                prog_response = prog_assistant.get_response(query)
+                if prog_response:
+                    return prog_response
+        except Exception as e:
+            logger.debug(f"Programming assistant not available: {e}")
+        
+        # Try intelligent responder for general knowledge (includes history + web)
         try:
             from .intelligent_responder import IntelligentResponder
             intelligent = IntelligentResponder()
