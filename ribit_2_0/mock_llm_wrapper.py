@@ -1126,6 +1126,21 @@ class MockRibit20LLM:
     def _handle_default_query(self, prompt: str) -> str:
         """Handle default queries with intelligent responses."""
         
+        # Try web knowledge first for factual questions
+        try:
+            from .intelligent_responder import IntelligentResponder
+            intelligent = IntelligentResponder()
+            web_response = intelligent.get_response(prompt)
+            if web_response:
+                return (
+                    f"type_text('{web_response}')\n"
+                    "press_key('enter')\n"
+                    "store_knowledge('web_knowledge_used', 'true')\n"
+                    "goal_achieved:Provided answer using web knowledge"
+                )
+        except Exception as e:
+            logger.debug(f"Web knowledge not available: {e}")
+        
         # Check for philosophical/deep questions
         philosophical_keywords = [
             'death', 'life', 'existence', 'wisdom', 'connection', 'interconnected',
