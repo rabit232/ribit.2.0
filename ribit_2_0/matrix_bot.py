@@ -272,6 +272,48 @@ class RibitMatrixBot:
                     del self.conversation_context[room_id]
                 return "🔄 Conversation context reset. How may I assist you?"
             
+            # Handle image generation requests
+            try:
+                from .image_generator import ImageGenerator
+                from .matrix_image_sender import send_image_to_room
+                
+                image_gen = ImageGenerator()
+                if image_gen.is_image_generation_request(clean_message):
+                    logger.info(f"Image generation requested: {clean_message}")
+                    
+                    # Extract description
+                    description = image_gen.extract_description(clean_message)
+                    
+                    # Send status message
+                    await self._send_message(room_id, f"🎨 Generating image: \"{description}\"\n⏳ This may take 20-30 seconds...")
+                    
+                    # Generate image
+                    result = await image_gen.generate_image(description)
+                    
+                    if result['success'] and result['file_path']:
+                        # Send the image
+                        success = await send_image_to_room(
+                            self.client,
+                            room_id,
+                            result['file_path'],
+                            description
+                        )
+                        
+                        if success:
+                            # Clean up the file
+                            image_gen.cleanup_image(result['file_path'])
+                            return "✨ Image generated and sent!"
+                        else:
+                            # Clean up even if sending failed
+                            image_gen.cleanup_image(result['file_path'])
+                            return "❌ Generated image but failed to send it to the room."
+                    else:
+                        error_msg = result.get('error', 'Unknown error')
+                        return f"❌ Failed to generate image: {error_msg}\n\n💡 Try: 'generate image of a sunset over mountains'"
+            except Exception as e:
+                logger.error(f"Image generation error: {e}")
+                # Continue to normal processing if image generation fails
+            
             # Try humor engine for casual questions first
             try:
                 from .humor_engine import HumorEngine

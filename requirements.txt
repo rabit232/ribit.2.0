@@ -127,3 +127,5 @@ pytest-asyncio>=0.18.0
 wikipedia-api
 requests
 beautifulsoup4
+selenium
+pillow
