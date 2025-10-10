@@ -288,14 +288,14 @@ class RibitMatrixBot:
             return "I apologize, but I encountered an error processing your message."
     
     def _is_message_for_bot(self, message: str) -> bool:
-        """Check if message is directed at the bot."""
-        message_lower = message.lower()
-        return (
-            self.bot_name in message_lower or
-            'ribit' in message_lower or
-            message.startswith('?') or
-            '!reset' in message_lower
-        )
+        """Check if message is directed at the bot.
+        
+        Now responds to ALL messages for natural conversation,
+        not just explicit mentions.
+        """
+        # Always respond to all messages for natural conversation
+        # Commands and special triggers still work
+        return True
     
     def _clean_message(self, message: str) -> str:
         """Clean the message by removing bot mentions."""
