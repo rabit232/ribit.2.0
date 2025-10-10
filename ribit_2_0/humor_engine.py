@@ -146,6 +146,16 @@ class HumorEngine:
         
         query_lower = query.lower()
         
+        # Try history responder first for historical questions
+        try:
+            from .history_responder import HistoryResponder
+            history = HistoryResponder()
+            history_response = history.get_response(query)
+            if history_response:
+                return history_response
+        except Exception as e:
+            pass  # Fall through to other handlers
+        
         # Math questions
         if 'how much is' in query_lower or 'what is' in query_lower:
             # Try to extract and solve simple math
@@ -190,14 +200,5 @@ class HumorEngine:
                     f"{result}! And that's why I'm a bot and not a toaster.",
                 ]
                 return random.choice(responses)
-        
-        # History questions
-        if 'war' in query_lower and any(country in query_lower for country in ['belgium', 'germany', 'netherland', 'france', 'britain']):
-            responses = [
-                "Ah, you're asking about European conflicts! There have been quite a few... World War I (1914-1918) and World War II (1939-1945) both involved Belgium, Germany, and the Netherlands. History: it's like a soap opera, but with more explosions.",
-                "Let me dust off my history books! Belgium, Germany, and the Netherlands were involved in both World Wars. WWI started in 1914, WWII in 1939. (Spoiler alert: peace eventually won.)",
-                "*puts on historian hat* You're likely thinking of the World Wars! Belgium was invaded by Germany in both WWI and WWII, with the Netherlands also caught up in WWII. (The past: it's complicated.)",
-            ]
-            return random.choice(responses)
         
         return None  # No specific casual response, use default handler
