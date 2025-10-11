@@ -211,3 +211,10 @@ class IntelligentResponder:
         except Exception as e:
             logger.error(f"Error getting current info: {e}")
             return None
+
+
+    # Alias method for compatibility
+    def get_intelligent_response(self, query: str) -> str:
+        """Alias for get_response() for compatibility"""
+        return self.get_response(query)
+

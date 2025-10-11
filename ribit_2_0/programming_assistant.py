@@ -497,3 +497,10 @@ class ProgrammingAssistant:
             "• Environment setup\n\n"
             "Just ask your question, share your code, or describe your problem!"
         )
+
+
+    # Alias method for compatibility
+    def handle_programming_query(self, query: str) -> str:
+        """Alias for get_response() for compatibility"""
+        return self.get_response(query)
+

@@ -233,3 +233,10 @@ class HistoryResponder:
         ]
         
         return random.choice(intros) + " " + info + random.choice(outros)
+
+
+    # Alias method for compatibility
+    def get_historical_response(self, query: str) -> str:
+        """Alias for get_response() for compatibility"""
+        return self.get_response(query)
+

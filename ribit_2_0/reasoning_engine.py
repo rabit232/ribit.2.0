@@ -265,15 +265,21 @@ class ReasoningEngine:
         
         return False
     
-    def decompose_task(self, task: str, analysis: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def decompose_task(self, task: str, complexity: str) -> List[Dict[str, Any]]:
         """
         Break down complex tasks into manageable steps
+        
+        Args:
+            task: The task to decompose
+            complexity: Complexity level ('simple', 'moderate', or 'complex')
         
         Returns:
             List of steps with actions and reasoning
         """
         steps = []
-        complexity = analysis['complexity']
+        
+        # Analyze if not already done
+        analysis = self.analyze_input(task)
         intent = analysis['intent']
         
         if complexity == 'simple':
@@ -475,4 +481,14 @@ class ReasoningEngine:
             summary += f"{i}. Q: {ctx['query'][:50]}...\n"
         
         return summary
+
+
+
+    # Alias method for compatibility
+    def analyze_query(self, query: str) -> Dict[str, Any]:
+        """Alias for analyze_input() for compatibility"""
+        analysis = self.analyze_input(query)
+        # Add execution_plan for backward compatibility
+        analysis['execution_plan'] = self.decompose_task(query, analysis['complexity'])
+        return analysis
 
