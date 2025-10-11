@@ -554,7 +554,7 @@ I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. H
 async def main():
     """Main function to run the Ribit Matrix Bot."""
     # Configuration from environment variables
-    homeserver = os.getenv("MATRIX_HOMESERVER", "https://envs.net")
+    homeserver = os.getenv("MATRIX_HOMESERVER", "https://anarchists.space")
     username = os.getenv("MATRIX_USERNAME", "@ribit.2.0:matrix.anarchists.space")
     password = os.getenv("MATRIX_PASSWORD", "")
     

@@ -33,7 +33,7 @@ def setup_environment():
     
     # Check required environment variables
     required_vars = {
-        "MATRIX_HOMESERVER": "https://envs.net",
+        "MATRIX_HOMESERVER": "https://anarchists.space",
         "MATRIX_USERNAME": "@ribit.2.0:matrix.anarchists.space", 
         "MATRIX_PASSWORD": ""
     }
@@ -55,7 +55,7 @@ def setup_environment():
             print(f"   • {var}")
         print("\nPlease set these variables or create a .env file:")
         print("Example .env file:")
-        print("MATRIX_HOMESERVER=https://envs.net")
+        print("MATRIX_HOMESERVER=https://anarchists.space")
         print("MATRIX_USERNAME=@ribit.2.0:matrix.anarchists.space")
         print("MATRIX_PASSWORD=your_password_here")
         return False
@@ -114,7 +114,7 @@ def create_sample_env():
     env_content = """# Ribit 2.0 Matrix Bot Configuration
 
 # Matrix server settings
-MATRIX_HOMESERVER=https://envs.net
+MATRIX_HOMESERVER=https://anarchists.space
 MATRIX_USERNAME=@ribit.2.0:matrix.anarchists.space
 MATRIX_PASSWORD=your_password_here
 
@@ -223,7 +223,7 @@ Options:
     --check       Check configuration and dependencies without starting
 
 Environment Variables:
-    MATRIX_HOMESERVER    Matrix server URL (default: https://envs.net)
+    MATRIX_HOMESERVER    Matrix server URL (default: https://anarchists.space)
     MATRIX_USERNAME      Bot username (default: @ribit.2.0:matrix.anarchists.space)
     MATRIX_PASSWORD      Bot password (required)
     AUTHORIZED_USERS     Comma-separated list of authorized user IDs

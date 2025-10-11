@@ -58,7 +58,7 @@ class EnhancedE2EEIntegration:
     
     def __init__(
         self,
-        homeserver: str = "https://envs.net",
+        homeserver: str = "https://anarchists.space",
         user_id: str = "@ribit.2.0:matrix.anarchists.space",
         password: str = None,
         device_id: str = "RIBIT_2_0_E2EE_ENHANCED",

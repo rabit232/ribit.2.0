@@ -1241,7 +1241,7 @@ class MatrixBotIntegration:
             
         Example:
             >>> matrix_bot = MatrixBotIntegration(
-            ...     homeserver="https://envs.net",
+            ...     homeserver="https://anarchists.space",
             ...     username="@ribit.2.0:matrix.anarchists.space",
             ...     password="secure_password",
             ...     authorized_users=["@user:matrix.anarchists.space"]
@@ -1535,7 +1535,7 @@ ros:
 # Matrix Bot Configuration
 matrix:
   enabled: false
-  homeserver: "https://envs.net"
+  homeserver: "https://anarchists.space"
   username: "@ribit.2.0:matrix.anarchists.space"
   password: ""  # Set via environment variable
   authorized_users:
@@ -1614,7 +1614,7 @@ plugins:
 
 # Matrix Bot Configuration
 export MATRIX_PASSWORD="your_matrix_password"
-export MATRIX_HOMESERVER="https://envs.net"
+export MATRIX_HOMESERVER="https://anarchists.space"
 
 # API Keys
 export JINA_API_KEY="your_jina_api_key"

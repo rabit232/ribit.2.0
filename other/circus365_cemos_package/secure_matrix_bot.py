@@ -573,7 +573,7 @@ async def run_secure_matrix_bot():
     """Run the secure Matrix bot"""
     
     # Configuration from environment variables
-    homeserver = os.getenv("MATRIX_HOMESERVER", "https://envs.net")
+    homeserver = os.getenv("MATRIX_HOMESERVER", "https://anarchists.space")
     user_id = os.getenv("MATRIX_USER_ID", "@ribit.2.0:matrix.anarchists.space")
     password = os.getenv("MATRIX_PASSWORD")
     device_id = os.getenv("MATRIX_DEVICE_ID", "RIBIT_2_0_SECURE")

@@ -68,7 +68,7 @@ def test_environment_configuration():
     print("\n🔧 **Environment Configuration Test**\n")
     
     config = {
-        'MATRIX_HOMESERVER': os.getenv('MATRIX_HOMESERVER', 'https://envs.net'),
+        'MATRIX_HOMESERVER': os.getenv('MATRIX_HOMESERVER', 'https://anarchists.space'),
         'MATRIX_USER_ID': os.getenv('MATRIX_USER_ID', '@ribit.2.0:matrix.anarchists.space'),
         'MATRIX_PASSWORD': os.getenv('MATRIX_PASSWORD'),
         'MATRIX_DEVICE_ID': os.getenv('MATRIX_DEVICE_ID', 'RIBIT_2_0_SECURE_TEST'),

@@ -82,7 +82,7 @@ Create a `.env` file for development:
 # Development configuration
 RIBIT_DEBUG=true
 RIBIT_LOG_LEVEL=DEBUG
-MATRIX_HOMESERVER=https://envs.net
+MATRIX_HOMESERVER=https://anarchists.space
 JINA_SEARCH_CACHE_TTL=3600
 ```
 

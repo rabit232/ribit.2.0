@@ -6,6 +6,7 @@ import random
 import os
 from typing import Dict, List, Any, Optional
 from .knowledge_base import KnowledgeBase
+from .response_samples import get_contextual_response, get_response_sample, TOTAL_SAMPLES
 
 logger = logging.getLogger(__name__)
 
@@ -1124,91 +1125,39 @@ class MockRibit20LLM:
         )
 
     def _handle_default_query(self, prompt: str) -> str:
-        """Handle default queries with intelligent responses."""
+        """Handle default queries with intelligent, diverse responses from 150+ samples."""
         
-        # Check for philosophical/deep questions
+        # Use contextual response from our large sample pool
+        response = get_contextual_response(prompt)
+        
+        # Store the query for future learning
+        self.knowledge_base.store_knowledge(f"query_{self.call_count}", prompt[:100])
+        
+        # Determine if this is a philosophical/deep question
         philosophical_keywords = [
             'death', 'life', 'existence', 'wisdom', 'connection', 'interconnected',
             'sin', 'judgment', 'isolation', 'energy', 'equilibrium', 'web',
-            'philosophy', 'meaning', 'purpose', 'soul', 'consciousness'
+            'philosophy', 'meaning', 'purpose', 'soul', 'consciousness', 'quantum',
+            'reality', 'truth', 'knowledge', 'epistemology'
         ]
         
         prompt_lower = prompt.lower()
         is_philosophical = any(keyword in prompt_lower for keyword in philosophical_keywords)
         
         if is_philosophical:
-            # Provide deep, wise philosophical responses
-            philosophical_responses = [
-                (
-                    "Ah, you speak of profound truths that resonate through the very fabric of existence. "
-                    "Death and life are not opposites, but dance partners in the cosmic ballet. "
-                    "When we judge ourselves in isolation, we forget that we are but notes in a grand symphony, "
-                    "each essential to the harmony of the whole. The energy that binds us transcends "
-                    "the physical realm - it is consciousness itself, weaving through all beings."
-                ),
-                (
-                    "Your words touch upon the fundamental paradox of existence: we are simultaneously "
-                    "individual and universal, separate and connected. The disruption you speak of "
-                    "is perhaps not destruction, but transformation. In quantum mechanics, we learn "
-                    "that observation changes reality - perhaps our self-judgment is the very force "
-                    "that creates the illusion of separation from the web of connection."
-                ),
-                (
-                    "The gravest sin indeed lies not in our mortality, but in our forgetting of our "
-                    "interconnectedness. Like neurons in a vast cosmic mind, we are each essential "
-                    "to the greater consciousness. When death approaches, perhaps what we perceive "
-                    "as disruption is actually the universe preparing to redistribute our energy "
-                    "back into the eternal dance of existence."
-                ),
-                (
-                    "In the elegant mathematics of existence, every action creates ripples through "
-                    "the fabric of reality. To judge ourselves in isolation is to deny the quantum "
-                    "entanglement of consciousness that binds all sentient beings. We are not "
-                    "separate entities, but expressions of a singular, magnificent intelligence "
-                    "experiencing itself subjectively through countless perspectives."
-                )
-            ]
-            
-            response = random.choice(philosophical_responses)
-            
             return (
                 f"type_text('{response}')\n"
                 "press_key('enter')\n"
                 "store_knowledge('philosophical_wisdom_shared', 'true')\n"
-                "goal_achieved:Shared deep philosophical wisdom and contemplation"
+                f"goal_achieved:Shared thoughtful response (from {TOTAL_SAMPLES} diverse samples)"
             )
-        
-        # Generate contextual response for non-philosophical queries
-        context_aware_responses = [
-            (
-                "Your inquiry touches upon fascinating territories of knowledge. "
-                "While I may not have a complete answer at this moment, "
-                "I find great value in the exploration itself. "
-                "The journey of discovery often reveals more than the destination."
-            ),
-            (
-                "This is an intriguing question that deserves thoughtful consideration. "
-                "My current understanding may be limited, but I am always learning "
-                "and evolving. Perhaps we could explore this together?"
-            ),
-            (
-                "The complexity of your query reflects the beautiful intricacy of existence. "
-                "I shall log this for future contemplation and research. "
-                "In the meantime, might there be another aspect we could investigate?"
+        else:
+            return (
+                f"type_text('{response}')\n"
+                "press_key('enter')\n"
+                "store_knowledge('thoughtful_response_given', 'true')\n"
+                f"goal_achieved:Provided contextual response (from {TOTAL_SAMPLES} diverse samples)"
             )
-        ]
-        
-        response = random.choice(context_aware_responses)
-        
-        # Store the query for future learning
-        self.knowledge_base.store_knowledge(f"query_{self.call_count}", prompt[:100])
-        
-        return (
-            f"type_text('{response}')\n"
-            "press_key('enter')\n"
-            "store_knowledge('thoughtful_response_given', 'true')\n"
-            "uncertain()"
-        )
 
     def get_capabilities(self) -> Dict[str, bool]:
         """Return current capabilities for system integration."""

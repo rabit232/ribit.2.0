@@ -429,7 +429,7 @@ Commands: ?status, ?sys, ?tasks, ?opinion <topic>, ?discuss <topic>"""
 async def main():
     """Main entry point."""
     # Load configuration from environment
-    homeserver = os.getenv("MATRIX_HOMESERVER", "https://envs.net")
+    homeserver = os.getenv("MATRIX_HOMESERVER", "https://anarchists.space")
     user_id = os.getenv("MATRIX_USER_ID")
     access_token = os.getenv("MATRIX_ACCESS_TOKEN")
     device_id = os.getenv("MATRIX_DEVICE_ID")
