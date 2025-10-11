@@ -71,6 +71,22 @@ class RibitMatrixBot:
         self.llm = MockRibit20LLM("ribit_matrix_knowledge.txt")
         self.controller = VisionSystemController()
         
+        # Initialize enhanced intelligence systems
+        try:
+            from .linguistics_engine import LinguisticsEngine
+            from .conversation_memory import ConversationMemory
+            from .user_engagement import UserEngagementSystem
+            
+            self.linguistics = LinguisticsEngine()
+            self.memory = ConversationMemory()
+            self.engagement = UserEngagementSystem()
+            logger.info("✅ Enhanced intelligence systems initialized")
+        except Exception as e:
+            logger.warning(f"Enhanced intelligence systems not available: {e}")
+            self.linguistics = None
+            self.memory = None
+            self.engagement = None
+        
         # Bot state
         self.client = None
         self.joined_rooms: Set[str] = set()
@@ -326,6 +342,22 @@ class RibitMatrixBot:
             except Exception as e:
                 logger.debug(f"Humor engine not available: {e}")
             
+            # Linguistic analysis
+            linguistic_analysis = None
+            if self.linguistics:
+                try:
+                    linguistic_analysis = self.linguistics.understand_query(clean_message, sender)
+                    logger.debug(f"Linguistic analysis: intent={linguistic_analysis['intent']}, tone={linguistic_analysis['tone']}")
+                except Exception as e:
+                    logger.debug(f"Linguistic analysis failed: {e}")
+            
+            # Track user activity for engagement
+            if self.engagement:
+                try:
+                    self.engagement.track_user_activity(sender, room_id, clean_message)
+                except Exception as e:
+                    logger.debug(f"Activity tracking failed: {e}")
+            
             # Add to conversation context
             self._add_to_context(room_id, f"User: {clean_message}")
             
@@ -358,6 +390,18 @@ class RibitMatrixBot:
             
             # Add AI response to context
             self._add_to_context(room_id, f"Ribit: {ai_response}")
+            
+            # Save conversation to memory
+            if self.memory:
+                try:
+                    self.memory.add_message(
+                        room_id, sender, clean_message, ai_response,
+                        metadata=linguistic_analysis
+                    )
+                    # Check if conversation is interesting enough to save
+                    self.memory.save_if_interesting(room_id, threshold=5)
+                except Exception as e:
+                    logger.debug(f"Memory save failed: {e}")
             
             return ai_response
             

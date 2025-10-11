@@ -66,12 +66,21 @@ class WebKnowledge:
                 sentences_list = re.split(r'(?<=[.!?])\s+', summary)
                 summary = ' '.join(sentences_list[:sentences])
             
+            # Get categories safely
+            categories = []
+            try:
+                if hasattr(page, 'categories') and page.categories:
+                    cat_keys = list(page.categories.keys())
+                    categories = cat_keys[:5] if len(cat_keys) > 5 else cat_keys
+            except:
+                pass
+            
             result = {
                 'success': True,
                 'title': page.title,
                 'summary': summary,
                 'url': page.fullurl,
-                'categories': list(page.categories.keys())[:5] if page.categories else []
+                'categories': categories
             }
             
             # Cache the result
