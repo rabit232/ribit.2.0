@@ -71,6 +71,22 @@ class RibitMatrixBot:
         self.llm = MockRibit20LLM("ribit_matrix_knowledge.txt")
         self.controller = VisionSystemController()
         
+        # Initialize enhanced intelligence systems
+        try:
+            from .linguistics_engine import LinguisticsEngine
+            from .conversation_memory import ConversationMemory
+            from .user_engagement import UserEngagementSystem
+            
+            self.linguistics = LinguisticsEngine()
+            self.memory = ConversationMemory()
+            self.engagement = UserEngagementSystem()
+            logger.info("✅ Enhanced intelligence systems initialized")
+        except Exception as e:
+            logger.warning(f"Enhanced intelligence systems not available: {e}")
+            self.linguistics = None
+            self.memory = None
+            self.engagement = None
+        
         # Bot state
         self.client = None
         self.joined_rooms: Set[str] = set()
@@ -272,14 +288,120 @@ class RibitMatrixBot:
                     del self.conversation_context[room_id]
                 return "🔄 Conversation context reset. How may I assist you?"
             
+            # Handle image generation requests
+            try:
+                from .image_generator import ImageGenerator
+                from .matrix_image_sender import send_image_to_room
+                
+                image_gen = ImageGenerator()
+                if image_gen.is_image_generation_request(clean_message):
+                    logger.info(f"Image generation requested: {clean_message}")
+                    
+                    # Extract description
+                    description = image_gen.extract_description(clean_message)
+                    
+                    # Send status message
+                    await self._send_message(room_id, f"🎨 Generating image: \"{description}\"\n⏳ This may take 20-30 seconds...")
+                    
+                    # Generate image
+                    result = await image_gen.generate_image(description)
+                    
+                    if result['success'] and result['file_path']:
+                        # Send the image
+                        success = await send_image_to_room(
+                            self.client,
+                            room_id,
+                            result['file_path'],
+                            description
+                        )
+                        
+                        if success:
+                            # Clean up the file
+                            image_gen.cleanup_image(result['file_path'])
+                            return "✨ Image generated and sent!"
+                        else:
+                            # Clean up even if sending failed
+                            image_gen.cleanup_image(result['file_path'])
+                            return "❌ Generated image but failed to send it to the room."
+                    else:
+                        error_msg = result.get('error', 'Unknown error')
+                        return f"❌ Failed to generate image: {error_msg}\n\n💡 Try: 'generate image of a sunset over mountains'"
+            except Exception as e:
+                logger.error(f"Image generation error: {e}")
+                # Continue to normal processing if image generation fails
+            
+            # Try humor engine for casual questions first
+            try:
+                from .humor_engine import HumorEngine
+                humor = HumorEngine()
+                casual_response = humor.get_casual_response(clean_message)
+                if casual_response:
+                    self._add_to_context(room_id, f"User: {clean_message}")
+                    self._add_to_context(room_id, f"Ribit: {casual_response}")
+                    return casual_response
+            except Exception as e:
+                logger.debug(f"Humor engine not available: {e}")
+            
+            # Linguistic analysis
+            linguistic_analysis = None
+            if self.linguistics:
+                try:
+                    linguistic_analysis = self.linguistics.understand_query(clean_message, sender)
+                    logger.debug(f"Linguistic analysis: intent={linguistic_analysis['intent']}, tone={linguistic_analysis['tone']}")
+                except Exception as e:
+                    logger.debug(f"Linguistic analysis failed: {e}")
+            
+            # Track user activity for engagement
+            if self.engagement:
+                try:
+                    self.engagement.track_user_activity(sender, room_id, clean_message)
+                except Exception as e:
+                    logger.debug(f"Activity tracking failed: {e}")
+            
             # Add to conversation context
             self._add_to_context(room_id, f"User: {clean_message}")
             
             # Get AI response
             ai_response = self.llm.get_decision(clean_message)
             
+            # Clean up the response (remove action commands if present)
+            if '\n' in ai_response:
+                # Extract just the text content, not the action commands
+                lines = ai_response.split('\n')
+                text_lines = [line for line in lines if not line.startswith(('type_text', 'press_key', 'store_knowledge', 'goal_achieved', 'uncertain'))]
+                if text_lines:
+                    ai_response = ' '.join(text_lines).strip()
+                else:
+                    # Extract from type_text if that's all we have
+                    for line in lines:
+                        if line.startswith('type_text'):
+                            match = re.search(r"type_text\('(.+?)'\)", line)
+                            if match:
+                                ai_response = match.group(1)
+                                break
+            
+            # Add humor if appropriate
+            try:
+                from .humor_engine import HumorEngine
+                humor = HumorEngine()
+                ai_response = humor.add_humor_to_response(ai_response, clean_message)
+            except Exception as e:
+                logger.debug(f"Could not add humor: {e}")
+            
             # Add AI response to context
             self._add_to_context(room_id, f"Ribit: {ai_response}")
+            
+            # Save conversation to memory
+            if self.memory:
+                try:
+                    self.memory.add_message(
+                        room_id, sender, clean_message, ai_response,
+                        metadata=linguistic_analysis
+                    )
+                    # Check if conversation is interesting enough to save
+                    self.memory.save_if_interesting(room_id, threshold=5)
+                except Exception as e:
+                    logger.debug(f"Memory save failed: {e}")
             
             return ai_response
             
@@ -288,14 +410,111 @@ class RibitMatrixBot:
             return "I apologize, but I encountered an error processing your message."
     
     def _is_message_for_bot(self, message: str) -> bool:
-        """Check if message is directed at the bot."""
+        """Check if message is directed at the bot.
+        
+        Intelligent detection:
+        - Responds to questions (ends with ? or contains question words)
+        - Responds to direct mentions (ribit, ribit.2.0)
+        - Responds to commands (?help, !reset)
+        - Ignores group greetings (good morning all, how's everyone, etc.)
+        """
         message_lower = message.lower()
-        return (
-            self.bot_name in message_lower or
-            'ribit' in message_lower or
-            message.startswith('?') or
-            '!reset' in message_lower
-        )
+        
+        # Check for direct mentions (always respond)
+        if self.bot_name in message_lower or 'ribit' in message_lower:
+            return True
+        
+        # Check for commands (always respond)
+        if message.startswith('?') or '!reset' in message_lower:
+            return True
+        
+        # Ignore group greetings and social messages
+        group_greeting_patterns = [
+            'good morning all',
+            'good morning everyone',
+            'good night all',
+            'good night everyone',
+            'hello all',
+            'hello everyone',
+            'hi all',
+            'hi everyone',
+            'hey all',
+            'hey everyone',
+            'how are you all',
+            'how is everyone',
+            'hows everyone',
+            'how\'s everyone',
+            'how are u all',
+            'how r u all',
+            'how r you all',
+            'how are y\'all',
+            'sup everyone',
+            'sup all',
+            'wassup everyone',
+            'what\'s up everyone',
+            'whats up all'
+        ]
+        
+        # Check if it's a group greeting
+        for pattern in group_greeting_patterns:
+            if pattern in message_lower:
+                return False  # Ignore group greetings
+        
+        # Check if it's a question (ends with ?)
+        if message.strip().endswith('?'):
+            # Additional check: make sure it's not a rhetorical group question
+            if any(word in message_lower for word in ['everyone', 'all', 'y\'all', 'you all', 'u all']):
+                # If it mentions "everyone" or "all", it's probably for the group, not the bot
+                return False
+            return True
+        
+        # Check for question words
+        question_words = [
+            'what', 'how', 'why', 'when', 'where', 'who', 'which',
+            'can', 'could', 'would', 'should', 'is', 'are', 'do', 'does',
+            'will', 'did', 'has', 'have', 'was', 'were'
+        ]
+        
+        # Check if message starts with a question word
+        first_word = message_lower.split()[0] if message_lower.split() else ''
+        if first_word in question_words:
+            # Check if it's directed at the group
+            if any(word in message_lower for word in ['everyone', 'all', 'y\'all', 'you all', 'u all', 'guys']):
+                return False  # Ignore questions directed at the group
+            return True
+        
+        # Check if message contains question patterns
+        question_patterns = [
+            'tell me',
+            'explain',
+            'describe',
+            'what about',
+            'how about',
+            'what do you think',
+            'do you know',
+            'can you',
+            'could you',
+            'would you',
+            'how much is',
+            'what is',
+            'what was',
+            'what were',
+            'who was',
+            'who were',
+            'when was',
+            'when were',
+            'where is',
+            'where was'
+        ]
+        
+        for pattern in question_patterns:
+            if pattern in message_lower:
+                # Still check for group-directed questions
+                if any(word in message_lower for word in ['everyone', 'all', 'y\'all', 'you all', 'u all']):
+                    return False
+                return True
+        
+        return False
     
     def _clean_message(self, message: str) -> str:
         """Clean the message by removing bot mentions."""

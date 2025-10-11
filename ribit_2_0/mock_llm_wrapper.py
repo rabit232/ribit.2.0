@@ -118,6 +118,29 @@ class MockRibit20LLM:
     def _process_request(self, prompt: str) -> str:
         """Process the request with enhanced reasoning capabilities."""
         
+        # Use reasoning engine for intelligent analysis
+        try:
+            from .reasoning_engine import ReasoningEngine
+            if not hasattr(self, 'reasoning_engine'):
+                self.reasoning_engine = ReasoningEngine()
+            
+            # Analyze the input
+            analysis = self.reasoning_engine.analyze_input(prompt)
+            logger.debug(f"Input analysis: {analysis}")
+            
+            # Generate reasoning chain for complex queries
+            if analysis['complexity'] != 'simple':
+                reasoning_chain = self.reasoning_engine.generate_reasoning_chain(prompt)
+                logger.debug(f"Reasoning chain: {reasoning_chain}")
+            
+            # Decompose complex tasks
+            if analysis['complexity'] == 'complex':
+                steps = self.reasoning_engine.decompose_task(prompt, analysis)
+                logger.debug(f"Task decomposition: {steps}")
+        except Exception as e:
+            logger.debug(f"Reasoning engine not available: {e}")
+            analysis = None
+        
         prompt_lower = prompt.lower()
         
         # Python coding requests (highest priority for technical tasks)
@@ -1126,6 +1149,21 @@ class MockRibit20LLM:
 
     def _handle_default_query(self, prompt: str) -> str:
         """Handle default queries with intelligent, diverse responses from 150+ samples."""
+        
+        # Try web knowledge first for factual questions
+        try:
+            from .intelligent_responder import IntelligentResponder
+            intelligent = IntelligentResponder()
+            web_response = intelligent.get_response(prompt)
+            if web_response:
+                return (
+                    f"type_text('{web_response}')\n"
+                    "press_key('enter')\n"
+                    "store_knowledge('web_knowledge_used', 'true')\n"
+                    "goal_achieved:Provided answer using web knowledge"
+                )
+        except Exception as e:
+            logger.debug(f"Web knowledge not available: {e}")
         
         # Use contextual response from our large sample pool
         response = get_contextual_response(prompt)
