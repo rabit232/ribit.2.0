@@ -1,29 +1,49 @@
-# Ribit 2.0 - Installation Instructions
+# Ribit 2.0 - Complete Installation Guide
 
-Complete guide to install and run Ribit 2.0 with all features including web scraping, Wikipedia search, image generation, autonomous Matrix bot, and more.
-
----
-
-## Table of Contents
-
-1. [System Requirements](#system-requirements)
-2. [Quick Install (Ubuntu/Debian)](#quick-install-ubuntudebian)
-3. [Manual Installation](#manual-installation)
-4. [Matrix Bot Setup](#matrix-bot-setup)
-5. [Optional Features](#optional-features)
-6. [Verification](#verification)
-7. [Troubleshooting](#troubleshooting)
+**Updated for all new features:** Message history learning, Advanced MockLLM, emoji support, autonomous capabilities, web scraping, and more!
 
 ---
 
-## System Requirements
+## 📋 Table of Contents
+
+1. [What's New](#whats-new)
+2. [System Requirements](#system-requirements)
+3. [Quick Install](#quick-install)
+4. [Manual Installation](#manual-installation)
+5. [Matrix Bot Setup](#matrix-bot-setup)
+6. [Feature Configuration](#feature-configuration)
+7. [Running Ribit](#running-ribit)
+8. [Verification](#verification)
+9. [Troubleshooting](#troubleshooting)
+
+---
+
+## 🆕 What's New
+
+Ribit 2.0 now includes:
+
+✅ **Message History Learning** - Learn from past conversations  
+✅ **Advanced MockLLM** - 20+ parameters for complete control  
+✅ **Enhanced MockLLM** - Temperature, penalties, style adaptation  
+✅ **Emoji Support** - Natural emoji usage in conversations  
+✅ **Autonomous Interaction** - Respond without being prompted  
+✅ **Task Autonomy** - Self-select and complete tasks  
+✅ **Philosophical Reasoning** - Deep discussions on complex topics  
+✅ **Web Scraping** - Extract content from websites  
+✅ **Wikipedia Integration** - Search and retrieve Wikipedia content  
+✅ **Image Generation** - Generate placeholder images  
+✅ **Bot-to-Bot Communication** - Talk to other Matrix bots  
+
+---
+
+## 💻 System Requirements
 
 ### Minimum Requirements:
-- **OS**: Ubuntu 20.04+, Debian 11+, or similar Linux distribution
-- **Python**: 3.8 or higher (3.11 recommended)
+- **OS**: Ubuntu 20.04+, Debian 11+, or similar Linux
+- **Python**: 3.8+ (3.11 recommended)
 - **RAM**: 2GB minimum, 4GB recommended
-- **Disk Space**: 500MB for installation
-- **Internet**: Required for Matrix bot and web features
+- **Disk**: 1GB for installation
+- **Internet**: Required for Matrix and web features
 
 ### Recommended:
 - Ubuntu 22.04 LTS
@@ -33,7 +53,7 @@ Complete guide to install and run Ribit 2.0 with all features including web scra
 
 ---
 
-## Quick Install (Ubuntu/Debian)
+## 🚀 Quick Install
 
 ### One-Command Installation:
 
@@ -47,24 +67,21 @@ chmod +x install.sh
 ./install.sh
 ```
 
-**The installation script will:**
-1. Check Python version
-2. Install system dependencies
-3. Install Python packages
-4. Set up configuration
-5. Run tests
+**The script automatically:**
+1. ✓ Checks Python version (3.8+ required)
+2. ✓ Installs system dependencies
+3. ✓ Installs Python packages
+4. ✓ Creates configuration files
+5. ✓ Runs verification tests
 
 ---
 
-## Manual Installation
+## 🔧 Manual Installation
 
 ### Step 1: Clone Repository
 
 ```bash
-# Clone from GitHub
 git clone https://github.com/rabit232/ribit.2.0.git
-
-# Navigate to directory
 cd ribit.2.0
 ```
 
@@ -74,7 +91,7 @@ cd ribit.2.0
 # Update package list
 sudo apt update
 
-# Install required system packages
+# Install required packages
 sudo apt install -y \
     python3 \
     python3-pip \
@@ -85,89 +102,71 @@ sudo apt install -y \
     libmagic1
 ```
 
-**Package Explanations:**
+**What these packages do:**
 - `python3` - Python interpreter
-- `python3-pip` - Python package manager
-- `python3-dev` - Python development headers
+- `python3-pip` - Package manager
+- `python3-dev` - Development headers
 - `build-essential` - Compilation tools
 - `git` - Version control
-- `libolm-dev` - End-to-end encryption library
+- `libolm-dev` - E2E encryption (for Matrix)
 - `libmagic1` - File type detection
 
 ### Step 3: Install Python Dependencies
 
 ```bash
 # Upgrade pip
-pip3 install --upgrade pip
+python3 -m pip install --upgrade pip
 
-# Install all required packages
+# Install from requirements.txt
 pip3 install -r requirements.txt
 ```
 
-**If `requirements.txt` is missing, install manually:**
-
-```bash
-pip3 install \
-    matrix-nio[e2e] \
-    aiohttp \
-    requests \
-    beautifulsoup4 \
-    lxml \
-    wikipedia-api \
-    Pillow \
-    python-magic \
-    aiofiles \
-    asyncio
-```
+**Core packages installed:**
+- `matrix-nio[e2e]>=0.20.0` - Matrix client with encryption
+- `aiohttp>=3.8.0` - Async HTTP client
+- `requests>=2.28.0` - HTTP library
+- `beautifulsoup4>=4.11.0` - Web scraping
+- `lxml>=4.9.0` - XML/HTML parser
+- `wikipedia-api>=0.5.8` - Wikipedia integration
+- `Pillow>=9.0.0` - Image processing
+- `python-magic>=0.4.27` - File type detection
+- `aiofiles>=23.0.0` - Async file operations
 
 ### Step 4: Verify Installation
 
 ```bash
-# Run test script
+# Run test suite
+python3 test_learning_features.py
+python3 test_advanced_llm.py
 python3 test_fixes.py
 ```
 
-**Expected output:**
-```
-✓ Wikipedia search working
-✓ Web scraping successful
-✓ Image generation working
-✓ MockLLM initialized with 150 response samples
-✓ Response diversity: GOOD
-```
+All tests should pass! ✅
 
 ---
 
-## Matrix Bot Setup
+## 🤖 Matrix Bot Setup
 
-### Step 1: Get Matrix Account
+### Step 1: Get Matrix Credentials
 
-**Option A: Use Existing Account**
-- Use your existing Matrix account credentials
+You need:
+1. Matrix homeserver URL
+2. Matrix user ID
+3. Matrix access token
 
-**Option B: Create New Account**
-1. Go to https://anarchists.space (or any Matrix homeserver)
-2. Register a new account
-3. Note your username and password
+#### Option A: Using Element Web (Easiest)
 
-**Recommended Account:**
-- Username: `@rabit233:anarchists.space`
-- Homeserver: `https://anarchists.space`
+1. Go to https://app.element.io
+2. Log in with your Matrix account
+3. Click your profile (top left)
+4. Go to **Settings** → **Help & About**
+5. Scroll to **Access Token**
+6. Click to reveal and copy
 
-### Step 2: Get Access Token
+#### Option B: Using curl
 
-**Method 1: Using Element Web**
-1. Log in to https://app.element.io
-2. Click your profile (top left)
-3. Settings → Help & About
-4. Scroll down to "Advanced"
-5. Click "Access Token"
-6. Copy the token
-
-**Method 2: Using curl**
 ```bash
-curl -X POST \
-  https://anarchists.space/_matrix/client/r0/login \
+curl -X POST https://anarchists.space/_matrix/client/r0/login \
   -H 'Content-Type: application/json' \
   -d '{
     "type": "m.login.password",
@@ -176,397 +175,481 @@ curl -X POST \
   }'
 ```
 
-Copy the `access_token` from the response.
+Look for `"access_token"` in the response.
 
-### Step 3: Configure Environment Variables
+### Step 2: Configure Credentials
 
-**Create `.env` file:**
+#### Option A: Interactive Setup (Recommended)
+
 ```bash
-nano .env
+./setup_credentials.sh
 ```
 
-**Add configuration:**
+Follow the prompts:
+- Homeserver: Press Enter for default (`https://anarchists.space`)
+- User ID: Press Enter for default (`@rabit233:anarchists.space`)
+- Access Token: Paste your token
+- Device ID: Press Enter to skip
+- API Keys: Press Enter to skip (optional)
+
+#### Option B: Manual Setup
+
+Create `.env` file:
+
 ```bash
+cat > .env << 'EOF'
 # Matrix Configuration
 MATRIX_HOMESERVER=https://anarchists.space
 MATRIX_USER_ID=@rabit233:anarchists.space
 MATRIX_ACCESS_TOKEN=your_access_token_here
 
-# Optional: Web Search
-JINA_API_KEY=your_jina_key_here
+# Optional: Device ID
+MATRIX_DEVICE_ID=RIBIT_DEVICE
 
-# Optional: Image Generation
-OPENAI_API_KEY=your_openai_key_here
-STABILITY_API_KEY=your_stability_key_here
+# Optional: API Keys (for advanced features)
+JINA_API_KEY=your_jina_key
+OPENAI_API_KEY=your_openai_key
+STABILITY_API_KEY=your_stability_key
+EOF
 ```
 
-**Or export directly:**
+**Security Note:** `.env` is in `.gitignore` and won't be committed to git.
+
+---
+
+## ⚙️ Feature Configuration
+
+### 1. Advanced MockLLM Parameters
+
+Edit in code or configure programmatically:
+
+```python
+from ribit_2_0.advanced_mock_llm import AdvancedMockLLM
+
+llm = AdvancedMockLLM(
+    # Creativity
+    temperature=0.7,          # 0.0-2.0 (higher = more creative)
+    top_p=0.9,               # 0.0-1.0 (nucleus sampling)
+    
+    # Anti-repetition
+    frequency_penalty=0.5,    # 0.0-2.0 (avoid word repetition)
+    presence_penalty=0.3,     # 0.0-2.0 (topic diversity)
+    repetition_penalty=1.2,   # 1.0-2.0 (n-gram penalty)
+    no_repeat_ngram_size=3,   # N-gram size
+    
+    # Length control
+    min_length=10,            # Minimum chars
+    max_length=500,           # Maximum chars
+    max_tokens=None,          # Max words (None = unlimited)
+    length_penalty=1.0,       # 0.5-2.0 (prefer longer/shorter)
+    
+    # Sampling
+    sampling_strategy='nucleus',  # greedy, top_k, nucleus, beam
+    top_k=50,                # Top-K sampling
+    num_beams=1,             # Beam search beams
+    diversity_penalty=0.0,   # 0.0-1.0 (beam diversity)
+    
+    # Performance
+    enable_caching=True,     # Cache responses
+    cache_size=100,          # Max cached responses
+    enable_monitoring=True,  # Track performance
+    
+    # Context
+    context_window=2000,     # Max context length
+    sliding_window=True,     # Sliding context
+    
+    # Learning
+    learning_enabled=True,   # Enable history learning
+    style_adaptation=True,   # Adapt to users
+    
+    # Error handling
+    max_retries=3,           # Retries on error
+    fallback_response=None   # Fallback message
+)
+```
+
+### 2. Message History Learning
+
+Configure learning behavior:
+
+```python
+from ribit_2_0.message_history_learner import MessageHistoryLearner
+
+learner = MessageHistoryLearner(knowledge_base)
+
+# Learn from room history
+summary = await learner.scroll_and_learn(
+    client=matrix_client,
+    room_id="!room:matrix.org",
+    limit=1000,      # Max messages to process
+    days_back=30     # How far back to go
+)
+```
+
+### 3. Emoji Expression
+
+Configure emoji usage:
+
+```python
+from ribit_2_0.emoji_expression import EmojiExpression
+
+emoji_expr = EmojiExpression()
+
+# Adjust intensity
+emoji_expr.set_intensity(0.7)  # 0.0-1.0
+
+# Enable/disable
+emoji_expr.enabled = True
+```
+
+### 4. Autonomous Interaction
+
+Configure autonomous behavior:
+
+```python
+from ribit_2_0.autonomous_matrix import AutonomousMatrixInteraction
+
+autonomous = AutonomousMatrixInteraction(
+    conversational_mode=conv_mode,
+    philosophical_reasoning=phil_reasoning,
+    knowledge_base=kb
+)
+
+# Adjust engagement probability
+autonomous.engagement_probability = 0.7  # 70% chance to respond
+```
+
+---
+
+## 🏃 Running Ribit
+
+### Method 1: Using Run Script (Recommended)
+
 ```bash
+./run_bot.sh
+```
+
+Choose which bot to run:
+1. **Enhanced Autonomous Bot** (recommended) - All features
+2. Secure E2EE Bot - With encryption
+3. Basic Matrix Bot - Simple version
+
+### Method 2: Direct Python
+
+```bash
+# Load credentials
+export $(cat .env | grep -v '^#' | xargs)
+
+# Run enhanced autonomous bot
+python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
+```
+
+### Method 3: With Custom Parameters
+
+```bash
+# Set environment variables
+export MATRIX_HOMESERVER="https://anarchists.space"
+export MATRIX_USER_ID="@rabit233:anarchists.space"
+export MATRIX_ACCESS_TOKEN="your_token"
+
+# Run
+python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
+```
+
+---
+
+## ✅ Verification
+
+### 1. Test Installation
+
+```bash
+# Test learning features
+python3 test_learning_features.py
+
+# Test advanced LLM
+python3 test_advanced_llm.py
+
+# Test fixes
+python3 test_fixes.py
+```
+
+Expected output:
+```
+✅ ALL TESTS PASSED!
+```
+
+### 2. Test Matrix Bot
+
+After starting the bot:
+
+1. **Invite bot to a room** or **join a room with the bot**
+
+2. **Test basic commands:**
+   ```
+   ?status      # Check bot status
+   ?sys         # System information
+   ```
+
+3. **Test new features:**
+   ```
+   ?learn       # Learn from message history
+   ?vocab       # Show learned vocabulary
+   ?llm         # Show LLM statistics
+   ?tasks       # View autonomous tasks
+   ?opinion quantum physics  # Get opinion
+   ```
+
+4. **Test autonomous features:**
+   - Mention topics like "quantum physics", "consciousness", "AI"
+   - Bot should respond autonomously (70% probability)
+
+5. **Test emoji support:**
+   - Bot should use emojis naturally in responses
+   - Try: "What do you think about quantum physics? 🤔"
+
+### 3. Verify Features
+
+Check that all features work:
+
+- ✅ Message history learning (`?learn`)
+- ✅ Vocabulary display (`?vocab`)
+- ✅ LLM statistics (`?llm`)
+- ✅ Autonomous responses (mention interests)
+- ✅ Emoji usage (natural in responses)
+- ✅ Task autonomy (`?tasks`)
+- ✅ Opinion formation (`?opinion <topic>`)
+- ✅ Philosophical discussion (`?discuss <topic>`)
+
+---
+
+## 🔍 Troubleshooting
+
+### Issue: "MATRIX_USER_ID and MATRIX_ACCESS_TOKEN must be set"
+
+**Solution:**
+```bash
+# Run setup script
+./setup_credentials.sh
+
+# Or manually set environment variables
 export MATRIX_HOMESERVER="https://anarchists.space"
 export MATRIX_USER_ID="@rabit233:anarchists.space"
 export MATRIX_ACCESS_TOKEN="your_token_here"
 ```
 
-### Step 4: Run Matrix Bot
-
-**Basic Matrix Bot:**
-```bash
-python3 -m ribit_2_0.matrix_bot
-```
-
-**Enhanced Autonomous Bot (Recommended):**
-```bash
-python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
-```
-
-**Secure E2EE Bot:**
-```bash
-python3 run_secure_ribit.py
-```
-
-**Expected output:**
-```
-Ribit 2.0 Matrix Bot Starting...
-✓ Connected to https://anarchists.space
-✓ Logged in as @rabit233:anarchists.space
-✓ Autonomous features enabled
-✓ Emoji support active
-✓ Listening for messages...
-```
-
----
-
-## Optional Features
-
-### 1. Web Search (Jina AI)
-
-**Get API Key:**
-1. Go to https://jina.ai
-2. Sign up for free account
-3. Get API key from dashboard
-
-**Configure:**
-```bash
-export JINA_API_KEY="your_jina_key"
-```
-
-### 2. Image Generation (DALL-E)
-
-**Get API Key:**
-1. Go to https://platform.openai.com
-2. Create account and add payment method
-3. Get API key from API keys section
-
-**Configure:**
-```bash
-export OPENAI_API_KEY="your_openai_key"
-```
-
-**Usage:**
-```python
-from ribit_2_0.image_generation import get_image_generation
-
-img_gen = get_image_generation()
-path = img_gen.generate_with_dalle("A robot in a garden")
-```
-
-### 3. Image Generation (Stability AI)
-
-**Get API Key:**
-1. Go to https://stability.ai
-2. Create account
-3. Get API key from dashboard
-
-**Configure:**
-```bash
-export STABILITY_API_KEY="your_stability_key"
-```
-
-### 4. ROS Integration (Robotics)
-
-**Install ROS:**
-```bash
-# For Ubuntu 22.04 (ROS 2 Humble)
-sudo apt install ros-humble-desktop
-
-# Source ROS
-source /opt/ros/humble/setup.bash
-```
-
-**Configure:**
-```bash
-export ROS_VERSION=2
-export ROS_DISTRO=humble
-```
-
----
-
-## Verification
-
-### Test All Features
-
-**Run comprehensive test:**
-```bash
-python3 test_fixes.py
-```
-
-**Test individual features:**
-
-```python
-# Test Wikipedia
-from ribit_2_0.web_scraping_wikipedia import get_web_scraping_wikipedia
-wsw = get_web_scraping_wikipedia()
-results = wsw.search_wikipedia("Python programming")
-print(results)
-
-# Test Image Generation
-from ribit_2_0.image_generation import get_image_generation
-img_gen = get_image_generation()
-path = img_gen.generate_image_placeholder("Test", 400, 300)
-print(f"Image: {path}")
-
-# Test MockLLM
-from ribit_2_0.mock_llm_wrapper import MockRibit20LLM
-llm = MockRibit20LLM()
-response = llm.get_decision("What is quantum physics?")
-print(response)
-```
-
-### Check Matrix Connection
-
-```bash
-# Test Matrix connection
-python3 -c "
-from ribit_2_0.matrix_bot import MatrixBot
-import os
-bot = MatrixBot(
-    os.getenv('MATRIX_HOMESERVER'),
-    os.getenv('MATRIX_USER_ID'),
-    os.getenv('MATRIX_ACCESS_TOKEN')
-)
-print('✓ Matrix connection successful!')
-"
-```
-
----
-
-## Troubleshooting
-
-### Common Issues
-
-#### 1. Python Version Error
-
-**Error:** `Python 3.8+ required`
+### Issue: "No module named 'matrix'"
 
 **Solution:**
 ```bash
-# Check version
-python3 --version
-
-# Install Python 3.11
-sudo apt install python3.11 python3.11-dev
-
-# Use Python 3.11
-python3.11 -m pip install -r requirements.txt
+# Install matrix-nio
+pip3 install matrix-nio[e2e]
 ```
 
-#### 2. libolm Not Found
-
-**Error:** `Could not find libolm`
+### Issue: "libolm not found"
 
 **Solution:**
 ```bash
-sudo apt update
+# Install libolm development package
 sudo apt install libolm-dev
+
+# Reinstall matrix-nio
 pip3 install --force-reinstall matrix-nio[e2e]
 ```
 
-#### 3. Matrix Connection Failed
+### Issue: Bot doesn't respond
 
-**Error:** `Failed to connect to Matrix homeserver`
+**Checklist:**
+1. ✓ Bot is running (check terminal)
+2. ✓ Bot is in the room (invite it)
+3. ✓ Credentials are correct (check `.env`)
+4. ✓ Internet connection is stable
+5. ✓ Try mentioning interests: "quantum physics", "AI", "consciousness"
 
-**Solution:**
-```bash
-# Check homeserver is accessible
-curl https://anarchists.space/_matrix/client/versions
-
-# Verify credentials
-echo $MATRIX_USER_ID
-echo $MATRIX_HOMESERVER
-
-# Test with different homeserver
-export MATRIX_HOMESERVER="https://matrix.org"
-```
-
-#### 4. Wikipedia 403 Error
-
-**Error:** `403 Forbidden for Wikipedia API`
-
-**Solution:**
-Wikipedia API requires a proper User-Agent. This is already configured in the code, but if issues persist:
-
-```python
-# The module automatically sets:
-User-Agent: Ribit2.0Bot/1.0 (https://github.com/rabit232/ribit.2.0)
-```
-
-Use the wikipediaapi method instead:
-```python
-wsw.get_wikipedia_summary("Topic")  # Works better
-```
-
-#### 5. Image Generation Fails
-
-**Error:** `PIL/Pillow not installed`
+### Issue: Import errors
 
 **Solution:**
 ```bash
-pip3 install Pillow
+# Reinstall all dependencies
+pip3 install -r requirements.txt --force-reinstall
+
+# Or run install script
+./install.sh
 ```
 
-#### 6. Import Errors
-
-**Error:** `ModuleNotFoundError: No module named 'ribit_2_0'`
+### Issue: Tests fail
 
 **Solution:**
 ```bash
-# Make sure you're in the ribit.2.0 directory
-cd /path/to/ribit.2.0
+# Check Python version (must be 3.8+)
+python3 --version
 
-# Install in development mode
-pip3 install -e .
-
-# Or add to PYTHONPATH
-export PYTHONPATH="${PYTHONPATH}:/path/to/ribit.2.0"
-```
-
-#### 7. Permission Denied
-
-**Error:** `Permission denied` when running scripts
-
-**Solution:**
-```bash
-# Make scripts executable
-chmod +x install.sh
-chmod +x run_*.py
-
-# Or run with python3
-python3 run_secure_ribit.py
-```
-
----
-
-## Running as a Service
-
-### Create systemd service
-
-**Create service file:**
-```bash
-sudo nano /etc/systemd/system/ribit.service
-```
-
-**Add configuration:**
-```ini
-[Unit]
-Description=Ribit 2.0 Matrix Bot
-After=network.target
-
-[Service]
-Type=simple
-User=your_username
-WorkingDirectory=/home/your_username/ribit.2.0
-Environment="MATRIX_HOMESERVER=https://anarchists.space"
-Environment="MATRIX_USER_ID=@rabit233:anarchists.space"
-Environment="MATRIX_ACCESS_TOKEN=your_token_here"
-ExecStart=/usr/bin/python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
-Restart=always
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
-```
-
-**Enable and start service:**
-```bash
-# Reload systemd
-sudo systemctl daemon-reload
-
-# Enable service
-sudo systemctl enable ribit.service
-
-# Start service
-sudo systemctl start ribit.service
-
-# Check status
-sudo systemctl status ribit.service
-
-# View logs
-sudo journalctl -u ribit.service -f
-```
-
----
-
-## Quick Reference
-
-### Start Matrix Bot
-```bash
-python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
-```
-
-### Run Tests
-```bash
-python3 test_fixes.py
-```
-
-### Update Ribit
-```bash
-cd ribit.2.0
-git pull origin master
+# Reinstall dependencies
 pip3 install -r requirements.txt
+
+# Run tests individually
+python3 test_learning_features.py
+python3 test_advanced_llm.py
 ```
 
-### Check Logs
-```bash
-# If running as service
-sudo journalctl -u ribit.service -f
+### Issue: "No ROS installation detected"
 
-# If running in terminal
-# Logs are printed to stdout
+**This is normal!** It's just a warning. ROS is optional. The bot will use mock ROS interface.
+
+### Issue: Slow responses
+
+**Solutions:**
+1. Use greedy sampling for speed:
+   ```python
+   llm.set_advanced_parameters(sampling_strategy='greedy')
+   ```
+
+2. Enable caching:
+   ```python
+   llm.enable_caching = True
+   llm.cache_size = 200
+   ```
+
+3. Reduce beam count:
+   ```python
+   llm.set_advanced_parameters(num_beams=1)
+   ```
+
+### Issue: Repetitive responses
+
+**Solutions:**
+1. Increase penalties:
+   ```python
+   llm.set_parameters(frequency_penalty=0.8)
+   llm.set_advanced_parameters(repetition_penalty=1.8)
+   ```
+
+2. Learn from message history:
+   ```
+   ?learn 1000 30
+   ```
+
+---
+
+## 📚 Additional Resources
+
+### Documentation Files
+
+- **README.md** - Project overview
+- **INSTALL.md** - Original installation guide
+- **QUICK_START.md** - Quick start guide
+- **HOW_TO_RUN.md** - How to run the bot
+- **LEARNING_FEATURES.md** - Message history learning
+- **ADVANCED_LLM.md** - Advanced MockLLM parameters
+- **EMOJI_FEATURES.md** - Emoji support
+- **AUTONOMOUS_FEATURES.md** - Autonomous capabilities
+- **FIXES_SUMMARY.md** - Recent fixes
+- **CREDENTIALS_SETUP.md** - Credential setup guide
+
+### Commands Reference
+
+| Command | Description |
+|---------|-------------|
+| `?status` | Bot status and current activity |
+| `?sys` | Full system status |
+| `?learn [limit] [days]` | Learn from message history |
+| `?vocab` | Show learned vocabulary |
+| `?llm` | Show LLM statistics |
+| `?tasks` | View autonomous task queue |
+| `?opinion <topic>` | Get Ribit's opinion |
+| `?discuss <topic>` | Start philosophical discussion |
+| `!reset` | Reset bot state |
+
+### New Features Guide
+
+#### Message History Learning
+```
+?learn           # Learn from last 1000 messages
+?learn 500 14    # Learn from 500 messages, 14 days back
+?vocab           # See what was learned
 ```
 
----
+#### Advanced LLM Control
+```
+?llm             # View current parameters
+```
 
-## Next Steps
+Then adjust in code:
+```python
+llm.set_parameters(temperature=1.2)
+llm.set_advanced_parameters(repetition_penalty=1.8)
+```
 
-After installation:
+#### Autonomous Interaction
 
-1. **Join Matrix Rooms**: Invite Ribit to your Matrix rooms
-2. **Test Commands**: Try `?help`, `?status`, `?tasks`
-3. **Configure Settings**: Customize behavior in settings
-4. **Explore Features**: Try autonomous responses, emoji reactions
-5. **Read Documentation**: Check other `.md` files for advanced features
+Just mention topics Ribit is interested in:
+- "quantum physics"
+- "consciousness"
+- "AI and machine learning"
+- "philosophy of science"
 
----
-
-## Support
-
-**Issues?** Open an issue on GitHub:
-https://github.com/rabit232/ribit.2.0/issues
-
-**Documentation:**
-- `README.md` - Overview
-- `AUTONOMOUS_FEATURES.md` - Autonomous capabilities
-- `EMOJI_FEATURES.md` - Emoji support
-- `FIXES_SUMMARY.md` - Recent fixes
-- `QUICK_START.md` - Quick start guide
+Ribit will respond autonomously!
 
 ---
 
-## License
+## 🎯 Quick Start Summary
 
-Ribit 2.0 is open source. See `LICENSE` file for details.
+1. **Install:**
+   ```bash
+   git clone https://github.com/rabit232/ribit.2.0.git
+   cd ribit.2.0
+   ./install.sh
+   ```
+
+2. **Configure:**
+   ```bash
+   ./setup_credentials.sh
+   ```
+
+3. **Run:**
+   ```bash
+   ./run_bot.sh
+   ```
+
+4. **Test:**
+   - Invite bot to Matrix room
+   - Send: `?status`
+   - Send: `?learn`
+   - Mention: "quantum physics"
+
+5. **Enjoy!** 🎉
 
 ---
 
-**Installation complete! Ribit 2.0 is ready to use! 🚀🤖✨**
+## 🆘 Getting Help
+
+If you encounter issues:
+
+1. Check this troubleshooting guide
+2. Review documentation files
+3. Check GitHub issues: https://github.com/rabit232/ribit.2.0/issues
+4. Run diagnostics: `?llm` and `?sys` commands
+
+---
+
+## 🎉 You're Ready!
+
+Ribit 2.0 is now installed with all features:
+
+✅ Message history learning  
+✅ Advanced MockLLM (20+ parameters)  
+✅ Emoji support  
+✅ Autonomous interaction  
+✅ Task autonomy  
+✅ Philosophical reasoning  
+✅ Web scraping  
+✅ Wikipedia integration  
+✅ Image generation  
+✅ Bot-to-bot communication  
+
+**Start the bot and enjoy!** 🚀🤖✨
+
+---
+
+**Last Updated:** October 2025  
+**Version:** 2.0 (with all new features)
 
