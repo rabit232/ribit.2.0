@@ -4,6 +4,7 @@ Enhanced Web Scraping and Wikipedia Search for Ribit 2.0
 Provides robust web scraping and Wikipedia search capabilities.
 """
 
+from __future__ import annotations  # For Python 3.8 compatibility
 import logging
 import asyncio
 import aiohttp
