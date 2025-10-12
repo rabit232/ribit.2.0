@@ -25,6 +25,8 @@ from ribit_2_0.conversational_mode import ConversationalMode
 from ribit_2_0.autonomous_matrix import AutonomousMatrixInteraction
 from ribit_2_0.task_autonomy import TaskAutonomy, Task, TaskPriority
 from ribit_2_0.knowledge_base import KnowledgeBase
+from ribit_2_0.message_history_learner import MessageHistoryLearner
+from ribit_2_0.enhanced_mock_llm import EnhancedMockLLM
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +61,19 @@ class EnhancedAutonomousMatrixBot:
         
         # Initialize Ribit components
         self.knowledge_base = KnowledgeBase("knowledge.txt")
-        self.llm = MockRibit20LLM(knowledge_file="knowledge.txt")
+        
+        # Use Enhanced Mock LLM with learning capabilities
+        self.llm = EnhancedMockLLM(
+            knowledge_file="knowledge.txt",
+            temperature=0.7,
+            frequency_penalty=0.5,
+            presence_penalty=0.3,
+            learning_enabled=True,
+            style_adaptation=True
+        )
+        
+        # Initialize message history learner
+        self.message_learner = MessageHistoryLearner(self.knowledge_base)
         
         # Initialize new modules
         self.philosophical_reasoning = PhilosophicalReasoning(
@@ -84,6 +98,10 @@ class EnhancedAutonomousMatrixBot:
             knowledge_base=self.knowledge_base,
             emotional_ai=getattr(self.llm, 'emotional_ai', None)
         )
+        
+        # History learning settings
+        self.history_learning_enabled = True
+        self.history_learned_rooms = set()
         
         # Authorized users
         self.authorized_users = [
@@ -186,6 +204,12 @@ class EnhancedAutonomousMatrixBot:
             await self.handle_opinion_command(room, command)
         elif command_lower.startswith("?discuss"):
             await self.handle_discuss_command(room, command)
+        elif command_lower.startswith("?learn"):
+            await self.handle_learn_history(room, command)
+        elif command_lower.startswith("?vocab"):
+            await self.handle_vocab_command(room)
+        elif command_lower.startswith("?llm"):
+            await self.handle_llm_stats(room)
         elif command_lower.startswith("!reset"):
             await self.handle_reset(room)
         elif command_lower.startswith("?command"):
@@ -365,6 +389,117 @@ I could work on any of these tasks independently:
         except Exception as e:
             logger.error(f"Failed to send reaction: {e}")
     
+    async def handle_learn_history(self, room: MatrixRoom, command: str):
+        """Handle ?learn command to scroll back and learn from history."""
+        if room.room_id in self.history_learned_rooms:
+            await self.send_message(room.room_id, 
+                "I've already learned from this room's history. Use ?vocab to see what I learned.")
+            return
+        
+        await self.send_message(room.room_id, 
+            "📚 Starting to learn from message history... This may take a moment.")
+        
+        # Parse optional parameters
+        parts = command.split()
+        limit = 1000
+        days = 30
+        
+        if len(parts) > 1 and parts[1].isdigit():
+            limit = int(parts[1])
+        if len(parts) > 2 and parts[2].isdigit():
+            days = int(parts[2])
+        
+        # Learn from history
+        summary = await self.message_learner.scroll_and_learn(
+            self.client,
+            room.room_id,
+            limit=limit,
+            days_back=days
+        )
+        
+        self.history_learned_rooms.add(room.room_id)
+        
+        # Send summary
+        response = f"""✅ **Learning Complete!**
+
+**Processed:** {summary['messages_processed']} messages from {summary['users_analyzed']} users
+**Time:** {summary['time_taken_seconds']}s
+
+**Learned:**
+- {summary['vocabulary_size']} unique words
+- {summary['phrases_learned']} common phrases
+- {summary['unique_topics']} topics
+
+**Top Topics:**
+{chr(10).join(f"• {topic}: {count}" for topic, count in list(summary['top_topics'].items())[:5])}
+
+**Top Words:**
+{', '.join(list(summary['top_vocabulary'].keys())[:15])}
+
+I'll now speak more fluently using this vocabulary! 🤖✨"""
+        
+        await self.send_message(room.room_id, response)
+    
+    async def handle_vocab_command(self, room: MatrixRoom):
+        """Handle ?vocab command to show learned vocabulary."""
+        vocab = self.llm.get_learned_vocabulary(30)
+        phrases = self.llm.get_learned_phrases(15)
+        
+        if not vocab and not phrases:
+            await self.send_message(room.room_id, 
+                "I haven't learned from message history yet. Use ?learn to start!")
+            return
+        
+        response = f"""📚 **My Learned Vocabulary**
+
+**Top Words I've Learned:**
+{', '.join(vocab.keys())}
+
+**Common Phrases:**
+{chr(10).join(f"• {phrase}" for phrase in list(phrases.keys())[:10])}
+
+**Stats:**
+- Vocabulary size: {len(vocab)}
+- Phrases learned: {len(phrases)}
+
+I use these to speak more naturally! 🤖"""
+        
+        await self.send_message(room.room_id, response)
+    
+    async def handle_llm_stats(self, room: MatrixRoom):
+        """Handle ?llm command to show LLM statistics."""
+        stats = self.llm.get_statistics()
+        
+        response = f"""🤖 **Enhanced LLM Statistics**
+
+**Parameters:**
+- Temperature: {stats['parameters']['temperature']} (creativity)
+- Top-p: {stats['parameters']['top_p']} (diversity)
+- Frequency Penalty: {stats['parameters']['frequency_penalty']} (anti-repetition)
+- Presence Penalty: {stats['parameters']['presence_penalty']} (topic diversity)
+
+**Current Style:** {stats['current_style']}
+
+**Performance:**
+- Responses generated: {stats['responses_generated']}
+- Unique tokens used: {stats['unique_tokens_used']}
+- Topics discussed: {stats['topics_discussed']}
+
+**Learning:**
+- Learning enabled: {'✓' if stats['learning_enabled'] else '✗'}
+- Style adaptation: {'✓' if stats['style_adaptation_enabled'] else '✗'}"""
+        
+        if 'learned_data' in stats:
+            response += f"""
+
+**Learned Data:**
+- Vocabulary: {stats['learned_data']['vocabulary_size']} words
+- Phrases: {stats['learned_data']['phrases_learned']}
+- Topics: {stats['learned_data']['topics_identified']}
+- Users analyzed: {stats['learned_data']['users_analyzed']}"""
+        
+        await self.send_message(room.room_id, response)
+    
     async def invite_callback(self, room: MatrixRoom, event: InviteMemberEvent):
         """Handle room invitations."""
         logger.info(f"Invited to {room.display_name} by {event.sender}")
@@ -383,7 +518,7 @@ I'm particularly interested in:
 
 I can engage in conversations autonomously, work on self-selected tasks, and interact with other bots. Feel free to discuss these topics with me!
 
-Commands: ?status, ?sys, ?tasks, ?opinion <topic>, ?discuss <topic>"""
+Commands: ?status, ?sys, ?tasks, ?opinion <topic>, ?discuss <topic>, ?learn, ?vocab, ?llm"""
         
         await self.send_message(room.room_id, greeting)
     
