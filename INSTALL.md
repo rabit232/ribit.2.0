@@ -362,6 +362,8 @@ python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
 
 ### 1. Test Installation
 
+All test files are included in the repository. Run them to verify installation:
+
 ```bash
 # Test learning features
 python3 test_learning_features.py
@@ -369,13 +371,24 @@ python3 test_learning_features.py
 # Test advanced LLM
 python3 test_advanced_llm.py
 
-# Test fixes
+# Test fixes and new features
 python3 test_fixes.py
+
+# Test emoji features
+python3 test_emoji_features.py
+
+# Test all new features
+python3 test_new_features.py
 ```
 
-Expected output:
+Expected output for each test:
 ```
 ✅ ALL TESTS PASSED!
+```
+
+**Note:** If you get import errors, make sure you've installed dependencies:
+```bash
+pip3 install -r requirements.txt
 ```
 
 ### 2. Test Matrix Bot
