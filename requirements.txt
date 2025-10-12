@@ -1,131 +1,25 @@
-# Ribit 2.0 Requirements
-# Core dependencies for Ribit 2.0 agent
+# Ribit 2.0 - Python Dependencies
 
-# ========================================
-# IMPORTANT SETUP NOTES
-# ========================================
-# Before installing Python packages, ensure you have the necessary system dependencies:
-#
-# For Ubuntu/Debian systems:
-#   sudo apt update
-#   sudo apt install -y build-essential python3-dev python3-pip
-#   sudo apt install -y libffi-dev libssl-dev
-#
-# For CentOS/RHEL/Fedora systems:
-#   sudo yum groupinstall "Development Tools"
-#   sudo yum install python3-devel python3-pip
-#   # OR for newer versions:
-#   sudo dnf groupinstall "Development Tools"
-#   sudo dnf install python3-devel python3-pip
-#
-# For macOS:
-#   Install Xcode Command Line Tools:
-#   xcode-select --install
-#
-# For Windows:
-#   Install Microsoft Visual C++ Build Tools or Visual Studio
-#   https://visualstudio.microsoft.com/visual-cpp-build-tools/
-#
-# Note: build-essential (or equivalent) is required to compile native extensions
-# for packages like evdev (dependency of pynput) and other C-based libraries.
-# ========================================
+# Matrix Client
+matrix-nio[e2e]>=0.20.0
 
-# Core Python packages
-numpy>=1.21.0
-Pillow>=8.3.0
-numba>=0.56.0
-
-# GUI automation (optional - for desktop environments)
-# Note: These require system libraries and may fail in headless environments
-pyautogui>=0.9.53
-pynput>=1.7.3
-
-# Computer vision
-opencv-python>=4.5.0
-
-# ROS 2 dependencies (install if using ROS 2)
-# Uncomment the following lines for ROS 2 support:
-# rclpy>=3.0.0
-# std_msgs
-# geometry_msgs
-# sensor_msgs
-
-# ROS 1 dependencies (install if using ROS 1)
-# Note: ROS 1 packages are typically installed via apt, not pip
-# rospy (install via: sudo apt install ros-noetic-rospy)
-# std_msgs (install via: sudo apt install ros-noetic-std-msgs)
-# geometry_msgs (install via: sudo apt install ros-noetic-geometry-msgs)
-# sensor_msgs (install via: sudo apt install ros-noetic-sensor-msgs)
-
-# Matrix bot dependencies
-matrix-nio>=0.20.0
-aiofiles>=0.8.0
-asyncio-throttle>=1.0.2
-
-# System monitoring (optional but recommended)
-psutil>=5.9.0
-
-# Additional utilities for Matrix bot
-requests>=2.28.0
-
-# Jina.ai integration and web search
+# HTTP and Web
 aiohttp>=3.8.0
-beautifulsoup4>=4.12.0
+requests>=2.28.0
+beautifulsoup4>=4.11.0
 lxml>=4.9.0
-html2text>=2020.1.16
 
-# Advanced conversation management
-dataclasses-json>=0.6.0
-python-dateutil>=2.8.0
+# Wikipedia
+wikipedia-api>=0.5.8
 
-# Performance optimization (optional)
-redis>=4.5.0
-celery>=5.3.0
+# Image Processing
+Pillow>=9.0.0
 
-# Enhanced analytics (optional)
-textstat>=0.7.0
-wordcloud>=1.9.0
+# File Type Detection
+python-magic>=0.4.27
 
-# Development and testing
-pytest>=6.0.0
-pytest-asyncio>=0.18.0
+# Async File Operations
+aiofiles>=23.0.0
 
-# Optional: For enhanced functionality
-# scipy>=1.7.0
-# matplotlib>=3.4.0
-# scikit-image>=0.18.0
-
-# ========================================
-# INSTALLATION INSTRUCTIONS
-# ========================================
-# 1. Install system dependencies (see above)
-# 2. Create a virtual environment (recommended):
-#    python3 -m venv ribit_env
-#    source ribit_env/bin/activate  # On Windows: ribit_env\Scripts\activate
-# 3. Install Python packages:
-#    pip install -r requirements.txt
-# 4. For GUI functionality, ensure you have a display server running
-# 5. For Matrix bot, set up environment variables (see env.example.txt)
-# ========================================
-
-# ========================================
-# TROUBLESHOOTING
-# ========================================
-# If you encounter "error: Microsoft Visual C++ 14.0 is required" on Windows:
-#   Install Visual C++ Build Tools from Microsoft
-#
-# If you encounter "error: command 'gcc' failed" on Linux:
-#   sudo apt install build-essential python3-dev
-#
-# If pyautogui fails to install:
-#   Try installing without GUI dependencies first:
-#   pip install --no-deps pyautogui
-#
-# If pynput fails with evdev errors:
-#   This is normal in headless environments - the code will fall back to mock mode
-# ========================================
-wikipedia-api
-requests
-beautifulsoup4
-selenium
-pillow
+# Async Support (usually built-in, but listed for clarity)
+asyncio; python_version < '3.7'
