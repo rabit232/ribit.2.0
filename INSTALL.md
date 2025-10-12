@@ -502,6 +502,30 @@ pip3 install -r requirements.txt
 # Run tests individually
 python3 test_learning_features.py
 python3 test_advanced_llm.py
+python3 test_dual_pipeline.py  # NEW: Test dual LLM
+```
+
+### Issue: Modules not found
+
+**Solution:**
+```bash
+# Verify all modules are present
+python3 verify_modules.py
+
+# Should show:
+# ✓ Basic MockLLM
+# ✓ Enhanced MockLLM (8 params)
+# ✓ Advanced MockLLM (20+ params)
+# ✓ Dual LLM Pipeline (NEW!) 🎮
+# ✓ Emotional Module
+# ✓ Intellectual Module
+# ... and more
+
+# If modules are missing, re-clone repository:
+cd ..
+git clone https://github.com/rabit232/ribit.2.0.git
+cd ribit.2.0
+./install.sh
 ```
 
 ### Issue: "No ROS installation detected"

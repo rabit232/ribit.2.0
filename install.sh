@@ -112,6 +112,44 @@ mkdir -p generated_images
 mkdir -p logs
 echo -e "${GREEN}✓ Directories created${NC}"
 
+# Check for required modules
+echo ""
+echo "Checking for Ribit modules..."
+MODULE_CHECK_PASSED=0
+MODULE_CHECK_TOTAL=0
+
+REQUIRED_MODULES=(
+    "ribit_2_0/mock_llm_wrapper.py:MockRibit20LLM (Basic)"
+    "ribit_2_0/enhanced_mock_llm.py:EnhancedMockLLM"
+    "ribit_2_0/advanced_mock_llm.py:AdvancedMockLLM"
+    "ribit_2_0/dual_llm_pipeline.py:DualLLMPipeline (NEW!)"
+    "ribit_2_0/emoji_expression.py:EmojiExpression"
+    "ribit_2_0/message_history_learner.py:MessageHistoryLearner"
+    "ribit_2_0/philosophical_reasoning.py:PhilosophicalReasoning"
+    "ribit_2_0/conversational_mode.py:ConversationalMode"
+    "ribit_2_0/autonomous_matrix.py:AutonomousMatrix"
+    "ribit_2_0/task_autonomy.py:TaskAutonomy"
+)
+
+for module_info in "${REQUIRED_MODULES[@]}"; do
+    module_path="${module_info%%:*}"
+    module_name="${module_info##*:}"
+    
+    if [ -f "$module_path" ]; then
+        echo -e "${GREEN}✓ $module_name${NC}"
+        MODULE_CHECK_PASSED=$((MODULE_CHECK_PASSED + 1))
+    else
+        echo -e "${RED}✗ $module_name (missing: $module_path)${NC}"
+    fi
+    MODULE_CHECK_TOTAL=$((MODULE_CHECK_TOTAL + 1))
+done
+
+if [ $MODULE_CHECK_PASSED -eq $MODULE_CHECK_TOTAL ]; then
+    echo -e "${GREEN}✓ All $MODULE_CHECK_PASSED/$MODULE_CHECK_TOTAL modules found${NC}"
+else
+    echo -e "${YELLOW}⚠ $MODULE_CHECK_PASSED/$MODULE_CHECK_TOTAL modules found${NC}"
+fi
+
 # Run tests
 echo ""
 echo "Running tests..."
@@ -150,6 +188,18 @@ if [ -f "test_advanced_llm.py" ]; then
         TEST_PASSED=$((TEST_PASSED + 1))
     else
         echo -e "${YELLOW}⚠ test_advanced_llm.py failed${NC}"
+    fi
+    TEST_TOTAL=$((TEST_TOTAL + 1))
+fi
+
+# Test 4: test_dual_pipeline.py (NEW!)
+if [ -f "test_dual_pipeline.py" ]; then
+    echo "Running test_dual_pipeline.py (Dual LLM)..."
+    if timeout 90 python3 test_dual_pipeline.py > /dev/null 2>&1; then
+        echo -e "${GREEN}✓ test_dual_pipeline.py passed (Dual LLM working!)${NC}"
+        TEST_PASSED=$((TEST_PASSED + 1))
+    else
+        echo -e "${YELLOW}⚠ test_dual_pipeline.py failed${NC}"
     fi
     TEST_TOTAL=$((TEST_TOTAL + 1))
 fi
