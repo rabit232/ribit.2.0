@@ -115,10 +115,51 @@ echo -e "${GREEN}✓ Directories created${NC}"
 # Run tests
 echo ""
 echo "Running tests..."
-if python3 test_fixes.py > /dev/null 2>&1; then
-    echo -e "${GREEN}✓ All tests passed${NC}"
+TEST_PASSED=0
+TEST_TOTAL=0
+
+# Test 1: test_fixes.py
+if [ -f "test_fixes.py" ]; then
+    echo "Running test_fixes.py..."
+    if python3 test_fixes.py > /dev/null 2>&1; then
+        echo -e "${GREEN}✓ test_fixes.py passed${NC}"
+        TEST_PASSED=$((TEST_PASSED + 1))
+    else
+        echo -e "${YELLOW}⚠ test_fixes.py failed${NC}"
+    fi
+    TEST_TOTAL=$((TEST_TOTAL + 1))
+fi
+
+# Test 2: test_learning_features.py
+if [ -f "test_learning_features.py" ]; then
+    echo "Running test_learning_features.py..."
+    if python3 test_learning_features.py > /dev/null 2>&1; then
+        echo -e "${GREEN}✓ test_learning_features.py passed${NC}"
+        TEST_PASSED=$((TEST_PASSED + 1))
+    else
+        echo -e "${YELLOW}⚠ test_learning_features.py failed${NC}"
+    fi
+    TEST_TOTAL=$((TEST_TOTAL + 1))
+fi
+
+# Test 3: test_advanced_llm.py
+if [ -f "test_advanced_llm.py" ]; then
+    echo "Running test_advanced_llm.py..."
+    if python3 test_advanced_llm.py > /dev/null 2>&1; then
+        echo -e "${GREEN}✓ test_advanced_llm.py passed${NC}"
+        TEST_PASSED=$((TEST_PASSED + 1))
+    else
+        echo -e "${YELLOW}⚠ test_advanced_llm.py failed${NC}"
+    fi
+    TEST_TOTAL=$((TEST_TOTAL + 1))
+fi
+
+if [ $TEST_TOTAL -eq 0 ]; then
+    echo -e "${YELLOW}⚠ No test files found (this is OK)${NC}"
+elif [ $TEST_PASSED -eq $TEST_TOTAL ]; then
+    echo -e "${GREEN}✓ All $TEST_PASSED/$TEST_TOTAL tests passed${NC}"
 else
-    echo -e "${YELLOW}⚠ Some tests failed (this is OK if optional features aren't configured)${NC}"
+    echo -e "${YELLOW}⚠ $TEST_PASSED/$TEST_TOTAL tests passed${NC}"
 fi
 
 # Check for .env file

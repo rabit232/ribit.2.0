@@ -252,7 +252,6 @@ recordings/
 
 # Local development scripts
 dev_*.py
-test_*.py
 debug_*.py
 local_*.py
 
