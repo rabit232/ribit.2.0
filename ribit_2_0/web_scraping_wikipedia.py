@@ -2,9 +2,9 @@
 Enhanced Web Scraping and Wikipedia Search for Ribit 2.0
 
 Provides robust web scraping and Wikipedia search capabilities.
+Python 3.7+ compatible version.
 """
 
-from __future__ import annotations  # For Python 3.8 compatibility
 import logging
 import asyncio
 import aiohttp
@@ -20,7 +20,8 @@ logger = logging.getLogger(__name__)
 class WebScrapingWikipedia:
     """Enhanced web scraping and Wikipedia search functionality."""
     
-    def __init__(self, user_agent: str = "Ribit2.0Bot/1.0 (https://github.com/rabit232/ribit.2.0)"):
+    def __init__(self, user_agent="Ribit2.0Bot/1.0 (https://github.com/rabit232/ribit.2.0)"):
+        # type: (str) -> None
         self.user_agent = user_agent
         self.wiki = wikipediaapi.Wikipedia(
             language='en',
@@ -29,7 +30,8 @@ class WebScrapingWikipedia:
         self.session = None
         logger.info("Web Scraping and Wikipedia module initialized")
     
-    async def _get_session(self) -> aiohttp.ClientSession:
+    async def _get_session(self):
+        # type: () -> aiohttp.ClientSession
         """Get or create aiohttp session."""
         if self.session is None or self.session.closed:
             self.session = aiohttp.ClientSession(
@@ -38,13 +40,15 @@ class WebScrapingWikipedia:
         return self.session
     
     async def close(self):
+        # type: () -> None
         """Close the aiohttp session."""
         if self.session and not self.session.closed:
             await self.session.close()
     
     # Wikipedia Functions
     
-    def search_wikipedia(self, query: str, results: int = 5) -> List[str]:
+    def search_wikipedia(self, query, results=5):
+        # type: (str, int) -> List[str]
         """
         Search Wikipedia and return page titles.
         
@@ -57,7 +61,7 @@ class WebScrapingWikipedia:
         """
         try:
             # Use Wikipedia API to search
-            search_url = f"https://en.wikipedia.org/w/api.php"
+            search_url = "https://en.wikipedia.org/w/api.php"
             params = {
                 'action': 'opensearch',
                 'search': query,
@@ -72,14 +76,15 @@ class WebScrapingWikipedia:
             data = response.json()
             titles = data[1] if len(data) > 1 else []
             
-            logger.info(f"Wikipedia search for '{query}' returned {len(titles)} results")
+            logger.info("Wikipedia search for '{}' returned {} results".format(query, len(titles)))
             return titles
             
         except Exception as e:
-            logger.error(f"Wikipedia search failed: {e}")
+            logger.error("Wikipedia search failed: {}".format(e))
             return []
     
-    def get_wikipedia_summary(self, title: str, sentences: int = 3) -> Optional[Dict[str, Any]]:
+    def get_wikipedia_summary(self, title, sentences=3):
+        # type: (str, int) -> Optional[Dict[str, Any]]
         """
         Get Wikipedia page summary.
         
@@ -94,7 +99,7 @@ class WebScrapingWikipedia:
             page = self.wiki.page(title)
             
             if not page.exists():
-                logger.warning(f"Wikipedia page '{title}' does not exist")
+                logger.warning("Wikipedia page '{}' does not exist".format(title))
                 return None
             
             # Get summary (first N sentences)
@@ -112,14 +117,15 @@ class WebScrapingWikipedia:
                 'exists': True
             }
             
-            logger.info(f"Retrieved Wikipedia summary for '{title}'")
+            logger.info("Retrieved Wikipedia summary for '{}'".format(title))
             return result
             
         except Exception as e:
-            logger.error(f"Failed to get Wikipedia summary for '{title}': {e}")
+            logger.error("Failed to get Wikipedia summary for '{}': {}".format(title, e))
             return None
     
-    def get_wikipedia_content(self, title: str) -> Optional[Dict[str, Any]]:
+    def get_wikipedia_content(self, title):
+        # type: (str) -> Optional[Dict[str, Any]]
         """
         Get full Wikipedia page content.
         
@@ -133,37 +139,41 @@ class WebScrapingWikipedia:
             page = self.wiki.page(title)
             
             if not page.exists():
-                logger.warning(f"Wikipedia page '{title}' does not exist")
+                logger.warning("Wikipedia page '{}' does not exist".format(title))
                 return None
             
             # Get sections
             sections = []
             for section in page.sections:
+                section_text = section.text[:500] + '...' if len(section.text) > 500 else section.text
                 sections.append({
                     'title': section.title,
-                    'text': section.text[:500] + '...' if len(section.text) > 500 else section.text
+                    'text': section_text
                 })
+            
+            content = page.text[:2000] + '...' if len(page.text) > 2000 else page.text
             
             result = {
                 'title': page.title,
                 'summary': page.summary,
-                'content': page.text[:2000] + '...' if len(page.text) > 2000 else page.text,
+                'content': content,
                 'sections': sections[:5],  # First 5 sections
                 'url': page.fullurl,
                 'categories': list(page.categories.keys())[:10],
                 'links': list(page.links.keys())[:20]
             }
             
-            logger.info(f"Retrieved full Wikipedia content for '{title}'")
+            logger.info("Retrieved full Wikipedia content for '{}'".format(title))
             return result
             
         except Exception as e:
-            logger.error(f"Failed to get Wikipedia content for '{title}': {e}")
+            logger.error("Failed to get Wikipedia content for '{}': {}".format(title, e))
             return None
     
     # Web Scraping Functions
     
-    async def scrape_url(self, url: str, timeout: int = 10) -> Optional[Dict[str, Any]]:
+    async def scrape_url(self, url, timeout=10):
+        # type: (str, int) -> Optional[Dict[str, Any]]
         """
         Scrape content from a URL.
         
@@ -179,7 +189,7 @@ class WebScrapingWikipedia:
             
             async with session.get(url, timeout=timeout) as response:
                 if response.status != 200:
-                    logger.warning(f"Failed to fetch {url}: HTTP {response.status}")
+                    logger.warning("Failed to fetch {}: HTTP {}".format(url, response.status))
                     return None
                 
                 html = await response.text()
@@ -218,17 +228,18 @@ class WebScrapingWikipedia:
                     'success': True
                 }
                 
-                logger.info(f"Successfully scraped {url}")
+                logger.info("Successfully scraped {}".format(url))
                 return result
                 
         except asyncio.TimeoutError:
-            logger.error(f"Timeout scraping {url}")
+            logger.error("Timeout scraping {}".format(url))
             return {'url': url, 'error': 'timeout', 'success': False}
         except Exception as e:
-            logger.error(f"Failed to scrape {url}: {e}")
+            logger.error("Failed to scrape {}: {}".format(url, e))
             return {'url': url, 'error': str(e), 'success': False}
     
-    def scrape_url_sync(self, url: str, timeout: int = 10) -> Optional[Dict[str, Any]]:
+    def scrape_url_sync(self, url, timeout=10):
+        # type: (str, int) -> Optional[Dict[str, Any]]
         """
         Synchronous version of scrape_url.
         
@@ -282,17 +293,18 @@ class WebScrapingWikipedia:
                 'success': True
             }
             
-            logger.info(f"Successfully scraped {url} (sync)")
+            logger.info("Successfully scraped {} (sync)".format(url))
             return result
             
         except requests.Timeout:
-            logger.error(f"Timeout scraping {url}")
+            logger.error("Timeout scraping {}".format(url))
             return {'url': url, 'error': 'timeout', 'success': False}
         except Exception as e:
-            logger.error(f"Failed to scrape {url}: {e}")
+            logger.error("Failed to scrape {}: {}".format(url, e))
             return {'url': url, 'error': str(e), 'success': False}
     
-    async def scrape_multiple_urls(self, urls: List[str], timeout: int = 10) -> List[Dict[str, Any]]:
+    async def scrape_multiple_urls(self, urls, timeout=10):
+        # type: (List[str], int) -> List[Dict[str, Any]]
         """
         Scrape multiple URLs concurrently.
         
@@ -312,13 +324,14 @@ class WebScrapingWikipedia:
             if isinstance(result, dict):
                 valid_results.append(result)
             else:
-                logger.error(f"Exception in scraping: {result}")
+                logger.error("Exception in scraping: {}".format(result))
         
         return valid_results
     
     # Combined Search Functions
     
-    def search_and_summarize(self, query: str) -> Optional[Dict[str, Any]]:
+    def search_and_summarize(self, query):
+        # type: (str) -> Optional[Dict[str, Any]]
         """
         Search Wikipedia and return summary of best match.
         
@@ -342,18 +355,20 @@ class WebScrapingWikipedia:
             # Get summary of first result
             summary = self.get_wikipedia_summary(titles[0])
             
+            alternative_titles = titles[1:] if len(titles) > 1 else []
+            
             result = {
                 'query': query,
                 'found': True,
                 'search_results': titles,
                 'best_match': summary,
-                'alternative_titles': titles[1:] if len(titles) > 1 else []
+                'alternative_titles': alternative_titles
             }
             
             return result
             
         except Exception as e:
-            logger.error(f"Search and summarize failed: {e}")
+            logger.error("Search and summarize failed: {}".format(e))
             return {
                 'query': query,
                 'found': False,
@@ -364,9 +379,11 @@ class WebScrapingWikipedia:
 # Global instance
 _web_scraping_wikipedia = None
 
-def get_web_scraping_wikipedia() -> WebScrapingWikipedia:
+def get_web_scraping_wikipedia():
+    # type: () -> WebScrapingWikipedia
     """Get global WebScrapingWikipedia instance."""
     global _web_scraping_wikipedia
     if _web_scraping_wikipedia is None:
         _web_scraping_wikipedia = WebScrapingWikipedia()
     return _web_scraping_wikipedia
+

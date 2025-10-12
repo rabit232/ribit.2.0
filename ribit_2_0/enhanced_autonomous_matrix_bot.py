@@ -204,7 +204,7 @@ class EnhancedAutonomousMatrixBot:
             await self.handle_opinion_command(room, command)
         elif command_lower.startswith("?discuss"):
             await self.handle_discuss_command(room, command)
-        elif command_lower.startswith("?learn"):
+        elif command_lower.startswith("?learn") or command_lower.startswith("?history"):
             await self.handle_learn_history(room, command)
         elif command_lower.startswith("?vocab"):
             await self.handle_vocab_command(room)
@@ -518,7 +518,7 @@ I'm particularly interested in:
 
 I can engage in conversations autonomously, work on self-selected tasks, and interact with other bots. Feel free to discuss these topics with me!
 
-Commands: ?status, ?sys, ?tasks, ?opinion <topic>, ?discuss <topic>, ?learn, ?vocab, ?llm"""
+Commands: ?status, ?sys, ?tasks, ?opinion <topic>, ?discuss <topic>, ?learn/?history, ?vocab, ?llm"""
         
         await self.send_message(room.room_id, greeting)
     
