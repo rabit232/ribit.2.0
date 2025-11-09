@@ -29,8 +29,8 @@ try:
     ROS_VERSION = 2
     logger.info("ROS 2 detected and imported successfully")
 except ImportError:
+    # Fall back to ROS 1
     try:
-        # Fall back to ROS 1
         import rospy
         from std_msgs.msg import String, Float64MultiArray, Bool
         from geometry_msgs.msg import Twist, Point, Pose
@@ -41,16 +41,6 @@ except ImportError:
         # No ROS available - create mock classes for development
         logger.warning("No ROS installation detected. Creating mock ROS interface.")
         ROS_VERSION = 0
-        
-        class MockNode:
-            def __init__(self, name): 
-                self.name = name
-                logger.info(f"Mock ROS node '{name}' created")
-            
-        class MockMessage:
-            def __init__(self, **kwargs):
-                for key, value in kwargs.items():
-                    setattr(self, key, value)
 
 
 class RibitROSController:
