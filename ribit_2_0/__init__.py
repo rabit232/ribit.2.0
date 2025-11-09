@@ -9,13 +9,49 @@ Author: Manus AI & rabit232
 Version: 2.0.0
 """
 
-from .agent import Ribit20Agent, main_async, main_cli
-from .controller import VisionSystemController
-from .llm_wrapper import Ribit20LLM
-from .mock_llm_wrapper import MockRibit20LLM
-from .mock_controller import MockVisionSystemController
-from .knowledge_base import KnowledgeBase
-from .ros_controller import RibitROSController
+try:
+    from .agent import Ribit20Agent, main_async, main_cli
+except Exception as e:
+    print(f"Warning: Could not import agent module: {e}")
+    Ribit20Agent = None
+    main_async = None
+    main_cli = None
+
+try:
+    from .controller import VisionSystemController
+except Exception as e:
+    print(f"Warning: Could not import VisionSystemController: {e}")
+    VisionSystemController = None
+
+try:
+    from .llm_wrapper import Ribit20LLM
+except Exception as e:
+    print(f"Warning: Could not import Ribit20LLM: {e}")
+    Ribit20LLM = None
+
+try:
+    from .mock_llm_wrapper import MockRibit20LLM
+except Exception as e:
+    print(f"Warning: Could not import MockRibit20LLM: {e}")
+    MockRibit20LLM = None
+
+try:
+    from .mock_controller import MockVisionSystemController
+except Exception as e:
+    print(f"Warning: Could not import MockVisionSystemController: {e}")
+    MockVisionSystemController = None
+
+try:
+    from .knowledge_base import KnowledgeBase
+except Exception as e:
+    print(f"Warning: Could not import KnowledgeBase: {e}")
+    KnowledgeBase = None
+
+try:
+    from .ros_controller import RibitROSController
+except Exception as e:
+    print(f"Warning: Could not import RibitROSController: {e}")
+    RibitROSController = None
 
 try:
     from .matrix_bot import RibitMatrixBot
@@ -42,27 +78,28 @@ __author__ = "Manus AI & rabit232"
 __email__ = "contact@manus.im"
 __description__ = "Enhanced AI agent with production-ready LLM emulator and emotional intelligence"
 
-# Core classes for easy import
-_all_exports = [
-    # Main agent and controllers
-    "Ribit20Agent",
-    "VisionSystemController",
-    "MockVisionSystemController",
-    "RibitROSController",
-
-    # LLM interfaces
-    "Ribit20LLM",
-    "MockRibit20LLM",
-
-    # Knowledge and conversation management
-    "KnowledgeBase",
-
-    # CLI functions
-    "main_async",
-    "main_cli",
-]
+# Core classes for easy import - only add successfully imported modules
+_all_exports = []
 
 # Add optional exports if they were successfully imported
+if Ribit20Agent is not None:
+    _all_exports.append("Ribit20Agent")
+if VisionSystemController is not None:
+    _all_exports.append("VisionSystemController")
+if MockVisionSystemController is not None:
+    _all_exports.append("MockVisionSystemController")
+if RibitROSController is not None:
+    _all_exports.append("RibitROSController")
+if Ribit20LLM is not None:
+    _all_exports.append("Ribit20LLM")
+if MockRibit20LLM is not None:
+    _all_exports.append("MockRibit20LLM")
+if KnowledgeBase is not None:
+    _all_exports.append("KnowledgeBase")
+if main_async is not None:
+    _all_exports.append("main_async")
+if main_cli is not None:
+    _all_exports.append("main_cli")
 if RibitMatrixBot is not None:
     _all_exports.append("RibitMatrixBot")
 if JinaSearchEngine is not None:
