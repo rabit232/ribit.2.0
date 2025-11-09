@@ -16,9 +16,26 @@ from .mock_llm_wrapper import MockRibit20LLM
 from .mock_controller import MockVisionSystemController
 from .knowledge_base import KnowledgeBase
 from .ros_controller import RibitROSController
-from .matrix_bot import RibitMatrixBot
-from .jina_integration import JinaSearchEngine
-from .conversation_manager import AdvancedConversationManager, ConversationMessage, ConversationSummary
+
+try:
+    from .matrix_bot import RibitMatrixBot
+except Exception as e:
+    print(f"Warning: Could not import RibitMatrixBot: {e}")
+    RibitMatrixBot = None
+
+try:
+    from .jina_integration import JinaSearchEngine
+except Exception as e:
+    print(f"Warning: Could not import JinaSearchEngine: {e}")
+    JinaSearchEngine = None
+
+try:
+    from .conversation_manager import AdvancedConversationManager, ConversationMessage, ConversationSummary
+except Exception as e:
+    print(f"Warning: Could not import conversation_manager: {e}")
+    AdvancedConversationManager = None
+    ConversationMessage = None
+    ConversationSummary = None
 
 __version__ = "2.0.0"
 __author__ = "Manus AI & rabit232"
@@ -26,31 +43,34 @@ __email__ = "contact@manus.im"
 __description__ = "Enhanced AI agent with production-ready LLM emulator and emotional intelligence"
 
 # Core classes for easy import
-__all__ = [
+_all_exports = [
     # Main agent and controllers
     "Ribit20Agent",
-    "VisionSystemController", 
+    "VisionSystemController",
     "MockVisionSystemController",
     "RibitROSController",
-    
+
     # LLM interfaces
     "Ribit20LLM",
     "MockRibit20LLM",
-    
+
     # Knowledge and conversation management
     "KnowledgeBase",
-    "AdvancedConversationManager",
-    "ConversationMessage",
-    "ConversationSummary",
-    
-    # Internet and communication
-    "JinaSearchEngine",
-    "RibitMatrixBot",
-    
+
     # CLI functions
     "main_async",
     "main_cli",
 ]
+
+# Add optional exports if they were successfully imported
+if RibitMatrixBot is not None:
+    _all_exports.append("RibitMatrixBot")
+if JinaSearchEngine is not None:
+    _all_exports.append("JinaSearchEngine")
+if AdvancedConversationManager is not None:
+    _all_exports.extend(["AdvancedConversationManager", "ConversationMessage", "ConversationSummary"])
+
+__all__ = _all_exports
 
 # Package metadata
 __package_info__ = {

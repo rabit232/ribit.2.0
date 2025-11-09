@@ -15,15 +15,15 @@ import logging
 import time
 import os
 import re
-from typing import Dict, Set, Optional
+from typing import Dict, Set, Optional, TYPE_CHECKING
 from pathlib import Path
 
 try:
     from nio import (
-        AsyncClient, 
+        AsyncClient,
         AsyncClientConfig,
-        LoginResponse, 
-        RoomMessageText, 
+        LoginResponse,
+        RoomMessageText,
         InviteMemberEvent,
         MatrixRoom,
         JoinResponse
@@ -32,6 +32,18 @@ try:
 except ImportError:
     MATRIX_AVAILABLE = False
     print("Warning: matrix-nio not installed. Matrix bot will run in mock mode.")
+
+    class MatrixRoom:
+        """Mock MatrixRoom for type annotations when matrix-nio is not installed."""
+        pass
+
+    class RoomMessageText:
+        """Mock RoomMessageText for type annotations when matrix-nio is not installed."""
+        pass
+
+    class InviteMemberEvent:
+        """Mock InviteMemberEvent for type annotations when matrix-nio is not installed."""
+        pass
 
 from .mock_llm_wrapper import MockRibit20LLM
 from .controller import VisionSystemController
