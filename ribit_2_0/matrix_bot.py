@@ -99,7 +99,10 @@ class RibitMatrixBot:
         self.sync_timeout = 30000
         self.request_timeout = 10000
         self.keepalive_interval = 60
-        
+
+        # Bridge relay for cross-platform messaging
+        self.bridge_relay = None
+
         logger.info(f"Ribit Matrix Bot initialized for {username}")
     
     async def start(self):
@@ -240,13 +243,27 @@ class RibitMatrixBot:
             
             # Process the message
             response = await self._process_message(event.body, event.sender, room.room_id)
-            
+
             if response:
                 await self._send_message(room.room_id, response)
-            
+
+            if self.bridge_relay:
+                try:
+                    sender_name = event.sender.split(':')[0].replace('@', '')
+                    await self.bridge_relay.relay_from_matrix(
+                        event.sender, sender_name, event.body, room.room_id
+                    )
+                except Exception as e:
+                    logger.debug(f"Bridge relay error: {e}")
+
         except Exception as e:
             logger.error(f"Error handling message: {e}")
-    
+
+    def set_bridge_relay(self, bridge_relay):
+        """Set the bridge relay for cross-platform messaging."""
+        self.bridge_relay = bridge_relay
+        logger.info("Bridge relay configured for Matrix Bot")
+
     async def _handle_invite(self, room: MatrixRoom, event: InviteMemberEvent):
         """Handle room invitations."""
         try:

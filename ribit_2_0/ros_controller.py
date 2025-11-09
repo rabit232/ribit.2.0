@@ -43,6 +43,62 @@ except ImportError:
         ROS_VERSION = 0
 
 
+class MockNode:
+    """Mock ROS node for development without ROS installed."""
+
+    def __init__(self, node_name: str = "mock_node", namespace: str = ""):
+        self.node_name = node_name
+        self.namespace = namespace
+        self.publishers = {}
+        self.subscribers = {}
+        logger.debug(f"MockNode created: {node_name}")
+
+    def create_publisher(self, msg_type, topic: str, qos_profile: int = 10):
+        """Create a mock publisher."""
+        pub = MockPublisher(topic, msg_type)
+        self.publishers[topic] = pub
+        logger.debug(f"Mock publisher created for topic: {topic}")
+        return pub
+
+    def create_subscription(self, msg_type, topic: str, callback, qos_profile: int = 10):
+        """Create a mock subscription."""
+        sub = MockSubscription(topic, msg_type, callback)
+        self.subscribers[topic] = sub
+        logger.debug(f"Mock subscription created for topic: {topic}")
+        return sub
+
+    def destroy_node(self):
+        """Destroy the mock node."""
+        logger.debug(f"MockNode destroyed: {self.node_name}")
+
+
+class MockPublisher:
+    """Mock ROS publisher."""
+
+    def __init__(self, topic: str, msg_type):
+        self.topic = topic
+        self.msg_type = msg_type
+        self.message_count = 0
+
+    def publish(self, msg):
+        """Publish a mock message."""
+        self.message_count += 1
+        logger.debug(f"Mock message published to {self.topic}: {msg}")
+
+
+class MockSubscription:
+    """Mock ROS subscription."""
+
+    def __init__(self, topic: str, msg_type, callback):
+        self.topic = topic
+        self.msg_type = msg_type
+        self.callback = callback
+
+    def unsubscribe(self):
+        """Unsubscribe from mock topic."""
+        logger.debug(f"Mock subscription destroyed for {self.topic}")
+
+
 class RibitROSController:
     """
     ROS-compatible controller for Ribit 2.0 agent.

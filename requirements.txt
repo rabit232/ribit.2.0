@@ -3,6 +3,9 @@
 # Matrix Client
 matrix-nio[e2e]>=0.20.0
 
+# DeltaChat Integration
+deltabot>=1.72.0
+
 # HTTP and Web
 aiohttp>=3.8.0
 requests>=2.28.0
@@ -21,5 +24,12 @@ python-magic>=0.4.27
 # Async File Operations
 aiofiles>=23.0.0
 
+# Supabase for bridge state management
+supabase>=2.0.0
+
 # Async Support (usually built-in, but listed for clarity)
 asyncio; python_version < '3.7'
+
+# Optional ROS support
+# rclpy; python_version >= '3.7'
+# rospy; python_version >= '3.7'
