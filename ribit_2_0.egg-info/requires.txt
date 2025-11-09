@@ -1,6 +1,0 @@
-pyautogui
-pynput
-Pillow
-numpy
-numba
-opencv-python
