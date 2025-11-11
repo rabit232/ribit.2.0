@@ -1377,3 +1377,9 @@ test_encryption_data/
 security_test_results/
 
 # ===== END E2EE SPECIFIC ADDITIONS =====
+
+# Offline installation packages (too large for GitHub)
+packages/
+vendor/
+*.tar.gz
+download.log

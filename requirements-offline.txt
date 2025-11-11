@@ -1,0 +1,31 @@
+# Ribit 2.0 Dependencies (Offline Installation)
+# Excludes ROS packages (install from system packages if needed)
+
+# Matrix Protocol
+matrix-nio[e2e]>=0.20.0
+
+# DeltaChat
+deltachat>=1.0.0
+
+# Async HTTP
+aiohttp>=3.8.0
+aiofiles>=23.0.0
+
+# HTTP and Web
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+lxml>=4.9.0
+
+# Wikipedia
+wikipedia-api>=0.5.8
+
+# Image Processing
+Pillow>=9.0.0
+python-magic>=0.4.27
+
+# Database (for bridge state management)
+supabase>=1.0.0
+
+# Optional: GUI Automation (comment out if not needed)
+# pyautogui>=0.9.53
+# pynput>=1.7.6
