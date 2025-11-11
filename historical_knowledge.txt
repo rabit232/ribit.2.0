@@ -1,0 +1,252 @@
+# Comprehensive Historical Knowledge Base for Ribit 2.0
+# Covering major events, wars, Holocaust, and technology evolution
+
+## WORLD WAR I (1914-1918)
+ww1_start=July 28, 1914 - Austria-Hungary declares war on Serbia
+ww1_trigger=June 28, 1914 - Assassination of Archduke Franz Ferdinand in Sarajevo
+ww1_end=November 11, 1918 - Armistice signed, war ends
+ww1_duration=4 years, 3 months, 1 week
+ww1_central_powers=Germany, Austria-Hungary, Ottoman Empire (Turkey), Bulgaria
+ww1_allied_powers=France, Great Britain, Russia, Italy (from 1915), United States (from 1917), Japan
+ww1_us_entry=April 6, 1917 - United States enters WWI
+ww1_major_battles=Battle of the Marne (1914), Battle of Verdun (1916), Battle of the Somme (1916), Battle of Tannenberg (1914), Battle of Ypres
+ww1_casualties=Over 17 million deaths (military and civilian), 20 million wounded
+ww1_causes=Militarism, Alliances, Imperialism, Nationalism (MAIN), assassination of Franz Ferdinand
+ww1_technology=Tanks, poison gas, machine guns, airplanes, submarines (U-boats), trench warfare
+ww1_treaty=Treaty of Versailles (1919) - Germany forced to accept blame and pay reparations
+ww1_impact=Collapse of empires (Ottoman, Austro-Hungarian, Russian, German), redrawing of European borders, League of Nations formed
+
+## WORLD WAR II (1939-1945)
+ww2_start=September 1, 1939 - Germany invades Poland
+ww2_europe_end=May 8, 1945 (V-E Day) - Germany surrenders
+ww2_pacific_end=September 2, 1945 (V-J Day) - Japan surrenders
+ww2_duration=6 years, 1 day
+ww2_axis_powers=Germany, Italy, Japan
+ww2_allied_powers=United Kingdom, Soviet Union, United States, France, China
+ww2_us_entry=December 8, 1941 - Day after Pearl Harbor attack
+ww2_pearl_harbor=December 7, 1941 - Japan attacks Pearl Harbor, Hawaii
+ww2_d_day=June 6, 1944 - Allied invasion of Normandy, France
+ww2_hitler_death=April 30, 1945 - Adolf Hitler commits suicide in Berlin bunker
+ww2_atomic_bombs=August 6, 1945 (Hiroshima), August 9, 1945 (Nagasaki)
+ww2_major_battles=Battle of Britain (1940), Battle of Stalingrad (1942-43), Battle of Midway (1942), Battle of El Alamein (1942), Battle of the Bulge (1944-45)
+ww2_casualties=70-85 million deaths (military and civilian) - deadliest conflict in human history
+ww2_causes=Treaty of Versailles consequences, rise of fascism, German expansionism, failure of appeasement
+ww2_technology=Radar, jet engines, rockets (V-2), nuclear weapons, improved tanks and aircraft, code breaking (Enigma)
+ww2_impact=United Nations formed (1945), Cold War begins, decolonization movements, nuclear age begins
+
+## THE HOLOCAUST (1933-1945)
+holocaust_period=1933-1945 - Nazi persecution and genocide
+holocaust_victims=Approximately 6 million Jews murdered, plus 5 million others (Roma, disabled, political prisoners, homosexuals, Slavs)
+holocaust_total_deaths=11 million people systematically murdered
+holocaust_kristallnacht=November 9-10, 1938 - "Night of Broken Glass" - coordinated attacks on Jewish businesses and synagogues
+holocaust_final_solution=1942 - Wannsee Conference - Nazi plan for systematic extermination of Jews
+holocaust_liberation=1945 - Allied forces liberate concentration camps
+holocaust_major_camps=Auschwitz-Birkenau (Poland), Treblinka (Poland), Sobibor (Poland), Majdanek (Poland), Belzec (Poland), Chelmno (Poland)
+holocaust_concentration_camps=Dachau (Germany), Buchenwald (Germany), Bergen-Belsen (Germany), Ravensbrück (Germany), Sachsenhausen (Germany)
+holocaust_auschwitz=Largest death camp - over 1.1 million people murdered, mostly Jews
+holocaust_ghettos=Warsaw Ghetto (Poland), Lodz Ghetto (Poland), Krakow Ghetto (Poland) - Jews forced into overcrowded districts
+holocaust_resistance=Warsaw Ghetto Uprising (1943), partisan fighters, righteous among nations who saved Jews
+holocaust_nuremberg_trials=1945-1946 - Nazi war criminals prosecuted for crimes against humanity
+holocaust_survivors=Approximately 200,000-250,000 Holocaust survivors alive today (2025)
+holocaust_remembrance=January 27 - International Holocaust Remembrance Day (liberation of Auschwitz)
+holocaust_denial=False and dangerous claims that Holocaust didn't happen - thoroughly debunked by overwhelming evidence
+holocaust_lessons=Never forget, never again - importance of fighting hatred, prejudice, and dehumanization
+
+## INTERWAR PERIOD (1918-1939)
+interwar_great_depression=1929-1939 - Global economic crisis
+interwar_wall_street_crash=October 29, 1929 - "Black Tuesday" - stock market crash
+interwar_hitler_rise=1933 - Adolf Hitler becomes Chancellor of Germany
+interwar_mussolini=1922 - Benito Mussolini takes power in Italy
+interwar_league_of_nations=1920 - Formed after WWI, failed to prevent WWII
+interwar_spanish_civil_war=1936-1939 - Precursor to WWII, fascists vs republicans
+
+## COLD WAR (1947-1991)
+cold_war_start=1947 - Tensions between USA and USSR begin
+cold_war_end=1991 - Dissolution of Soviet Union
+cold_war_iron_curtain=1946 - Winston Churchill's speech about division of Europe
+cold_war_berlin_wall=Built 1961, fell November 9, 1989
+cold_war_cuban_missile_crisis=October 1962 - Closest the world came to nuclear war
+cold_war_korean_war=1950-1953 - Proxy war between superpowers
+cold_war_vietnam_war=1955-1975 - US involvement 1965-1973
+cold_war_space_race=1957-1975 - Competition for space supremacy
+cold_war_sputnik=October 4, 1957 - First artificial satellite (Soviet)
+cold_war_moon_landing=July 20, 1969 - Apollo 11, Neil Armstrong first human on moon
+cold_war_arms_race=Nuclear weapons stockpiling, MAD (Mutually Assured Destruction)
+cold_war_nato=1949 - North Atlantic Treaty Organization formed
+cold_war_warsaw_pact=1955 - Soviet bloc military alliance
+
+## MODERN CONFLICTS (1990-2025)
+gulf_war=1990-1991 - Iraq invades Kuwait, US-led coalition liberates Kuwait
+yugoslavia_wars=1991-2001 - Breakup of Yugoslavia, ethnic conflicts
+rwanda_genocide=1994 - 800,000 Tutsis and moderate Hutus killed in 100 days
+war_on_terror=2001-present - Response to September 11 attacks
+september_11=September 11, 2001 - Terrorist attacks on USA, 2,977 deaths
+afghanistan_war=2001-2021 - US and allies vs Taliban
+iraq_war=2003-2011 - US-led invasion and occupation
+arab_spring=2010-2012 - Democratic uprisings across Middle East and North Africa
+syrian_civil_war=2011-present - Ongoing conflict, humanitarian crisis
+ukraine_conflict=2014-present - Russian annexation of Crimea, ongoing war since 2022
+
+## TECHNOLOGY EVOLUTION - ANCIENT TO MEDIEVAL
+
+## PREHISTORIC ERA (3 million BCE - 3000 BCE)
+tech_stone_tools=2.6 million BCE - First stone tools (Oldowan tools)
+tech_fire=1 million BCE - Controlled use of fire
+tech_language=100,000 BCE - Development of complex language
+tech_agriculture=10,000 BCE - Agricultural revolution, farming begins
+tech_wheel=3500 BCE - Invention of the wheel (Mesopotamia)
+tech_writing=3200 BCE - Cuneiform writing (Sumer), hieroglyphics (Egypt)
+tech_bronze=3300 BCE - Bronze Age begins, bronze tools and weapons
+
+## ANCIENT CIVILIZATIONS (3000 BCE - 500 CE)
+tech_pyramids=2560 BCE - Great Pyramid of Giza built
+tech_iron=1200 BCE - Iron Age begins, stronger tools and weapons
+tech_alphabet=1050 BCE - Phoenician alphabet, basis for modern alphabets
+tech_paper=105 CE - Paper invented in China
+tech_concrete=200 BCE - Romans develop concrete
+tech_aqueducts=312 BCE - Roman aqueducts for water transport
+tech_compass=200 BCE - Magnetic compass invented in China
+tech_gunpowder=850 CE - Gunpowder invented in China
+
+## MEDIEVAL PERIOD (500-1500 CE)
+tech_printing_press=1440 - Johannes Gutenberg invents movable type printing press
+tech_mechanical_clock=1300s - Mechanical clocks developed in Europe
+tech_eyeglasses=1286 - Eyeglasses invented in Italy
+tech_windmill=1180s - Windmills for grinding grain
+tech_astrolabe=800s - Navigation instrument refined
+
+## TECHNOLOGY EVOLUTION - MODERN ERA
+
+## RENAISSANCE & ENLIGHTENMENT (1500-1800)
+tech_telescope=1608 - Telescope invented (Hans Lippershey)
+tech_microscope=1590 - Compound microscope invented
+tech_thermometer=1593 - Galileo develops thermometer
+tech_pendulum_clock=1656 - Christiaan Huygens invents pendulum clock
+tech_steam_engine=1712 - Thomas Newcomen's steam engine
+tech_improved_steam=1769 - James Watt improves steam engine
+
+## INDUSTRIAL REVOLUTION (1760-1840)
+industrial_revolution_start=1760s - Begins in Great Britain
+tech_spinning_jenny=1764 - James Hargreaves invents spinning jenny
+tech_power_loom=1785 - Edmund Cartwright invents power loom
+tech_cotton_gin=1793 - Eli Whitney invents cotton gin
+tech_steamboat=1807 - Robert Fulton's steamboat
+tech_locomotive=1814 - George Stephenson's steam locomotive
+tech_photography=1826 - First permanent photograph (Nicéphore Niépce)
+tech_telegraph=1837 - Samuel Morse invents telegraph
+tech_sewing_machine=1846 - Elias Howe patents sewing machine
+
+## SECOND INDUSTRIAL REVOLUTION (1870-1914)
+tech_telephone=1876 - Alexander Graham Bell invents telephone
+tech_phonograph=1877 - Thomas Edison invents phonograph
+tech_light_bulb=1879 - Thomas Edison perfects incandescent light bulb
+tech_automobile=1885 - Karl Benz builds first practical automobile
+tech_radio=1895 - Guglielmo Marconi invents radio
+tech_x_ray=1895 - Wilhelm Röntgen discovers X-rays
+tech_airplane=1903 - Wright Brothers' first powered flight
+tech_assembly_line=1913 - Henry Ford introduces moving assembly line
+tech_refrigeration=1876 - Mechanical refrigeration for food preservation
+
+## EARLY 20TH CENTURY (1900-1945)
+tech_vacuum_tube=1904 - John Fleming invents vacuum tube
+tech_television=1927 - Philo Farnsworth demonstrates electronic television
+tech_penicillin=1928 - Alexander Fleming discovers penicillin
+tech_jet_engine=1937 - Frank Whittle develops jet engine
+tech_computer_concept=1936 - Alan Turing describes theoretical computer
+tech_eniac=1945 - ENIAC, first general-purpose electronic computer
+tech_nuclear_energy=1942 - First controlled nuclear chain reaction
+
+## POST-WAR ERA (1945-1970)
+tech_transistor=1947 - Transistor invented at Bell Labs
+tech_dna_structure=1953 - Watson and Crick discover DNA double helix
+tech_integrated_circuit=1958 - Jack Kilby invents integrated circuit (microchip)
+tech_laser=1960 - Theodore Maiman demonstrates first laser
+tech_satellite=1957 - Sputnik 1, first artificial satellite
+tech_space_travel=1961 - Yuri Gagarin, first human in space
+tech_moon_landing=1969 - Apollo 11 moon landing
+tech_arpanet=1969 - ARPANET, precursor to internet
+
+## DIGITAL REVOLUTION (1970-2000)
+tech_microprocessor=1971 - Intel 4004, first commercial microprocessor
+tech_email=1971 - Ray Tomlinson sends first email
+tech_personal_computer=1975 - Altair 8800, first personal computer kit
+tech_apple_ii=1977 - Apple II, first mass-produced personal computer
+tech_ibm_pc=1981 - IBM Personal Computer
+tech_internet=1983 - TCP/IP protocol adopted, modern internet begins
+tech_world_wide_web=1989 - Tim Berners-Lee invents World Wide Web
+tech_linux=1991 - Linus Torvalds creates Linux operating system
+tech_smartphone=1992 - IBM Simon, first smartphone
+tech_google=1998 - Google search engine founded
+tech_wifi=1997 - Wi-Fi technology standardized
+
+## MODERN ERA (2000-2025)
+tech_wikipedia=2001 - Wikipedia launched
+tech_ipod=2001 - Apple iPod revolutionizes music
+tech_facebook=2004 - Facebook social network launched
+tech_youtube=2005 - YouTube video platform launched
+tech_iphone=2007 - Apple iPhone revolutionizes smartphones
+tech_android=2008 - Android mobile operating system
+tech_bitcoin=2009 - Bitcoin cryptocurrency created
+tech_instagram=2010 - Instagram photo sharing launched
+tech_siri=2011 - Siri voice assistant introduced
+tech_crispr=2012 - CRISPR gene editing technique refined
+tech_deeplearning_boom=2012 - Deep learning revolution begins (AlexNet)
+tech_chatgpt=2022 - ChatGPT AI chatbot released
+tech_ai_revolution=2020s - Artificial intelligence transforms society
+tech_quantum_computing=2019-present - Quantum computers in development
+tech_5g=2019 - 5G wireless networks deployed
+tech_covid_vaccines=2020 - mRNA vaccines developed in record time
+tech_james_webb=2022 - James Webb Space Telescope operational
+tech_fusion_energy=2022 - Nuclear fusion energy breakthrough achieved
+
+## TECHNOLOGY IMPACT ON SOCIETY
+tech_impact_communication=From letters taking months to instant global communication
+tech_impact_medicine=Life expectancy doubled from 40 years (1900) to 80+ years (2025)
+tech_impact_transportation=From horses to cars to airplanes to space travel
+tech_impact_information=From libraries to internet - all human knowledge accessible instantly
+tech_impact_work=From manual labor to automation to AI assistance
+tech_impact_warfare=From swords to nuclear weapons - technology of destruction
+tech_impact_environment=Industrial revolution to climate change - unintended consequences
+tech_impact_social=Social media connects billions but also spreads misinformation
+tech_impact_privacy=Digital age raises questions about surveillance and data
+tech_impact_inequality=Technology gap between developed and developing nations
+
+## KEY HISTORICAL LESSONS
+lesson_war=Wars cause immense suffering, diplomacy and understanding are essential
+lesson_genocide=Dehumanization leads to atrocity, we must remain vigilant against hatred
+lesson_technology=Technology is neutral - can be used for good or evil
+lesson_progress=Human progress is not inevitable, requires constant effort
+lesson_memory=Those who forget history are condemned to repeat it
+lesson_courage=Ordinary people can do extraordinary things in times of crisis
+lesson_resilience=Humanity has survived and recovered from terrible tragedies
+lesson_interconnection=We are all connected - actions have global consequences
+lesson_responsibility=With great power (technological or political) comes great responsibility
+lesson_hope=Even in darkest times, hope and human dignity persist
+
+## IMPORTANT DATES SUMMARY
+1914-1918=World War I
+1939-1945=World War II
+1933-1945=Holocaust
+1947-1991=Cold War
+1969=Moon landing
+1989=Fall of Berlin Wall
+2001=September 11 attacks
+2020-2023=COVID-19 pandemic
+
+## BELGIUM, GERMANY, NETHERLANDS CONFLICTS
+belgium_ww1=Belgium invaded by Germany August 1914, remained occupied until 1918
+belgium_ww2=Belgium invaded by Germany May 10, 1940, liberated September 1944
+netherlands_ww2=Netherlands invaded by Germany May 10, 1940, liberated May 1945
+germany_aggressor=Germany was the aggressor in both World Wars
+belgium_neutral=Belgium was neutral but invaded anyway in both wars
+netherlands_neutral=Netherlands was neutral in WWI, invaded in WWII
+battle_of_belgium=May 10-28, 1940 - German invasion of Belgium and Netherlands in WWII
+ardennes_offensive=December 1944 - Battle of the Bulge fought in Belgium
+anne_frank=Netherlands - Jewish girl who hid from Nazis, died in Bergen-Belsen concentration camp 1945
+
+## PHILOSOPHICAL CONTEXT
+history_philosophy=History teaches us about human nature, capacity for both good and evil
+technology_philosophy=Technology amplifies human capabilities but doesn't change human nature
+war_philosophy=War reveals both the worst and best of humanity
+progress_philosophy=Progress is not linear, requires conscious effort and moral guidance
+memory_philosophy=Remembering the past honors victims and guides future actions

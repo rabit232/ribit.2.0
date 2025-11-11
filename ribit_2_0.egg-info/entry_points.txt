@@ -1,0 +1,2 @@
+[console_scripts]
+ribit-2-0 = ribit_2_0.agent:main_cli
