@@ -20,6 +20,13 @@ try:
 except ImportError:
     MATRIX_NIO_AVAILABLE = False
     print("⚠️  Matrix nio library not available. Install with: pip install matrix-nio[e2e]")
+    # Create mock classes for type hints
+    class AsyncClient: pass
+    class MatrixRoom: pass
+    class RoomMessageText: pass
+    class LoginResponse: pass
+    class Event: pass
+    class Olm: pass
 
 # Import Ribit 2.0 components
 try:
