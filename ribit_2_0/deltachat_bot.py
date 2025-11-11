@@ -168,14 +168,22 @@ class DeltaChatRibotBot:
     ) -> Optional[str]:
         """Process message and generate response."""
         try:
+            context = self.conversation_context.get(chat_id, [])
             self._add_to_context(chat_id, f"User ({sender_name}): {text}")
 
             if self.llm:
-                response = self.llm.get_decision(text)
+                # Use Megabite's specific method
+                if hasattr(self.llm, 'generate_response'):
+                    response = self.llm.generate_response(text, context)
+                # Fallback to Ribit's method
+                elif hasattr(self.llm, 'get_decision'):
+                    response = self.llm.get_decision(text)
+                else:
+                    response = f"LLM Error: Unknown response method."
             else:
                 response = f"Echo: {text}"
 
-            self._add_to_context(chat_id, f"Ribit: {response}")
+            self._add_to_context(chat_id, f"Bot: {response}")
 
             if self.enable_bridge and self.bridge_relay:
                 await self.bridge_relay.relay_from_deltachat(
@@ -225,7 +233,12 @@ class DeltaChatRibotBot:
                     break
 
                 if self.llm:
-                    response = self.llm.get_decision(user_input)
+                    if hasattr(self.llm, 'generate_response'):
+                        response = self.llm.generate_response(user_input, [])
+                    elif hasattr(self.llm, 'get_decision'):
+                        response = self.llm.get_decision(user_input)
+                    else:
+                        response = f"LLM Error: Unknown response method."
                 else:
                     response = f"Mock response: {user_input}"
 
@@ -285,7 +298,7 @@ class DeltaChatRibotBot:
         print(f"✅ Display Name: {self.config.display_name}")
         print(f"✅ Bridge Enabled: {self.enable_bridge}")
         if self.llm:
-            print("✅ LLM: Ribit 2.0")
+            print(f"✅ LLM: {self.llm.name}")
         print("")
         print("🚀 Ready to receive messages!")
         print("=" * 60)
@@ -299,12 +312,17 @@ async def main():
     )
 
     try:
-        from .mock_llm_wrapper import MockRibit20LLM
-
-        llm = MockRibit20LLM()
+        from .megabite_llm import MegabiteLLM
+        llm = MegabiteLLM()
+        logger.info("Using MegabiteLLM for DeltaChat Bot.")
     except Exception as e:
-        logger.warning(f"Could not initialize LLM: {e}")
-        llm = None
+        logger.warning(f"Could not initialize MegabiteLLM: {e}. Falling back to MockRibit20LLM.")
+        try:
+            from .mock_llm_wrapper import MockRibit20LLM
+            llm = MockRibit20LLM()
+        except Exception as e2:
+            logger.error(f"Could not initialize any LLM: {e2}")
+            llm = None
 
     bot = DeltaChatRibotBot(config, llm=llm)
     await bot.start()

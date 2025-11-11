@@ -45,7 +45,7 @@ except ImportError:
         """Mock InviteMemberEvent for type annotations when matrix-nio is not installed."""
         pass
 
-from .mock_llm_wrapper import MockRibit20LLM
+# # from .mock_llm_wrapper import MockRibit20LLM
 from .controller import VisionSystemController
 
 # Configure logging
@@ -80,7 +80,15 @@ class RibitMatrixBot:
         }
         
         # Initialize components
-        self.llm = MockRibit20LLM("ribit_matrix_knowledge.txt")
+        try:
+            from .megabite_llm import MegabiteLLM
+            self.llm = MegabiteLLM()
+            logger.info("Using MegabiteLLM for Matrix Bot.")
+        except ImportError:
+            logger.warning("MegabiteLLM not found. Falling back to MockRibit20LLM.")
+            from .mock_llm_wrapper import MockRibit20LLM
+            self.llm = MockRibit20LLM("ribit_matrix_knowledge.txt")
+        
         self.controller = VisionSystemController()
         
         # Initialize enhanced intelligence systems
@@ -193,7 +201,7 @@ class RibitMatrixBot:
         """Run in mock mode when Matrix libraries are not available."""
         print("🤖 Ribit 2.0 Matrix Bot - Mock Mode")
         print("=" * 50)
-        print("✅ MockRibit20LLM: Initialized")
+        print(f"✅ LLM: {self.llm.name} Initialized")
         print("✅ Controller: Ready")
         print("⚠️  Matrix: Running in mock mode")
         print("📝 Authorized users:", ", ".join(self.authorized_users))
@@ -208,7 +216,9 @@ class RibitMatrixBot:
                 
                 # Simulate message processing
                 mock_user = "@test:matrix.example.com"
-                response = await self._process_message(user_input, mock_user, "!mock_room")
+                # Prepend bot name to ensure _is_message_for_bot returns True
+                mock_message = f"{self.bot_name}: {user_input}"
+                response = await self._process_message(mock_message, mock_user, "!mock_room")
                 print(f"🤖 Ribit: {response}")
                 
             except KeyboardInterrupt:
@@ -391,23 +401,27 @@ class RibitMatrixBot:
             self._add_to_context(room_id, f"User: {clean_message}")
             
             # Get AI response
-            ai_response = self.llm.get_decision(clean_message)
+            context = self.conversation_context.get(room_id, [])
+            
+            if hasattr(self.llm, 'generate_response'):
+                ai_response = self.llm.generate_response(clean_message, context)
+            elif hasattr(self.llm, 'get_decision'):
+                ai_response = self.llm.get_decision(clean_message, context)
+            else:
+                ai_response = f"LLM Error: Unknown response method."
             
             # Clean up the response (remove action commands if present)
+            # Megabite's response is a single line, so this cleanup is mostly for Ribit's old format.
             if '\n' in ai_response:
                 # Extract just the text content, not the action commands
                 lines = ai_response.split('\n')
                 text_lines = [line for line in lines if not line.startswith(('type_text', 'press_key', 'store_knowledge', 'goal_achieved', 'uncertain'))]
-                if text_lines:
-                    ai_response = ' '.join(text_lines).strip()
-                else:
-                    # Extract from type_text if that's all we have
-                    for line in lines:
-                        if line.startswith('type_text'):
-                            match = re.search(r"type_text\('(.+?)'\)", line)
-                            if match:
-                                ai_response = match.group(1)
-                                break
+                ai_response = "\n".join(text_lines).strip()
+            
+            # Add bot response to context
+            self._add_to_context(room_id, f"Bot: {ai_response}")
+            
+            return ai_response
             
             # Add humor if appropriate
             try:

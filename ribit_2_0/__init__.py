@@ -1,14 +1,3 @@
-"""
-Ribit 2.0: Enhanced AI Agent with Production-Ready LLM Emulator
-
-An elegant, wise, and knowledgeable AI agent for GUI automation and robotic control
-with advanced emotional intelligence, ROS integration, Matrix bot capabilities,
-and Jina.ai-powered internet search.
-
-Author: Manus AI & rabit232
-Version: 2.0.0
-"""
-
 try:
     from .agent import Ribit20Agent, main_async, main_cli
 except Exception as e:
@@ -73,15 +62,19 @@ except Exception as e:
     ConversationMessage = None
     ConversationSummary = None
 
+try:
+    from .megabite_llm import MegabiteLLM
+except Exception as e:
+    print(f"Warning: Could not import MegabiteLLM: {e}")
+    MegabiteLLM = None
+
 __version__ = "2.0.0"
 __author__ = "Manus AI & rabit232"
 __email__ = "contact@manus.im"
 __description__ = "Enhanced AI agent with production-ready LLM emulator and emotional intelligence"
 
-# Core classes for easy import - only add successfully imported modules
 _all_exports = []
 
-# Add optional exports if they were successfully imported
 if Ribit20Agent is not None:
     _all_exports.append("Ribit20Agent")
 if VisionSystemController is not None:
@@ -106,10 +99,11 @@ if JinaSearchEngine is not None:
     _all_exports.append("JinaSearchEngine")
 if AdvancedConversationManager is not None:
     _all_exports.extend(["AdvancedConversationManager", "ConversationMessage", "ConversationSummary"])
+if MegabiteLLM is not None:
+    _all_exports.append("MegabiteLLM")
 
 __all__ = _all_exports
 
-# Package metadata
 __package_info__ = {
     "name": "ribit_2_0",
     "version": __version__,
@@ -127,5 +121,3 @@ __package_info__ = {
         "Operating System :: OS Independent",
     ]
 }
-
-
