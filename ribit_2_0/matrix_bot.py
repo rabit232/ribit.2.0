@@ -60,8 +60,7 @@ class RibitMatrixBot:
     with user authentication and command restrictions.
     """
     
-    def __init__(self, homeserver: str, username: str, password: str, 
-                 authorized_users: Set[str] = None):
+    def __init__(self, homeserver: str, username: str, password: str, authorized_users: Optional[Set[str]] = None, enable_bridge: bool = False):
         """
         Initialize the Ribit Matrix Bot.
         
@@ -90,6 +89,8 @@ class RibitMatrixBot:
             self.llm = MockRibit20LLM("ribit_matrix_knowledge.txt")
         
         self.controller = VisionSystemController()
+        self.enable_bridge = enable_bridge or os.getenv("ENABLE_BRIDGE", "False").lower() == "true"
+        self.bridge_relay: Optional[BridgeRelay] = None # Will be set by external bridge runner
         
         # Initialize enhanced intelligence systems
         try:
@@ -316,6 +317,18 @@ class RibitMatrixBot:
             
             # Clean the message
             clean_message = self._clean_message(message)
+
+            # --- 1. Handle 'post note' command for cross-platform relay ---
+            if self.enable_bridge and self.bridge_relay and clean_message.lower().startswith("post note"):
+                note_content = clean_message[len("post note"):].strip()
+                if note_content:
+                    # Relay the message to the other platform via the bridge
+                    relay_status = await self.bridge_relay.handle_post_note(
+                        sender, "Matrix", note_content
+                    )
+                    return f"✅ Post Note relayed. {relay_status}"
+                else:
+                    return "❌ Post Note command requires a message. Usage: 'post note <message>'"
             
             # Handle special commands
             if clean_message.startswith('?'):

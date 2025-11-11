@@ -63,7 +63,7 @@ class DeltaChatRibotBot:
         self.chat = None
         self.conversation_context: Dict[int, List[str]] = {}
         self.message_handlers: Dict[str, Callable] = {}
-        self.bridge_relay = None
+        self.bridge_relay: Optional[BridgeRelay] = None
 
         logger.info(f"DeltaChat Bot initialized for {config.email}")
 
@@ -168,6 +168,19 @@ class DeltaChatRibotBot:
     ) -> Optional[str]:
         """Process message and generate response."""
         try:
+            # --- 1. Handle 'post note' command for cross-platform relay ---
+            if self.enable_bridge and self.bridge_relay and text.lower().startswith("post note"):
+                note_content = text[len("post note"):].strip()
+                if note_content:
+                    # Relay the message to the other platform via the bridge
+                    relay_status = await self.bridge_relay.handle_post_note(
+                        sender_name, "DeltaChat", note_content
+                    )
+                    return f"✅ Post Note relayed. {relay_status}"
+                else:
+                    return "❌ Post Note command requires a message. Usage: 'post note <message>'"
+
+            # --- 2. Normal LLM processing ---
             context = self.conversation_context.get(chat_id, [])
             self._add_to_context(chat_id, f"User ({sender_name}): {text}")
 
@@ -184,11 +197,6 @@ class DeltaChatRibotBot:
                 response = f"Echo: {text}"
 
             self._add_to_context(chat_id, f"Bot: {response}")
-
-            if self.enable_bridge and self.bridge_relay:
-                await self.bridge_relay.relay_from_deltachat(
-                    sender_email, sender_name, text, chat_id
-                )
 
             return response
 
