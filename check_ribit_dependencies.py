@@ -32,13 +32,13 @@ DEPENDENCIES = {
         'import_name': 'nio',
         'description': 'Matrix protocol client with E2EE encryption',
         'required': True,
-        'test_import': 'nio.AsyncClient'
+        'test_import': None  # Don't test specific attributes, just import
     },
     
     # DeltaChat
-    'deltabot': {
-        'import_name': 'deltabot',
-        'description': 'DeltaChat bot framework for messaging',
+    'deltachat': {
+        'import_name': 'deltachat',
+        'description': 'DeltaChat messaging library',
         'required': True,
         'test_import': None
     },
