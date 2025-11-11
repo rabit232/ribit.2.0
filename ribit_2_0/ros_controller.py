@@ -27,8 +27,9 @@ try:
     from geometry_msgs.msg import Twist, Point, Pose
     from sensor_msgs.msg import Image, CompressedImage
     ROS_VERSION = 2
-    logger.info("ROS 2 detected and imported successfully")
-except ImportError:
+    logger.info("ROS 2 (rclpy) detected and imported successfully")
+except ImportError as e_ros2:
+    logger.debug(f"ROS 2 import failed: {e_ros2}")
     # Fall back to ROS 1
     try:
         import rospy
@@ -36,8 +37,9 @@ except ImportError:
         from geometry_msgs.msg import Twist, Point, Pose
         from sensor_msgs.msg import Image, CompressedImage
         ROS_VERSION = 1
-        logger.info("ROS 1 detected and imported successfully")
-    except ImportError:
+        logger.info("ROS 1 (rospy) detected and imported successfully")
+    except ImportError as e_ros1:
+        logger.debug(f"ROS 1 import failed: {e_ros1}")
         # No ROS available - create mock classes for development
         logger.warning("No ROS installation detected. Creating mock ROS interface.")
         ROS_VERSION = 0

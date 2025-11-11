@@ -4,6 +4,10 @@ from typing import Dict, Any, List
 
 logger = logging.getLogger(__name__)
 
+# Megabite Dependency Check (Simulated)
+MEGABITE_CORE_FILE = os.path.join(os.path.dirname(__file__), "megabite_core_v1.bin")
+MEGABITE_AVAILABLE = os.path.exists(MEGABITE_CORE_FILE)
+
 class MegabiteLLM:
     """
     Megabite LLM - A voxel-based language model for Ribit 2.0.
@@ -21,7 +25,21 @@ class MegabiteLLM:
             os.path.join(os.path.dirname(__file__), "ribit_knowledge.txt") # Assuming ribit_knowledge is here
         ]
         self._load_knowledge()
-        logger.info(f"{self.name} LLM initialized with voxel core.")
+        if MEGABITE_AVAILABLE:
+            logger.info(f"{self.name} LLM initialized with voxel core. Core file found.")
+        else:
+            logger.warning(f"{self.name} LLM initialized in MOCK mode. Core file not found at {MEGABITE_CORE_FILE}.")
+
+    @staticmethod
+    def check_status() -> Dict[str, Any]:
+        """Returns a diagnostic status of the Megabite LLM."""
+        status = {
+            "name": "MegabiteLLM",
+            "available": MEGABITE_AVAILABLE,
+            "core_file_path": MEGABITE_CORE_FILE,
+            "status_message": "Core file found." if MEGABITE_AVAILABLE else "Core file missing. Running in simulated mode."
+        }
+        return status
 
     def _load_knowledge(self):
         """Loads Megabite's own knowledge and Ribit's knowledge for context."""

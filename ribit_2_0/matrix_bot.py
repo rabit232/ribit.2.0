@@ -203,6 +203,13 @@ class RibitMatrixBot:
         print("🤖 Ribit 2.0 Matrix Bot - Mock Mode")
         print("=" * 50)
         print(f"✅ LLM: {self.llm.name} Initialized")
+        
+        # Megabite Status Check
+        if self.llm.__class__.__name__ == "MegabiteLLM":
+            from .megabite_llm import MegabiteLLM
+            megabite_status = MegabiteLLM.check_status()
+            print(f"✅ Megabite Core: {megabite_status['status_message']}")
+            
         print("✅ Controller: Ready")
         print("⚠️  Matrix: Running in mock mode")
         print("📝 Authorized users:", ", ".join(self.authorized_users))

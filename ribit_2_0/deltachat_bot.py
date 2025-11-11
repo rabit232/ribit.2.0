@@ -307,6 +307,13 @@ class DeltaChatRibotBot:
         print(f"✅ Bridge Enabled: {self.enable_bridge}")
         if self.llm:
             print(f"✅ LLM: {self.llm.name}")
+            print(f"✅ LLM Type: {self.llm.__class__.__name__}")
+            
+            # Megabite Status Check
+            if self.llm.__class__.__name__ == "MegabiteLLM":
+                from .megabite_llm import MegabiteLLM
+                megabite_status = MegabiteLLM.check_status()
+                print(f"✅ Megabite Core: {megabite_status['status_message']}")
         print("")
         print("🚀 Ready to receive messages!")
         print("=" * 60)

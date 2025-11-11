@@ -13,8 +13,16 @@ try:
     # Check if DISPLAY is actually set, as pyautogui can be installed but not functional
     if 'DISPLAY' in os.environ:
         HAS_GUI_LIBS_CONTROLLER = True
+        logger.info("DISPLAY environment variable is set. GUI libraries are active.")
     else:
-        raise KeyError("DISPLAY environment variable not set.")
+        # Check for Xvfb/Virtual Display setup
+        try:
+            subprocess.run(['which', 'Xvfb'], check=True, capture_output=True)
+            logger.warning("DISPLAY not set, but Xvfb is installed. Please ensure Xvfb is running and DISPLAY is exported for GUI control.")
+            raise KeyError("DISPLAY environment variable not set.")
+        except subprocess.CalledProcessError:
+            logger.warning("DISPLAY not set and Xvfb not found. Running in full headless/mock mode.")
+            raise KeyError("DISPLAY environment variable not set.")
 except (ImportError, KeyError) as e:
     logger.warning(f"Controller: Could not import GUI libraries (pyautogui/pynput) or DISPLAY not set: {e}. Using mock controller functionality.")
     pyautogui = None
