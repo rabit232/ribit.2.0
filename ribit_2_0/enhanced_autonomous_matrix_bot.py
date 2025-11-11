@@ -12,9 +12,22 @@ Integrates:
 import asyncio
 import logging
 from typing import Dict, List, Any, Optional
-from nio import AsyncClient, MatrixRoom, RoomMessageText, InviteMemberEvent
 import os
 import sys
+
+# Try to import matrix-nio with graceful fallback
+try:
+    from nio import AsyncClient, MatrixRoom, RoomMessageText, InviteMemberEvent
+    MATRIX_NIO_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: matrix-nio not properly installed: {e}")
+    print("Please install with: pip3 install matrix-nio[e2e] --break-system-packages")
+    MATRIX_NIO_AVAILABLE = False
+    # Create mock classes for type hints
+    class AsyncClient: pass
+    class MatrixRoom: pass
+    class RoomMessageText: pass
+    class InviteMemberEvent: pass
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -740,6 +753,19 @@ Commands: ?status, ?sys, ?tasks, ?opinion <topic>, ?discuss <topic>, ?learn/?his
 
 async def main():
     """Main entry point."""
+    # Check if matrix-nio is available
+    if not MATRIX_NIO_AVAILABLE:
+        print("\n" + "="*70)
+        print("❌ Matrix-nio Library Not Available")
+        print("="*70)
+        print("\nThe matrix-nio library is required but not properly installed.")
+        print("\nPlease install it with:")
+        print("  pip3 install 'matrix-nio[e2e]' --break-system-packages")
+        print("\nOr install all dependencies:")
+        print("  pip3 install -r requirements.txt --break-system-packages")
+        print("\n" + "="*70 + "\n")
+        return
+    
     # Load configuration from environment
     homeserver = os.getenv("MATRIX_HOMESERVER", "https://anarchists.space")
     user_id = os.getenv("MATRIX_USER_ID")

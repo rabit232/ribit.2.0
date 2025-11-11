@@ -26,7 +26,9 @@ fi
 
 # Load .env file
 echo "Loading credentials from .env..."
-export $(cat .env | grep -v '^#' | xargs)
+set -a
+source <(cat .env | grep -v '^#' | grep -v '^$')
+set +a
 
 # Check if required variables are set
 if [ -z "$MATRIX_USER_ID" ] || [ -z "$MATRIX_ACCESS_TOKEN" ]; then
