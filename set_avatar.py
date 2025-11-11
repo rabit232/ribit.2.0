@@ -84,8 +84,8 @@ async def set_avatar(homeserver, user_id, access_token, avatar_path):
 async def main():
     """Main function"""
     # Get credentials from environment or .env file
-    homeserver = os.getenv('MATRIX_HOMESERVER', 'https://anarchists.space')
-    user_id = os.getenv('MATRIX_USER_ID', '@rabit233:anarchists.space')
+    homeserver = os.getenv('MATRIX_HOMESERVER', 'https://matrix.envs.net')
+    user_id = os.getenv('MATRIX_USER_ID', '@ribit:envs.net')
     access_token = os.getenv('MATRIX_ACCESS_TOKEN')
     
     if not access_token:

@@ -36,8 +36,8 @@ def setup_logging(level: str = "INFO"):
 def load_environment_config():
     """Load configuration from environment variables"""
     config = {
-        'homeserver': os.getenv('MATRIX_HOMESERVER', 'https://anarchists.space'),
-        'user_id': os.getenv('MATRIX_USER_ID', '@ribit.2.0:matrix.anarchists.space'),
+        'homeserver': os.getenv('MATRIX_HOMESERVER', 'https://matrix.envs.net'),
+        'user_id': os.getenv('MATRIX_USER_ID', '@ribit:envs.net'),
         'password': os.getenv('MATRIX_PASSWORD'),
         'device_id': os.getenv('MATRIX_DEVICE_ID', 'RIBIT_2_0_SECURE'),
         'storage_path': os.getenv('E2EE_STORAGE_PATH', 'ribit_secure_storage'),
@@ -192,7 +192,7 @@ async def test_e2ee_functionality(integration):
         try:
             response = await integration.handle_command(
                 command=command,
-                sender="@rabit233:matrix.anarchists.space",
+                sender="@ribit:envs.net",
                 room_id="!test:matrix.anarchists.space",
                 encryption_level=EncryptionLevel.ENHANCED
             )

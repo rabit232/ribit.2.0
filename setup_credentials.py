@@ -129,13 +129,13 @@ def setup_matrix_credentials(existing_env):
     env_vars = existing_env.copy()
     
     # Homeserver
-    default_homeserver = env_vars.get('MATRIX_HOMESERVER', 'https://anarchists.space')
+    default_homeserver = env_vars.get('MATRIX_HOMESERVER', 'https://matrix.envs.net')
     homeserver = input(f"{BOLD}Matrix Homeserver [{CYAN}{default_homeserver}{RESET}]: ").strip()
     env_vars['MATRIX_HOMESERVER'] = homeserver if homeserver else default_homeserver
     
     # User ID
     default_user = env_vars.get('MATRIX_USER_ID', '')
-    user_id = input(f"{BOLD}Matrix User ID (e.g., @username:anarchists.space) [{CYAN}{default_user}{RESET}]: ").strip()
+    user_id = input(f"{BOLD}Matrix User ID (e.g., @username:envs.net) [{CYAN}{default_user}{RESET}]: ").strip()
     env_vars['MATRIX_USER_ID'] = user_id if user_id else default_user
     
     # Authentication method choice

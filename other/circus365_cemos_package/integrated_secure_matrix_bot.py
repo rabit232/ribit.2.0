@@ -41,8 +41,8 @@ except ImportError:
 class IntegratedBotConfig:
     """Configuration for the integrated secure Matrix bot"""
     # Matrix connection
-    homeserver: str = "https://anarchists.space"
-    user_id: str = "@ribit.2.0:matrix.anarchists.space"
+    homeserver: str = "https://matrix.envs.net"
+    user_id: str = "@ribit:envs.net"
     device_id: str = "RIBIT_2_0_INTEGRATED_SECURE"
     
     # E2EE settings
@@ -68,7 +68,7 @@ class IntegratedBotConfig:
     def __post_init__(self):
         if self.authorized_users is None:
             self.authorized_users = [
-                "@rabit233:matrix.anarchists.space",
+                "@ribit:envs.net",
                 "@rabit232:envs.net"
             ]
 
@@ -540,7 +540,7 @@ class IntegratedSecureMatrixBot:
 • `emotion curious about space` - Contextual curiosity
 
 **🛡️ Authorization:**
-Only authorized users (@rabit233:matrix.anarchists.space, @rabit232:envs.net) can execute commands.
+Only authorized users (@ribit:envs.net, @rabit232:envs.net) can execute commands.
 
 **📊 Current Status:**
 • Messages Processed: {self.message_count}
@@ -906,8 +906,8 @@ async def run_integrated_secure_bot():
     
     # Configuration
     config = IntegratedBotConfig(
-        homeserver=os.getenv("MATRIX_HOMESERVER", "https://anarchists.space"),
-        user_id=os.getenv("MATRIX_USER_ID", "@ribit.2.0:matrix.anarchists.space"),
+        homeserver=os.getenv("MATRIX_HOMESERVER", "https://matrix.envs.net"),
+        user_id=os.getenv("MATRIX_USER_ID", "@ribit:envs.net"),
         device_id=os.getenv("MATRIX_DEVICE_ID", "RIBIT_2_0_INTEGRATED_SECURE"),
         enable_e2ee=True,
         enable_emotions=True,

@@ -40,9 +40,9 @@ class MatrixCommandHandler:
                 return [user.strip() for user in users.split(',') if user.strip()]
             elif isinstance(users, list):
                 return users
-            return ['@rabit233:matrix.anarchists.space', '@rabit232:envs.net']  # Default
+            return ['@ribit:envs.net', '@rabit232:envs.net']  # Default
         except:
-            return ['@rabit233:matrix.anarchists.space', '@rabit232:envs.net']
+            return ['@ribit:envs.net', '@rabit232:envs.net']
     
     def is_authorized(self, user_id: str) -> bool:
         """Check if user is authorized for system commands"""

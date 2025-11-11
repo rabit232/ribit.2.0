@@ -157,7 +157,7 @@ try:
     import subprocess
     project_dir = os.path.dirname(os.path.abspath(__file__))
     result = subprocess.run(
-        ["grep", "-r", "@rabit233:anarchists.space", ".", "--include=*.md"],
+        ["grep", "-r", "@ribit:envs.net", ".", "--include=*.md"],
         capture_output=True,
         text=True,
         cwd=project_dir
@@ -166,8 +166,8 @@ try:
     if result.returncode == 0 and result.stdout:
         count = len(result.stdout.strip().split('\n'))
         print(f"✓ Matrix account updated in {count} locations")
-        print(f"  New account: @rabit233:anarchists.space")
-        print(f"  New server: https://anarchists.space")
+        print(f"  New account: @ribit:envs.net")
+        print(f"  New server: https://matrix.envs.net")
     else:
         print("⚠ Matrix account not found in markdown files (this is OK)")
 

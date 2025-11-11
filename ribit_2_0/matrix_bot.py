@@ -77,7 +77,7 @@ class RibitMatrixBot:
         self.access_token = access_token
         self.use_token_auth = bool(access_token)
         self.authorized_users = authorized_users or {
-            "@rabit233:matrix.anarchists.space",
+            "@ribit:envs.net",
             "@rabit232:envs.net"
         }
         
@@ -924,8 +924,8 @@ I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. H
 async def main():
     """Main function to run the Ribit Matrix Bot."""
     # Configuration from environment variables
-    homeserver = os.getenv("MATRIX_HOMESERVER", "https://anarchists.space")
-    user_id = os.getenv("MATRIX_USER_ID") or os.getenv("MATRIX_USERNAME", "@ribit.2.0:matrix.anarchists.space")
+    homeserver = os.getenv("MATRIX_HOMESERVER", "https://matrix.envs.net")
+    user_id = os.getenv("MATRIX_USER_ID") or os.getenv("MATRIX_USERNAME", "@ribit:envs.net")
     password = os.getenv("MATRIX_PASSWORD", "")
     access_token = os.getenv("MATRIX_ACCESS_TOKEN", "")
     

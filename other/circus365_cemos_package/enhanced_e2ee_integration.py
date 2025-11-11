@@ -58,8 +58,8 @@ class EnhancedE2EEIntegration:
     
     def __init__(
         self,
-        homeserver: str = "https://anarchists.space",
-        user_id: str = "@ribit.2.0:matrix.anarchists.space",
+        homeserver: str = "https://matrix.envs.net",
+        user_id: str = "@ribit:envs.net",
         password: str = None,
         device_id: str = "RIBIT_2_0_E2EE_ENHANCED",
         storage_path: str = "ribit_e2ee_storage",
@@ -272,7 +272,7 @@ class EnhancedE2EEIntegration:
         try:
             # Check if sender is authorized
             authorized_users = [
-                "@rabit233:matrix.anarchists.space",
+                "@ribit:envs.net",
                 "@rabit232:envs.net"
             ]
             
@@ -574,7 +574,7 @@ async def test_enhanced_e2ee_integration():
             print(f"\n🧪 Testing command: {command}")
             response = await integration.handle_command(
                 command=command,
-                sender="@rabit233:matrix.anarchists.space",
+                sender="@ribit:envs.net",
                 room_id="!test:matrix.anarchists.space"
             )
             print(f"📝 Response: {response[:100]}...")

@@ -444,8 +444,8 @@ async def test_e2ee_comprehensive():
     try:
         # Initialize protocols for Alice and Bob
         print("👥 Initializing test users...")
-        alice = SimpleE2EEProtocol("@alice:matrix.anarchists.space", "alice_device_1")
-        bob = SimpleE2EEProtocol("@bob:matrix.anarchists.space", "bob_device_1")
+        alice = SimpleE2EEProtocol("@alice:matrix.envs.net", "alice_device_1")
+        bob = SimpleE2EEProtocol("@bob:matrix.envs.net", "bob_device_1")
         print("✅ Test users initialized\n")
         
         # Test messages

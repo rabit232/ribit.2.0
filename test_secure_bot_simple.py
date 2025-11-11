@@ -68,13 +68,13 @@ def test_environment_configuration():
     print("\n🔧 **Environment Configuration Test**\n")
     
     config = {
-        'MATRIX_HOMESERVER': os.getenv('MATRIX_HOMESERVER', 'https://anarchists.space'),
-        'MATRIX_USER_ID': os.getenv('MATRIX_USER_ID', '@ribit.2.0:matrix.anarchists.space'),
+        'MATRIX_HOMESERVER': os.getenv('MATRIX_HOMESERVER', 'https://matrix.envs.net'),
+        'MATRIX_USER_ID': os.getenv('MATRIX_USER_ID', '@ribit:envs.net'),
         'MATRIX_PASSWORD': os.getenv('MATRIX_PASSWORD'),
         'MATRIX_DEVICE_ID': os.getenv('MATRIX_DEVICE_ID', 'RIBIT_2_0_SECURE_TEST'),
         'E2EE_STORAGE_PATH': os.getenv('E2EE_STORAGE_PATH', 'ribit_test_storage'),
         'E2EE_DEFAULT_LEVEL': os.getenv('E2EE_DEFAULT_LEVEL', 'enhanced'),
-        'AUTHORIZED_USERS': os.getenv('AUTHORIZED_USERS', '@rabit233:matrix.anarchists.space,@rabit232:envs.net')
+        'AUTHORIZED_USERS': os.getenv('AUTHORIZED_USERS', '@ribit:envs.net,@rabit232:envs.net')
     }
     
     print("📋 Configuration Values:")
@@ -106,7 +106,7 @@ async def test_e2ee_integration():
         
         # Initialize E2EE protocol
         protocol = SimpleE2EEProtocol(
-            "@ribit.2.0:matrix.anarchists.space",
+            "@ribit:envs.net",
             "RIBIT_2_0_TEST_DEVICE",
             "test_integration_keys"
         )
@@ -149,7 +149,7 @@ async def test_e2ee_integration():
         # Test authorization simulation
         print("\n🛡️ Testing authorization simulation...")
         
-        authorized_users = ["@rabit233:matrix.anarchists.space", "@rabit232:envs.net"]
+        authorized_users = ["@ribit:envs.net", "@rabit232:envs.net"]
         unauthorized_users = ["@hacker:evil.com", "@unknown:suspicious.net"]
         
         def simulate_authorization_check(user_id: str) -> str:
@@ -176,7 +176,7 @@ def test_matrix_bot_simulation():
     try:
         # Simulate bot responses
         def simulate_bot_response(command: str, sender: str) -> str:
-            authorized_users = ["@rabit233:matrix.anarchists.space", "@rabit232:envs.net"]
+            authorized_users = ["@ribit:envs.net", "@rabit232:envs.net"]
             
             if sender not in authorized_users:
                 return "🔒 I can't do this silly thing."
@@ -207,12 +207,12 @@ def test_matrix_bot_simulation():
         
         # Test scenarios
         test_scenarios = [
-            ("@rabit233:matrix.anarchists.space", "help"),
-            ("@rabit233:matrix.anarchists.space", "status"),
-            ("@rabit233:matrix.anarchists.space", "security"),
-            ("@rabit233:matrix.anarchists.space", "open ms paint"),
-            ("@rabit233:matrix.anarchists.space", "draw a robot"),
-            ("@rabit233:matrix.anarchists.space", "search python tutorial"),
+            ("@ribit:envs.net", "help"),
+            ("@ribit:envs.net", "status"),
+            ("@ribit:envs.net", "security"),
+            ("@ribit:envs.net", "open ms paint"),
+            ("@ribit:envs.net", "draw a robot"),
+            ("@ribit:envs.net", "search python tutorial"),
             ("@hacker:evil.com", "help"),
             ("@hacker:evil.com", "status"),
             ("@unknown:suspicious.net", "open system files")

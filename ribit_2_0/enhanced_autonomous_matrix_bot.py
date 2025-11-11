@@ -122,7 +122,7 @@ class EnhancedAutonomousMatrixBot:
         
         # Authorized users
         self.authorized_users = [
-            "@rabit233:matrix.anarchists.space",
+            "@ribit:envs.net",
             "@rabit232:envs.net"
         ]
         
@@ -767,7 +767,7 @@ async def main():
         return
     
     # Load configuration from environment
-    homeserver = os.getenv("MATRIX_HOMESERVER", "https://anarchists.space")
+    homeserver = os.getenv("MATRIX_HOMESERVER", "https://matrix.envs.net")
     user_id = os.getenv("MATRIX_USER_ID")
     access_token = os.getenv("MATRIX_ACCESS_TOKEN")
     device_id = os.getenv("MATRIX_DEVICE_ID")
@@ -780,7 +780,7 @@ async def main():
         print("  • MATRIX_USER_ID")
         print("  • MATRIX_ACCESS_TOKEN")
         print("\nOptional:")
-        print("  • MATRIX_HOMESERVER (default: https://anarchists.space)")
+        print("  • MATRIX_HOMESERVER (default: https://matrix.envs.net)")
         print("  • MATRIX_DEVICE_ID")
         print("\n" + "-"*70)
         print("How to get your access token:")
@@ -793,24 +793,24 @@ async def main():
         print("   • Scroll to 'Access Token'")
         print("   • Click to reveal and copy")
         print("\n2. Using curl:")
-        print("   curl -X POST https://anarchists.space/_matrix/client/r0/login \\")
+        print("   curl -X POST https://matrix.envs.net/_matrix/client/r0/login \\")
         print("     -H 'Content-Type: application/json' \\")
         print("     -d '{\"type\":\"m.login.password\",\"user\":\"rabit233\",\"password\":\"YOUR_PASSWORD\"}'")
         print("\n" + "-"*70)
         print("How to set environment variables:")
         print("-"*70)
         print("\n• Temporary (current session):")
-        print("  export MATRIX_HOMESERVER=\"https://anarchists.space\"")
-        print("  export MATRIX_USER_ID=\"@rabit233:anarchists.space\"")
+        print("  export MATRIX_HOMESERVER=\"https://matrix.envs.net\"")
+        print("  export MATRIX_USER_ID=\"@ribit:envs.net\"")
         print("  export MATRIX_ACCESS_TOKEN=\"your_token_here\"")
         print("\n• Permanent (add to ~/.bashrc):")
-        print("  echo 'export MATRIX_USER_ID=\"@rabit233:anarchists.space\"' >> ~/.bashrc")
+        print("  echo 'export MATRIX_USER_ID=\"@ribit:envs.net\"' >> ~/.bashrc")
         print("  echo 'export MATRIX_ACCESS_TOKEN=\"your_token_here\"' >> ~/.bashrc")
         print("  source ~/.bashrc")
         print("\n• Using .env file:")
         print("  Create a file named .env in the ribit.2.0 directory:")
-        print("  MATRIX_HOMESERVER=https://anarchists.space")
-        print("  MATRIX_USER_ID=@rabit233:anarchists.space")
+        print("  MATRIX_HOMESERVER=https://matrix.envs.net")
+        print("  MATRIX_USER_ID=@ribit:envs.net")
         print("  MATRIX_ACCESS_TOKEN=your_token_here")
         print("\n  Then run: source .env && python3 -m ribit_2_0.enhanced_autonomous_matrix_bot")
         print("\n" + "="*70)
