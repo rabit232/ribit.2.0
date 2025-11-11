@@ -595,6 +595,9 @@ class RibitMatrixBot:
                     return self._handle_unauthorized_command(sender, command)
             
             # Handle different commands
+            if command.startswith('?thought_experiment'):
+                return await self._handle_thought_experiment(command, sender, room_id)
+            
             if command == '?help':
                 return self._get_help_message()
             
@@ -695,8 +698,75 @@ I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. H
             status_msg += f"\n• {cap.replace('_', ' ').title()}: {status}"
         
         status_msg += f"\n\n**Personality:** {', '.join(personality['core_traits'])}"
+
+    async def _handle_thought_experiment(self, command: str, sender: str, room_id: str) -> str:
+        """Handle the thought experiment command."""
+        try:
+            topic = command.replace('?thought_experiment', '', 1).strip()
+            
+            if not topic:
+                return "❌ Please provide a topic for the thought experiment. Usage: `?thought_experiment [topic]`"
+
+            # 1. Generate the thought experiment response
+            prompt = f"Conduct a philosophical thought experiment on the topic: '{topic}'. Provide a deep, structured, and unique response that reflects my core programming and knowledge base (Megabite/Ribit). Format the response clearly."
+            
+            # Use a dummy context for a fresh thought experiment
+            ai_response = self.llm.generate_response(prompt, [])
+            
+            # 2. Clean up the topic for a safe filename
+            safe_topic = "".join(c for c in topic if c.isalnum() or c in (' ', '_')).rstrip()
+            safe_topic = safe_topic.replace(' ', '_')[:50]
+            
+            # 3. Create the file path
+            timestamp = int(time.time())
+            filename = f"thought-{safe_topic}-{timestamp}.txt"
+            filepath = os.path.join("thoughts", filename)
+            
+            # 4. Save the response to the file
+            full_content = f"--- Thought Experiment Topic ---\n{topic}\n\n--- LLM Response ---\n{ai_response}"
+            
+            # Ensure the thoughts directory exists (already done in Phase 1, but good practice)
+            os.makedirs("thoughts", exist_ok=True)
+            
+            with open(filepath, 'w') as f:
+                f.write(full_content)
+            
+            logger.info(f"Thought experiment saved to {filepath}")
+            
+            return (f"🧠 Thought experiment on '{topic}' complete. "
+                    f"The full response has been saved locally to the `thoughts` folder as `{filepath}`. "
+                    f"You can find it in the repository.")
+            
+        except Exception as e:
+            logger.error(f"Error handling thought experiment: {e}")
+            return f"❌ An error occurred while processing the thought experiment: {e}"
+
+    
+    def _get_help_message(self) -> str:
+        """Get help message."""
+        return """📚 **Ribit 2.0 Commands**
+
+**Chat:**
+• `ribit.2.0 <message>` - Chat with me
+• `!reset` - Clear conversation context
+
+**General Commands:**
+• `?help` - Show this help
+• `?thought_experiment [topic]` - Generate a philosophical thought experiment on a topic and save the response to the `thoughts` folder.
+
+**Authorized Commands** (restricted users only):
+• `?sys` - System status
+• `?status` - Bot status  
+• `?command <action>` - Execute actions
+
+**Examples:**
+• `?thought_experiment The Nature of Voxel-Based Identity`
+• `?command open ms paint and draw a house`
+• `ribit.2.0 tell me about robotics`
+
+I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. How may I assist you today?"""
         
-        return status_msg
+        return self._get_help_command_response()
     
     async def _handle_action_command(self, action: str) -> str:
         """Handle action execution command."""
