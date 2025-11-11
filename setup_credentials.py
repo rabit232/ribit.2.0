@@ -80,6 +80,8 @@ def save_env_file(env_vars):
             f.write(f"MATRIX_HOMESERVER={env_vars['MATRIX_HOMESERVER']}\n")
         if 'MATRIX_USER_ID' in env_vars:
             f.write(f"MATRIX_USER_ID={env_vars['MATRIX_USER_ID']}\n")
+        if 'MATRIX_PASSWORD' in env_vars:
+            f.write(f"MATRIX_PASSWORD={env_vars['MATRIX_PASSWORD']}\n")
         if 'MATRIX_ACCESS_TOKEN' in env_vars:
             f.write(f"MATRIX_ACCESS_TOKEN={env_vars['MATRIX_ACCESS_TOKEN']}\n")
         if 'MATRIX_DEVICE_ID' in env_vars:
@@ -136,25 +138,54 @@ def setup_matrix_credentials(existing_env):
     user_id = input(f"{BOLD}Matrix User ID (e.g., @username:anarchists.space) [{CYAN}{default_user}{RESET}]: ").strip()
     env_vars['MATRIX_USER_ID'] = user_id if user_id else default_user
     
-    # Access Token
-    print(f"\n{YELLOW}How to get your Matrix access token:{RESET}")
-    print(f"  1. Go to https://app.element.io")
-    print(f"  2. Log in with your Matrix account")
-    print(f"  3. Click your profile (top left) → Settings")
-    print(f"  4. Go to 'Help & About' → Scroll to 'Access Token'")
-    print(f"  5. Click to reveal and copy the token\n")
+    # Authentication method choice
+    print(f"\n{YELLOW}Matrix Authentication Method:{RESET}")
+    print(f"  1. Password (username + password)")
+    print(f"  2. Access Token (more secure, recommended)\n")
     
-    has_token = env_vars.get('MATRIX_ACCESS_TOKEN', '')
-    if has_token:
-        update_token = input(f"{BOLD}Update existing access token? (y/n) [{CYAN}n{RESET}]: ").strip().lower()
-        if update_token == 'y':
+    auth_method = input(f"{BOLD}Choose authentication method (1/2) [{CYAN}2{RESET}]: ").strip()
+    
+    if auth_method == '1':
+        # Password authentication
+        has_password = env_vars.get('MATRIX_PASSWORD', '')
+        if has_password:
+            update_password = input(f"{BOLD}Update existing Matrix password? (y/n) [{CYAN}n{RESET}]: ").strip().lower()
+            if update_password == 'y':
+                password = getpass(f"{BOLD}Matrix Password (hidden): {RESET}")
+                if password:
+                    env_vars['MATRIX_PASSWORD'] = password
+                    # Remove access token if switching to password
+                    env_vars.pop('MATRIX_ACCESS_TOKEN', None)
+        else:
+            password = getpass(f"{BOLD}Matrix Password (hidden): {RESET}")
+            if password:
+                env_vars['MATRIX_PASSWORD'] = password
+                # Remove access token if switching to password
+                env_vars.pop('MATRIX_ACCESS_TOKEN', None)
+    else:
+        # Access Token authentication (default)
+        print(f"\n{YELLOW}How to get your Matrix access token:{RESET}")
+        print(f"  1. Go to https://app.element.io")
+        print(f"  2. Log in with your Matrix account")
+        print(f"  3. Click your profile (top left) → Settings")
+        print(f"  4. Go to 'Help & About' → Scroll to 'Access Token'")
+        print(f"  5. Click to reveal and copy the token\n")
+        
+        has_token = env_vars.get('MATRIX_ACCESS_TOKEN', '')
+        if has_token:
+            update_token = input(f"{BOLD}Update existing access token? (y/n) [{CYAN}n{RESET}]: ").strip().lower()
+            if update_token == 'y':
+                access_token = getpass(f"{BOLD}Matrix Access Token (hidden): {RESET}")
+                if access_token:
+                    env_vars['MATRIX_ACCESS_TOKEN'] = access_token
+                    # Remove password if switching to token
+                    env_vars.pop('MATRIX_PASSWORD', None)
+        else:
             access_token = getpass(f"{BOLD}Matrix Access Token (hidden): {RESET}")
             if access_token:
                 env_vars['MATRIX_ACCESS_TOKEN'] = access_token
-    else:
-        access_token = getpass(f"{BOLD}Matrix Access Token (hidden): {RESET}")
-        if access_token:
-            env_vars['MATRIX_ACCESS_TOKEN'] = access_token
+                # Remove password if switching to token
+                env_vars.pop('MATRIX_PASSWORD', None)
     
     # Device ID (optional)
     default_device = env_vars.get('MATRIX_DEVICE_ID', '')
@@ -269,7 +300,12 @@ def main():
         print(f"\n{CYAN}Matrix:{RESET}")
         print(f"  Homeserver: {env_vars.get('MATRIX_HOMESERVER', 'Not set')}")
         print(f"  User ID:    {env_vars.get('MATRIX_USER_ID', 'Not set')}")
-        print(f"  Token:      {'***' + env_vars['MATRIX_ACCESS_TOKEN'][-10:] if env_vars.get('MATRIX_ACCESS_TOKEN') else 'Not set'}")
+        if env_vars.get('MATRIX_PASSWORD'):
+            print(f"  Password:   {'*' * 12} (set)")
+        elif env_vars.get('MATRIX_ACCESS_TOKEN'):
+            print(f"  Token:      {'***' + env_vars['MATRIX_ACCESS_TOKEN'][-10:]}")
+        else:
+            print(f"  Auth:       Not set")
     
     # DeltaChat summary
     if 'DELTACHAT_EMAIL' in env_vars and env_vars['DELTACHAT_EMAIL']:

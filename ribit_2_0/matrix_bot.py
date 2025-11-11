@@ -60,19 +60,22 @@ class RibitMatrixBot:
     with user authentication and command restrictions.
     """
     
-    def __init__(self, homeserver: str, username: str, password: str, authorized_users: Optional[Set[str]] = None, enable_bridge: bool = False):
+    def __init__(self, homeserver: str, username: str, password: str = "", access_token: str = "", authorized_users: Optional[Set[str]] = None, enable_bridge: bool = False):
         """
         Initialize the Ribit Matrix Bot.
         
         Args:
             homeserver: Matrix homeserver URL
             username: Bot username
-            password: Bot password
+            password: Bot password (for password auth)
+            access_token: Access token (for token auth, takes priority over password)
             authorized_users: Set of authorized user IDs for commands
         """
         self.homeserver = homeserver
         self.username = username
         self.password = password
+        self.access_token = access_token
+        self.use_token_auth = bool(access_token)
         self.authorized_users = authorized_users or {
             "@rabit233:matrix.anarchists.space",
             "@rabit232:envs.net"
@@ -134,10 +137,16 @@ class RibitMatrixBot:
             return
         
         # Validate credentials
-        if not all([self.homeserver, self.username, self.password]):
+        if not self.homeserver or not self.username:
             logger.error("Matrix credentials incomplete!")
             print("❌ ERROR: Matrix credentials missing!")
-            print("Required: homeserver, username, password")
+            print("Required: homeserver, username")
+            return
+        
+        if not self.password and not self.access_token:
+            logger.error("No authentication method provided!")
+            print("❌ ERROR: No authentication credentials!")
+            print("Provide either MATRIX_PASSWORD or MATRIX_ACCESS_TOKEN")
             return
         
         # Set up client configuration
@@ -156,13 +165,22 @@ class RibitMatrixBot:
         )
         
         try:
-            # Login
-            response = await self.client.login(self.password, device_name="ribit-2.0-bot")
-            if not isinstance(response, LoginResponse):
-                logger.error(f"Failed to login to Matrix: {response}")
-                return
-            
-            logger.info(f"✅ Logged in as {self.client.user_id} with device {response.device_id}")
+            # Authenticate (either password or token)
+            if self.use_token_auth:
+                # Token-based authentication
+                self.client.access_token = self.access_token
+                self.client.user_id = self.username
+                logger.info(f"✅ Using access token authentication for {self.username}")
+                device_id = "ribit-2.0-bot-token"
+            else:
+                # Password-based authentication
+                response = await self.client.login(self.password, device_name="ribit-2.0-bot")
+                if not isinstance(response, LoginResponse):
+                    logger.error(f"Failed to login to Matrix: {response}")
+                    return
+                
+                logger.info(f"✅ Logged in as {self.client.user_id} with device {response.device_id}")
+                device_id = response.device_id
             
             # Get joined rooms
             await self._get_joined_rooms()
@@ -907,17 +925,30 @@ async def main():
     """Main function to run the Ribit Matrix Bot."""
     # Configuration from environment variables
     homeserver = os.getenv("MATRIX_HOMESERVER", "https://anarchists.space")
-    username = os.getenv("MATRIX_USERNAME", "@ribit.2.0:matrix.anarchists.space")
+    user_id = os.getenv("MATRIX_USER_ID") or os.getenv("MATRIX_USERNAME", "@ribit.2.0:matrix.anarchists.space")
     password = os.getenv("MATRIX_PASSWORD", "")
+    access_token = os.getenv("MATRIX_ACCESS_TOKEN", "")
     
-    if not password:
-        print("❌ ERROR: MATRIX_PASSWORD environment variable not set!")
-        print("Please set your Matrix password in the environment:")
-        print("export MATRIX_PASSWORD='your_password_here'")
+    # Check if we have either password or access token
+    if not password and not access_token:
+        print("❌ ERROR: Matrix credentials not set!")
+        print("\nYou need to provide EITHER:")
+        print("  1. Password authentication:")
+        print("     export MATRIX_USER_ID='@username:homeserver'")
+        print("     export MATRIX_PASSWORD='your_password'")
+        print("\n  2. Access token authentication:")
+        print("     export MATRIX_USER_ID='@username:homeserver'")
+        print("     export MATRIX_ACCESS_TOKEN='your_access_token'")
+        print("\n💡 Tip: Run 'python3 setup_credentials.py' for interactive setup")
         return
     
     # Create and start the bot
-    bot = RibitMatrixBot(homeserver, username, password)
+    bot = RibitMatrixBot(
+        homeserver=homeserver,
+        username=user_id,
+        password=password,
+        access_token=access_token
+    )
     await bot.start()
 
 if __name__ == "__main__":
