@@ -23,17 +23,17 @@ def test_knowledge_base():
         
         kb = KnowledgeBase()
         
-        # Test adding knowledge
-        kb.add_concept("test_concept", "This is a test concept")
+        # Test storing knowledge (correct API)
+        kb.store_knowledge("test_concept", "This is a test concept")
         
-        # Test retrieving knowledge
-        result = kb.get_concept("test_concept")
+        # Test retrieving knowledge (correct API)
+        result = kb.retrieve_knowledge("test_concept")
         
         if result and "test concept" in result.lower():
-            print(f"{GREEN}✓{RESET} KnowledgeBase: Add and retrieve concepts")
+            print(f"{GREEN}✓{RESET} KnowledgeBase: Store and retrieve knowledge")
             return True
         else:
-            print(f"{RED}✗{RESET} KnowledgeBase: Failed to retrieve concept")
+            print(f"{RED}✗{RESET} KnowledgeBase: Failed to retrieve knowledge")
             return False
     except Exception as e:
         print(f"{RED}✗{RESET} KnowledgeBase: {str(e)[:60]}")
@@ -46,8 +46,8 @@ def test_megabite_llm():
         
         llm = MegabiteLLM()
         
-        # Test voxel-based response
-        response = llm.generate_response("Hello, Megabite!")
+        # Test voxel-based response (correct API with context parameter)
+        response = llm.generate_response("Hello, Megabite!", context=[])
         
         if response and len(response) > 0:
             print(f"{GREEN}✓{RESET} MegabiteLLM: Generate voxel-based response")
@@ -68,12 +68,13 @@ def test_word_learning():
         
         # Test learning words from message
         wls.learn_from_message("The bicycle is a great vehicle for transportation")
+        wls.learn_from_message("I love riding my bicycle to work")
         
-        # Test getting learned words
-        learned = wls.get_learned_words()
+        # Test getting statistics (correct API)
+        stats = wls.get_statistics()
         
-        if learned and len(learned) > 0:
-            print(f"{GREEN}✓{RESET} WordLearningSystem: Learn and retrieve words")
+        if stats and 'total_words_learned' in stats and stats['total_words_learned'] > 0:
+            print(f"{GREEN}✓{RESET} WordLearningSystem: Learn and track words")
             return True
         else:
             print(f"{RED}✗{RESET} WordLearningSystem: Failed to learn words")
@@ -85,22 +86,38 @@ def test_word_learning():
 def test_conversation_manager():
     """Test ConversationManager functionality"""
     try:
-        from ribit_2_0.conversation_manager import AdvancedConversationManager
+        from ribit_2_0.conversation_manager import AdvancedConversationManager, ConversationMessage
         
         cm = AdvancedConversationManager()
         
-        # Test adding message
-        cm.add_message("user123", "Hello, how are you?", is_user=True)
-        cm.add_message("user123", "I'm doing well, thank you!", is_user=False)
+        # Test adding message (correct API with ConversationMessage object)
+        from datetime import datetime
+        msg1 = ConversationMessage(
+            room_id="test_room",
+            user_id="user123",
+            message_type="text",
+            content="Hello, how are you?",
+            timestamp=datetime.now()
+        )
+        msg2 = ConversationMessage(
+            room_id="test_room",
+            user_id="user123",
+            message_type="text",
+            content="I'm doing well, thank you!",
+            timestamp=datetime.now()
+        )
         
-        # Test getting conversation history
-        history = cm.get_conversation_history("user123")
+        cm.add_message(msg1)
+        cm.add_message(msg2)
         
-        if history and len(history) >= 2:
-            print(f"{GREEN}✓{RESET} ConversationManager: Track conversation history")
+        # Test getting conversation context
+        context = cm.get_conversation_context("test_room", "user123")
+        
+        if context and len(context) > 0:
+            print(f"{GREEN}✓{RESET} ConversationManager: Track conversation context")
             return True
         else:
-            print(f"{RED}✗{RESET} ConversationManager: Failed to track history")
+            print(f"{RED}✗{RESET} ConversationManager: Failed to track context")
             return False
     except Exception as e:
         print(f"{RED}✗{RESET} ConversationManager: {str(e)[:60]}")
@@ -113,11 +130,11 @@ def test_philosophical_reasoning():
         
         pr = PhilosophicalReasoning()
         
-        # Test generating philosophical response
-        response = pr.generate_thought_experiment("consciousness")
+        # Test generating philosophical response (correct API)
+        response = pr.generate_response("What is consciousness?")
         
         if response and len(response) > 0:
-            print(f"{GREEN}✓{RESET} PhilosophicalReasoning: Generate thought experiment")
+            print(f"{GREEN}✓{RESET} PhilosophicalReasoning: Generate philosophical response")
             return True
         else:
             print(f"{RED}✗{RESET} PhilosophicalReasoning: Failed to generate")
@@ -133,8 +150,8 @@ def test_humor_engine():
         
         he = HumorEngine()
         
-        # Test generating humorous response
-        response = he.add_humor("This is a serious message")
+        # Test generating humorous response (correct API)
+        response = he.add_humor_to_response("This is a serious message", "Tell me something funny")
         
         if response and len(response) > 0:
             print(f"{GREEN}✓{RESET} HumorEngine: Add humor to messages")
