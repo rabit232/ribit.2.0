@@ -8,7 +8,7 @@ This guide explains how to install Ribit 2.0 and all its dependencies on systems
 
 This offline installation package contains:
 
-- **63 Python packages** (43 MB total)
+- **63 Python packages** (~50 MB total)
 - All dependencies for Matrix, DeltaChat, HTTP, and image processing
 - **Excludes ROS** (install from system packages if needed)
 
@@ -44,7 +44,7 @@ This offline installation package contains:
    ```
 
    This will:
-   - Download all 63 packages to `packages/` folder
+   - Download all 15 core packages + dependencies to `packages/` folder
    - Create a manifest file
    - Take ~2-5 minutes depending on internet speed
 
@@ -230,7 +230,7 @@ cat packages/MANIFEST.txt
 ```
 
 This file contains:
-- List of all 63 packages
+- List of all 15 core packages + dependencies
 - Download date
 - Platform architecture
 - Total package count
@@ -287,7 +287,7 @@ sudo apt install ros-humble-desktop
 
 ```
 ribit.2.0/
-├── packages/                    # Downloaded packages (43 MB)
+├── packages/                    # Downloaded packages (~50 MB)
 │   ├── matrix_nio-*.whl
 │   ├── deltachat-*.whl
 │   ├── aiohttp-*.whl
@@ -334,8 +334,8 @@ If you encounter issues:
 
 - **Platform**: Packages are downloaded for `x86_64` Linux
 - **Python Version**: Requires Python 3.11+
-- **Total Size**: ~43 MB (compressed: ~20 MB)
-- **Package Count**: 63 packages
+- **Total Size**: ~~50 MB (compressed: ~20 MB)
+- **Package Count**: 15 core packages + dependencies
 - **Last Updated**: November 11, 2025
 
 ---

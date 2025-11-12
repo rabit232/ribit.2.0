@@ -32,6 +32,16 @@ All Python packages can be downloaded from **PyPI** (Python Package Index).
 | unpaddedbase64 | Latest | https://pypi.org/project/unpaddedbase64/#files |
 | pycryptodome | Latest | https://pypi.org/project/pycryptodome/#files |
 
+---
+
+### Cryptography & Security
+
+| Package | Version | Download Link |
+|:--------|:--------|:--------------|
+| **cryptography** | Latest | https://pypi.org/project/cryptography/#files |
+| **pycryptodome** | Latest | https://pypi.org/project/pycryptodome/#files |
+| **keyring** | Latest | https://pypi.org/project/keyring/#files |
+
 **Direct wheel download** (example for matrix-nio):
 ```
 https://files.pythonhosted.org/packages/.../matrix_nio-0.25.2-py3-none-any.whl
