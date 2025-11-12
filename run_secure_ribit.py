@@ -94,9 +94,9 @@ async def run_secure_ribit(args):
     
     # Initialize emotional intelligence for startup
     emotions = EnhancedEmotionalIntelligence()
-    startup_emotion = emotions.get_emotion_response(
-        "EXCITEMENT",
-        "I feel EXCITEMENT starting Ribit 2.0 with military-grade E2EE security!"
+    startup_emotion = emotions.get_emotion_by_context(
+        "starting Ribit 2.0 with military-grade E2EE security",
+        context_type="startup"
     )
     
     print(f"🚀 {startup_emotion['message']}")
@@ -118,9 +118,9 @@ async def run_secure_ribit(args):
         
         # Initialize the integration
         if await integration.initialize_e2ee_integration():
-            success_emotion = emotions.get_emotion_response(
-                "JOY",
-                "I feel JOY - E2EE integration initialized successfully!"
+            success_emotion = emotions.get_emotion_by_context(
+                "E2EE integration initialized successfully",
+                context_type="success"
             )
             print(f"✅ {success_emotion['message']}")
             
@@ -133,9 +133,9 @@ async def run_secure_ribit(args):
             print(f"   • Encryption Protocol: {'✅' if status['encryption_protocol_loaded'] else '❌'}")
             
             # Start the integrated bot
-            confidence_emotion = emotions.get_emotion_response(
-                "CONFIDENCE",
-                "I feel CONFIDENCE launching secure Matrix communication!"
+            confidence_emotion = emotions.get_emotion_by_context(
+                "launching secure Matrix communication",
+                context_type="confidence"
             )
             print(f"🛡️ {confidence_emotion['message']}")
             
@@ -147,24 +147,24 @@ async def run_secure_ribit(args):
                 await integration.start_integrated_bot()
             
         else:
-            error_emotion = emotions.get_emotion_response(
-                "FRUSTRATION",
-                "I feel FRUSTRATION - E2EE initialization failed!"
+            error_emotion = emotions.get_emotion_by_context(
+                "E2EE initialization failed",
+                context_type="error"
             )
             print(f"❌ {error_emotion['message']}")
             return False
             
     except KeyboardInterrupt:
-        shutdown_emotion = emotions.get_emotion_response(
-            "MELANCHOLY",
-            "I feel MELANCHOLY as I shutdown secure operations..."
+        shutdown_emotion = emotions.get_emotion_by_context(
+            "shutdown secure operations",
+            context_type="shutdown"
         )
         print(f"\n🛑 {shutdown_emotion['message']}")
         
     except Exception as e:
-        error_emotion = emotions.get_emotion_response(
-            "DESPAIR",
-            f"I feel DESPAIR - critical error occurred: {str(e)}"
+        error_emotion = emotions.get_emotion_by_context(
+            f"critical error occurred: {str(e)}",
+            context_type="error"
         )
         print(f"💥 {error_emotion['message']}")
         logging.error(f"Critical error: {e}", exc_info=True)
