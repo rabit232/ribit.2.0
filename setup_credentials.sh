@@ -22,12 +22,12 @@ echo "This script will help you create a .env file with your Matrix credentials.
 echo ""
 
 # Get homeserver
-read -p "Matrix Homeserver [https://anarchists.space]: " homeserver
-homeserver=${homeserver:-https://anarchists.space}
+read -p "Matrix Homeserver [https://matrix.envs.net]: " homeserver
+homeserver=${homeserver:-https://matrix.envs.net}
 
 # Get user ID
-read -p "Matrix User ID [@rabit233:anarchists.space]: " user_id
-user_id=${user_id:-@rabit233:anarchists.space}
+read -p "Matrix User ID [@rabit232:envs.net]: " user_id
+user_id=${user_id:-@rabit232:envs.net}
 
 # Get access token
 echo ""

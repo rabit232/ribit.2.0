@@ -546,8 +546,8 @@ class CustomMatrixIntegration:
 # Usage
 async def main():
     bot = CustomMatrixIntegration(
-        "https://anarchists.space",
-        "@ribit.2.0:matrix.anarchists.space",
+        "https://matrix.envs.net",
+        "@ribit.2.0:envs.net",
         "your_password"
     )
     await bot.start()

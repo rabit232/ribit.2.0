@@ -235,8 +235,8 @@ nano .env
 
 ```bash
 # Matrix Configuration
-MATRIX_HOMESERVER=https://anarchists.space
-MATRIX_USER_ID=@rabit233:anarchists.space
+MATRIX_HOMESERVER=https://matrix.envs.net
+MATRIX_USER_ID=@rabit232:envs.net
 MATRIX_ACCESS_TOKEN=your_access_token_here
 
 # Optional: Device ID
@@ -260,7 +260,7 @@ STABILITY_API_KEY=your_stability_key
 
 **Method 2: curl**
 ```bash
-curl -X POST https://anarchists.space/_matrix/client/r0/login \
+curl -X POST https://matrix.envs.net/_matrix/client/r0/login \
   -H 'Content-Type: application/json' \
   -d '{"type":"m.login.password","user":"rabit233","password":"YOUR_PASSWORD"}'
 ```
@@ -301,8 +301,8 @@ from ribit_2_0.dual_llm_pipeline import create_dual_pipeline
 
 # Create bot with dual LLM
 bot = EnhancedAutonomousMatrixBot(
-    homeserver="https://anarchists.space",
-    user_id="@rabit233:anarchists.space",
+    homeserver="https://matrix.envs.net",
+    user_id="@rabit232:envs.net",
     access_token="your_token"
 )
 

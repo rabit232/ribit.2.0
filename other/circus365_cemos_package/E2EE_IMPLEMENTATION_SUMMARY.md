@@ -106,8 +106,8 @@ Create `.env` file with your Matrix credentials:
 
 ```bash
 # Matrix Configuration
-MATRIX_HOMESERVER=https://anarchists.space
-MATRIX_USER_ID=@ribit.2.0:matrix.anarchists.space
+MATRIX_HOMESERVER=https://matrix.envs.net
+MATRIX_USER_ID=@ribit.2.0:envs.net
 MATRIX_PASSWORD=your_secure_password
 MATRIX_DEVICE_ID=RIBIT_2_0_SECURE
 
@@ -117,7 +117,7 @@ E2EE_KEY_ROTATION_HOURS=24
 E2EE_QUANTUM_SAFE=true
 
 # Security Configuration
-AUTHORIZED_USERS=@rabit233:matrix.anarchists.space,@rabit232:envs.net
+AUTHORIZED_USERS=@rabit232:envs.net,@rabit232:envs.net
 SECURITY_AUDIT_LOGGING=true
 EMOTIONAL_RESPONSES_ENABLED=true
 ```

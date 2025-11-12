@@ -81,7 +81,7 @@ MATRIX_USERNAME=@ribit:envs.net
 MATRIX_PASSWORD=YourActualPassword123
 
 # Optional: Authorized Users
-AUTHORIZED_USERS=@rabit233:matrix.anarchists.space,@rabit232:envs.net
+AUTHORIZED_USERS=@rabit232:envs.net,@rabit232:envs.net
 
 # Optional: Bot Configuration
 BOT_NAME=ribit.2.0
@@ -103,8 +103,8 @@ Matrix homeserver URLs should be the **base domain** only:
 | Homeserver | Correct URL | Wrong URL |
 |------------|-------------|-----------|
 | envs.net | `https://envs.net` | ~~`https://matrix.envs.net`~~ |
-| matrix.org | `https://matrix.org` | ~~`https://matrix.matrix.org`~~ |
-| anarchists.space | `https://matrix.anarchists.space` | *(this one actually uses matrix. prefix)* |
+| matrix.org | `https://matrix.org` | ~~`https://matrix.org`~~ |
+| matrix.envs.net | `https://envs.net` | *(this one actually uses matrix. prefix)* |
 
 **For envs.net specifically:** The correct URL is `https://envs.net` **without** the "matrix." prefix.
 

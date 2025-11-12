@@ -76,7 +76,7 @@ status              # System performance with CONFIDENCE
 ### 🔐 Security Features
 
 #### **User Authorization**
-- **Authorized Users**: `@rabit233:matrix.anarchists.space`, `@rabit232:envs.net`
+- **Authorized Users**: `@rabit232:envs.net`, `@rabit232:envs.net`
 - **System Commands**: Only authorized users can execute
 - **Emotional Responses**: CONCERN for unauthorized attempts
 - **Progressive Warnings**: Escalating responses for repeated attempts
@@ -211,10 +211,10 @@ I feel CONFIDENCE reporting system status:
 ### **Basic Usage**
 ```
 # In Matrix chat room, mention @ribit.2.0
-@ribit.2.0:matrix.anarchists.space open ms paint
-@ribit.2.0:matrix.anarchists.space draw a house
-@ribit.2.0:matrix.anarchists.space search python tutorial
-@ribit.2.0:matrix.anarchists.space help
+@ribit.2.0:envs.net open ms paint
+@ribit.2.0:envs.net draw a house
+@ribit.2.0:envs.net search python tutorial
+@ribit.2.0:envs.net help
 ```
 
 ### **Creative Session**

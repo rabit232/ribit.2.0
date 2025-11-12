@@ -31,8 +31,8 @@ Add your credentials:
 
 ```bash
 # Matrix Configuration (Required)
-MATRIX_HOMESERVER=https://anarchists.space
-MATRIX_USER_ID=@rabit233:anarchists.space
+MATRIX_HOMESERVER=https://matrix.envs.net
+MATRIX_USER_ID=@rabit232:envs.net
 MATRIX_ACCESS_TOKEN=your_access_token_here
 
 # Optional: Device ID
@@ -64,7 +64,7 @@ STABILITY_API_KEY=your_stability_key
 ### Method 2: Using curl
 
 ```bash
-curl -X POST https://anarchists.space/_matrix/client/r0/login \
+curl -X POST https://matrix.envs.net/_matrix/client/r0/login \
   -H 'Content-Type: application/json' \
   -d '{
     "type": "m.login.password",
@@ -77,7 +77,7 @@ The response will contain your `access_token`:
 
 ```json
 {
-  "user_id": "@rabit233:anarchists.space",
+  "user_id": "@rabit232:envs.net",
   "access_token": "syt_...",
   "device_id": "ABCDEFGH"
 }
@@ -124,8 +124,8 @@ python3 -m ribit_2_0.matrix_bot
 ### Option 3: Direct Export
 
 ```bash
-export MATRIX_HOMESERVER="https://anarchists.space"
-export MATRIX_USER_ID="@rabit233:anarchists.space"
+export MATRIX_HOMESERVER="https://matrix.envs.net"
+export MATRIX_USER_ID="@rabit232:envs.net"
 export MATRIX_ACCESS_TOKEN="your_token_here"
 
 python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
@@ -184,7 +184,7 @@ But this is **optional** - Ribit works fine without ROS.
 **Check homeserver is accessible:**
 
 ```bash
-curl https://anarchists.space/_matrix/client/versions
+curl https://matrix.envs.net/_matrix/client/versions
 ```
 
 **Try a different homeserver:**
@@ -207,13 +207,13 @@ Your access token may have expired. Get a new one:
 
 ### Recommended Account
 
-- **Homeserver**: https://anarchists.space
+- **Homeserver**: https://matrix.envs.net
 - **Username**: rabit233
-- **User ID**: @rabit233:anarchists.space
+- **User ID**: @rabit232:envs.net
 
 ### Alternative Homeservers
 
-If anarchists.space is down, you can use:
+If matrix.envs.net is down, you can use:
 
 - https://matrix.org (official homeserver)
 - https://envs.net
@@ -278,8 +278,8 @@ python3 -c "import os; print(f'User: {os.getenv(\"MATRIX_USER_ID\")}')"
 
 ```bash
 # Matrix Configuration
-MATRIX_HOMESERVER=https://anarchists.space
-MATRIX_USER_ID=@rabit233:anarchists.space
+MATRIX_HOMESERVER=https://matrix.envs.net
+MATRIX_USER_ID=@rabit232:envs.net
 MATRIX_ACCESS_TOKEN=syt_cmFiaXQyMzM_VGhpc0lzQW5FeGFtcGxlVG9rZW4_1234567890
 
 # Optional: Device ID

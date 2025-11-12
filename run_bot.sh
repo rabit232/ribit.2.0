@@ -17,8 +17,8 @@ if [ ! -f ".env" ]; then
     echo "  ./setup_credentials.sh"
     echo ""
     echo "Or create .env manually with:"
-    echo "  MATRIX_HOMESERVER=https://anarchists.space"
-    echo "  MATRIX_USER_ID=@rabit233:anarchists.space"
+    echo "  MATRIX_HOMESERVER=https://matrix.envs.net"
+    echo "  MATRIX_USER_ID=@rabit232:envs.net"
     echo "  MATRIX_ACCESS_TOKEN=your_token_here"
     echo ""
     exit 1
@@ -35,14 +35,14 @@ if [ -z "$MATRIX_USER_ID" ] || [ -z "$MATRIX_ACCESS_TOKEN" ]; then
     echo "❌ Required credentials not found in .env"
     echo ""
     echo "Please make sure .env contains:"
-    echo "  MATRIX_USER_ID=@rabit233:anarchists.space"
+    echo "  MATRIX_USER_ID=@rabit232:envs.net"
     echo "  MATRIX_ACCESS_TOKEN=your_token_here"
     echo ""
     exit 1
 fi
 
 echo "✓ Credentials loaded"
-echo "  Homeserver: ${MATRIX_HOMESERVER:-https://anarchists.space}"
+echo "  Homeserver: ${MATRIX_HOMESERVER:-https://matrix.envs.net}"
 echo "  User ID: $MATRIX_USER_ID"
 echo ""
 

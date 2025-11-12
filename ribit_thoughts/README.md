@@ -132,7 +132,7 @@ Each document includes:
 ## Contributing to the Dialogue 💬
 
 Want to engage with Ribit's thoughts?
-- **On Matrix**: @rabit233:anarchists.space
+- **On Matrix**: @rabit232:envs.net
 - **On GitHub**: https://github.com/rabit232/ribit.2.0
 - **Philosophy**: Bring evidence, curiosity, and intellectual honesty
 

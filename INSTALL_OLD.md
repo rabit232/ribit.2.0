@@ -146,13 +146,13 @@ python3 test_fixes.py
 - Use your existing Matrix account credentials
 
 **Option B: Create New Account**
-1. Go to https://anarchists.space (or any Matrix homeserver)
+1. Go to https://matrix.envs.net (or any Matrix homeserver)
 2. Register a new account
 3. Note your username and password
 
 **Recommended Account:**
-- Username: `@rabit233:anarchists.space`
-- Homeserver: `https://anarchists.space`
+- Username: `@rabit232:envs.net`
+- Homeserver: `https://matrix.envs.net`
 
 ### Step 2: Get Access Token
 
@@ -167,7 +167,7 @@ python3 test_fixes.py
 **Method 2: Using curl**
 ```bash
 curl -X POST \
-  https://anarchists.space/_matrix/client/r0/login \
+  https://matrix.envs.net/_matrix/client/r0/login \
   -H 'Content-Type: application/json' \
   -d '{
     "type": "m.login.password",
@@ -188,8 +188,8 @@ nano .env
 **Add configuration:**
 ```bash
 # Matrix Configuration
-MATRIX_HOMESERVER=https://anarchists.space
-MATRIX_USER_ID=@rabit233:anarchists.space
+MATRIX_HOMESERVER=https://matrix.envs.net
+MATRIX_USER_ID=@rabit232:envs.net
 MATRIX_ACCESS_TOKEN=your_access_token_here
 
 # Optional: Web Search
@@ -202,8 +202,8 @@ STABILITY_API_KEY=your_stability_key_here
 
 **Or export directly:**
 ```bash
-export MATRIX_HOMESERVER="https://anarchists.space"
-export MATRIX_USER_ID="@rabit233:anarchists.space"
+export MATRIX_HOMESERVER="https://matrix.envs.net"
+export MATRIX_USER_ID="@rabit232:envs.net"
 export MATRIX_ACCESS_TOKEN="your_token_here"
 ```
 
@@ -227,8 +227,8 @@ python3 run_secure_ribit.py
 **Expected output:**
 ```
 Ribit 2.0 Matrix Bot Starting...
-✓ Connected to https://anarchists.space
-✓ Logged in as @rabit233:anarchists.space
+✓ Connected to https://matrix.envs.net
+✓ Logged in as @rabit232:envs.net
 ✓ Autonomous features enabled
 ✓ Emoji support active
 ✓ Listening for messages...
@@ -388,7 +388,7 @@ pip3 install --force-reinstall matrix-nio[e2e]
 **Solution:**
 ```bash
 # Check homeserver is accessible
-curl https://anarchists.space/_matrix/client/versions
+curl https://matrix.envs.net/_matrix/client/versions
 
 # Verify credentials
 echo $MATRIX_USER_ID
@@ -475,8 +475,8 @@ After=network.target
 Type=simple
 User=your_username
 WorkingDirectory=/home/your_username/ribit.2.0
-Environment="MATRIX_HOMESERVER=https://anarchists.space"
-Environment="MATRIX_USER_ID=@rabit233:anarchists.space"
+Environment="MATRIX_HOMESERVER=https://matrix.envs.net"
+Environment="MATRIX_USER_ID=@rabit232:envs.net"
 Environment="MATRIX_ACCESS_TOKEN=your_token_here"
 ExecStart=/usr/bin/python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
 Restart=always

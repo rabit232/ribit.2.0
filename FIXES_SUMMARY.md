@@ -148,8 +148,8 @@ response = get_response_sample("quantum")
 - Status: Not working
 
 **New Account:**
-- User ID: `@rabit233:anarchists.space`
-- Homeserver: `https://anarchists.space`
+- User ID: `@rabit232:envs.net`
+- Homeserver: `https://matrix.envs.net`
 - Status: Active
 
 **Files Updated:**
@@ -280,8 +280,8 @@ response3 = llm.get_decision("How does encryption work?")
 ### Matrix Bot with New Account
 
 ```bash
-export MATRIX_HOMESERVER="https://anarchists.space"
-export MATRIX_USER_ID="@rabit233:anarchists.space"
+export MATRIX_HOMESERVER="https://matrix.envs.net"
+export MATRIX_USER_ID="@rabit232:envs.net"
 export MATRIX_ACCESS_TOKEN="your_token_here"
 
 python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
@@ -303,7 +303,7 @@ python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
 - ✅ Wikipedia search and content retrieval
 - ✅ Image generation (placeholder + API support)
 - ✅ 150+ diverse, contextual responses
-- ✅ Working Matrix account (@rabit233:anarchists.space)
+- ✅ Working Matrix account (@rabit232:envs.net)
 - ✅ Better conversation quality
 - ✅ More engaging interactions
 - ✅ Enhanced knowledge gathering
@@ -341,8 +341,8 @@ python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
 
 ```bash
 # Matrix Configuration
-export MATRIX_HOMESERVER="https://anarchists.space"
-export MATRIX_USER_ID="@rabit233:anarchists.space"
+export MATRIX_HOMESERVER="https://matrix.envs.net"
+export MATRIX_USER_ID="@rabit232:envs.net"
 export MATRIX_ACCESS_TOKEN="your_token_here"
 
 # Optional: Image Generation APIs
@@ -363,7 +363,7 @@ All requested fixes have been implemented and tested:
 2. ✅ **Wikipedia Search** - Full integration with wikipediaapi
 3. ✅ **Image Generation** - Placeholder working, API support ready
 4. ✅ **Response Diversity** - 150+ samples, no more repetition
-5. ✅ **Matrix Account** - Updated to @rabit233:anarchists.space
+5. ✅ **Matrix Account** - Updated to @rabit232:envs.net
 
 **Ribit 2.0 is now more capable, engaging, and functional!** 🚀🤖✨
 

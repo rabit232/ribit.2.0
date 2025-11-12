@@ -63,7 +63,7 @@ class RibitMatrixBot:
         self.username = username
         self.password = password
         self.authorized_users = authorized_users or {
-            "@rabit233:matrix.anarchists.space",
+            "@rabit232:envs.net",
             "@rabit232:envs.net"
         }
         
@@ -555,7 +555,7 @@ async def main():
     """Main function to run the Ribit Matrix Bot."""
     # Configuration from environment variables
     homeserver = os.getenv("MATRIX_HOMESERVER", "https://envs.net")
-    username = os.getenv("MATRIX_USERNAME", "@ribit.2.0:matrix.anarchists.space")
+    username = os.getenv("MATRIX_USERNAME", "@ribit.2.0:envs.net")
     password = os.getenv("MATRIX_PASSWORD", "")
     
     if not password:

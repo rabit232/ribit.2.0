@@ -193,7 +193,7 @@ async def test_e2ee_functionality(integration):
             response = await integration.handle_command(
                 command=command,
                 sender="@ribit:envs.net",
-                room_id="!test:matrix.anarchists.space",
+                room_id="!test:envs.net",
                 encryption_level=EncryptionLevel.ENHANCED
             )
             print(f"✅ Response received ({len(response)} chars)")

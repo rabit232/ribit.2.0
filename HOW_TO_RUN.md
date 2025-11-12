@@ -57,7 +57,7 @@ bash setup_credentials.sh
 
 This script will help you create a .env file with your Matrix credentials.
 
-Matrix Homeserver [https://anarchists.space]:
+Matrix Homeserver [https://matrix.envs.net]:
 ```
 
 ---
@@ -68,14 +68,14 @@ The script will ask you several questions. Here's what to enter:
 
 ### Question 1: Matrix Homeserver
 ```
-Matrix Homeserver [https://anarchists.space]:
+Matrix Homeserver [https://matrix.envs.net]:
 ```
 
 **What to do:** Just press **Enter** to use the default, or type a different homeserver.
 
 ### Question 2: Matrix User ID
 ```
-Matrix User ID [@rabit233:anarchists.space]:
+Matrix User ID [@rabit232:envs.net]:
 ```
 
 **What to do:** Just press **Enter** to use the default, or type your user ID.
@@ -159,8 +159,8 @@ bash run_bot.sh
 
 Loading credentials from .env...
 ✓ Credentials loaded
-  Homeserver: https://anarchists.space
-  User ID: @rabit233:anarchists.space
+  Homeserver: https://matrix.envs.net
+  User ID: @rabit232:envs.net
 
 Which bot would you like to run?
 1. Enhanced Autonomous Bot (recommended)
@@ -178,8 +178,8 @@ Choice [1]:
 Starting bot...
 
 INFO:__main__:Ribit 2.0 Enhanced Autonomous Matrix Bot
-INFO:__main__:Connecting to https://anarchists.space
-INFO:__main__:Logged in as @rabit233:anarchists.space
+INFO:__main__:Connecting to https://matrix.envs.net
+INFO:__main__:Logged in as @rabit232:envs.net
 INFO:__main__:Listening for messages...
 ```
 
@@ -319,8 +319,8 @@ nano .env
 Type this (replace with your actual token):
 
 ```
-MATRIX_HOMESERVER=https://anarchists.space
-MATRIX_USER_ID=@rabit233:anarchists.space
+MATRIX_HOMESERVER=https://matrix.envs.net
+MATRIX_USER_ID=@rabit232:envs.net
 MATRIX_ACCESS_TOKEN=your_actual_token_here
 ```
 

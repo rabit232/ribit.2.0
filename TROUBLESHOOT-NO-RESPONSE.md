@@ -13,7 +13,7 @@
 Looking at your output:
 
 ```
-👤 Username: @rabit233:anarchists.space
+👤 Username: @rabit232:envs.net
 ```
 
 **This is YOUR personal account, not a bot account!**
@@ -35,7 +35,7 @@ You need to create a **separate bot account** and run Ribit with that account.
 
 ### **Step 1: Register a New Bot Account**
 
-1. Go to https://anarchists.space (or your homeserver)
+1. Go to https://matrix.envs.net (or your homeserver)
 2. Click "Create Account" or "Register"
 3. Choose a bot username, e.g.:
    - `ribit`
@@ -53,13 +53,13 @@ nano .env
 
 **Change:**
 ```env
-MATRIX_USERNAME=@rabit233:anarchists.space
+MATRIX_USERNAME=@rabit232:envs.net
 MATRIX_PASSWORD=your_personal_password
 ```
 
 **To:**
 ```env
-MATRIX_USERNAME=@ribit:anarchists.space
+MATRIX_USERNAME=@ribit:matrix.envs.net
 MATRIX_PASSWORD=your_bot_password
 ```
 
@@ -68,7 +68,7 @@ MATRIX_PASSWORD=your_bot_password
 Make sure YOUR account is in the authorized users list:
 
 ```env
-AUTHORIZED_USERS=@rabit233:anarchists.space,@rabit232:envs.net
+AUTHORIZED_USERS=@rabit232:envs.net,@rabit232:envs.net
 ```
 
 **Note:** Remove any empty entries (the blank line you have)
@@ -83,7 +83,7 @@ python3 run_matrix_bot.py
 
 1. In your Matrix client, go to the room
 2. Click "Invite"
-3. Enter: `@ribit:anarchists.space` (your bot's username)
+3. Enter: `@ribit:matrix.envs.net` (your bot's username)
 4. The bot should auto-join and send a welcome message
 
 ### **Step 6: Test**
@@ -201,10 +201,10 @@ Restart the bot and you'll see detailed message processing.
 
 ```env
 # Wrong (has empty entry)
-AUTHORIZED_USERS=@rabit233:matrix.anarchists.space,,@rabit232:envs.net
+AUTHORIZED_USERS=@rabit232:envs.net,,@rabit232:envs.net
 
 # Correct
-AUTHORIZED_USERS=@rabit233:matrix.anarchists.space,@rabit232:envs.net
+AUTHORIZED_USERS=@rabit232:envs.net,@rabit232:envs.net
 ```
 
 ---
@@ -240,12 +240,12 @@ This will show you which messages would trigger the bot.
 
 ```env
 # Bot account (separate from your personal account)
-MATRIX_HOMESERVER=https://anarchists.space
-MATRIX_USERNAME=@ribit:anarchists.space
+MATRIX_HOMESERVER=https://matrix.envs.net
+MATRIX_USERNAME=@ribit:matrix.envs.net
 MATRIX_PASSWORD=bot_account_password
 
 # Your personal account is authorized to use commands
-AUTHORIZED_USERS=@rabit233:anarchists.space,@rabit232:envs.net
+AUTHORIZED_USERS=@rabit232:envs.net,@rabit232:envs.net
 
 # Bot configuration
 BOT_NAME=ribit.2.0
@@ -291,7 +291,7 @@ Shows available commands.
 **Main Issue:** You're running the bot as your personal account (@rabit233)
 
 **Solution:**
-1. Create a new bot account (e.g., @ribit:anarchists.space)
+1. Create a new bot account (e.g., @ribit:matrix.envs.net)
 2. Update .env with bot account credentials
 3. Keep your personal account in AUTHORIZED_USERS
 4. Restart bot

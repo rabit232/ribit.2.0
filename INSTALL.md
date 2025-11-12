@@ -278,7 +278,7 @@ python3 test_dual_llm_programming.py
 #### Option B: Using curl
 
 ```bash
-curl -X POST https://anarchists.space/_matrix/client/r0/login \
+curl -X POST https://matrix.envs.net/_matrix/client/r0/login \
   -H 'Content-Type: application/json' \
   -d '{
     "type": "m.login.password",
@@ -299,8 +299,8 @@ cd ~/ribit.2.0
 ```
 
 Follow the prompts:
-1. **Homeserver:** Press Enter (uses default: https://anarchists.space)
-2. **User ID:** Press Enter (uses default: @rabit233:anarchists.space)
+1. **Homeserver:** Press Enter (uses default: https://matrix.envs.net)
+2. **User ID:** Press Enter (uses default: @rabit232:envs.net)
 3. **Access Token:** Paste your token
 4. **Device ID:** Press Enter (skip)
 5. **API Keys:** Press Enter for each (skip optional features)
@@ -318,8 +318,8 @@ Add this content:
 
 ```bash
 # Matrix Configuration
-MATRIX_HOMESERVER=https://anarchists.space
-MATRIX_USER_ID=@rabit233:anarchists.space
+MATRIX_HOMESERVER=https://matrix.envs.net
+MATRIX_USER_ID=@rabit232:envs.net
 MATRIX_ACCESS_TOKEN=your_access_token_here
 
 # Optional: Device ID
@@ -384,8 +384,8 @@ python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
 
 ```
 INFO:__main__:Ribit 2.0 Enhanced Autonomous Matrix Bot
-INFO:__main__:Connecting to https://anarchists.space
-INFO:__main__:Logged in as @rabit233:anarchists.space
+INFO:__main__:Connecting to https://matrix.envs.net
+INFO:__main__:Logged in as @rabit232:envs.net
 INFO:__main__:Listening for messages...
 INFO:__main__:Autonomous work loop started
 ```
@@ -516,14 +516,14 @@ The latest version is compatible with Python 3.7+
 
 2. **Check homeserver:**
    ```bash
-   curl -I https://anarchists.space
+   curl -I https://matrix.envs.net
    ```
    Should return HTTP 200
 
 3. **Test access token:**
    ```bash
    curl -H "Authorization: Bearer YOUR_TOKEN" \
-     https://anarchists.space/_matrix/client/r0/account/whoami
+     https://matrix.envs.net/_matrix/client/r0/account/whoami
    ```
 
 4. **Regenerate token:**
@@ -598,8 +598,8 @@ After=network.target
 Type=simple
 User=YOUR_USERNAME
 WorkingDirectory=/home/YOUR_USERNAME/ribit.2.0
-Environment="MATRIX_HOMESERVER=https://anarchists.space"
-Environment="MATRIX_USER_ID=@rabit233:anarchists.space"
+Environment="MATRIX_HOMESERVER=https://matrix.envs.net"
+Environment="MATRIX_USER_ID=@rabit232:envs.net"
 Environment="MATRIX_ACCESS_TOKEN=YOUR_TOKEN"
 ExecStart=/usr/bin/python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
 Restart=always

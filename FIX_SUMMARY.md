@@ -61,8 +61,8 @@ Test 3: MockLLM Diverse Responses
 
 Test 4: Matrix Account Configuration
 ✓ Matrix account updated in 48 locations
-  New account: @rabit233:anarchists.space
-  New server: https://anarchists.space
+  New account: @rabit232:envs.net
+  New server: https://matrix.envs.net
 ```
 
 ## What Works Now

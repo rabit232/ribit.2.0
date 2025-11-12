@@ -123,7 +123,7 @@ ls -la ribit_matrix_knowledge.txt  # Should exist
 **✅ Correct Examples:**
 - `@ribit:envs.net`
 - `@alice:matrix.org`
-- `@bob:anarchists.space`
+- `@bob:matrix.envs.net`
 
 **❌ Wrong Examples:**
 - `@ribit.matrix.envs.net` (periods instead of colon)

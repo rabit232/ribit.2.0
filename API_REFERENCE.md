@@ -1241,10 +1241,10 @@ class MatrixBotIntegration:
             
         Example:
             >>> matrix_bot = MatrixBotIntegration(
-            ...     homeserver="https://anarchists.space",
-            ...     username="@ribit.2.0:matrix.anarchists.space",
+            ...     homeserver="https://matrix.envs.net",
+            ...     username="@ribit.2.0:envs.net",
             ...     password="secure_password",
-            ...     authorized_users=["@user:matrix.anarchists.space"]
+            ...     authorized_users=["@user:envs.net"]
             ... )
         """
     
@@ -1272,7 +1272,7 @@ class MatrixBotIntegration:
             
         Example:
             >>> await matrix_bot.send_message(
-            ...     "!room123:matrix.anarchists.space",
+            ...     "!room123:envs.net",
             ...     "Hello! How can I assist you today?",
             ...     emotion="FRIENDLY"
             ... )
@@ -1310,7 +1310,7 @@ class MatrixBotIntegration:
             True if authorized, False otherwise
             
         Example:
-            >>> if matrix_bot.is_authorized_user("@user:matrix.anarchists.space"):
+            >>> if matrix_bot.is_authorized_user("@user:envs.net"):
             ...     print("User is authorized")
         """
 ```
@@ -1535,11 +1535,11 @@ ros:
 # Matrix Bot Configuration
 matrix:
   enabled: false
-  homeserver: "https://anarchists.space"
-  username: "@ribit.2.0:matrix.anarchists.space"
+  homeserver: "https://matrix.envs.net"
+  username: "@ribit.2.0:envs.net"
   password: ""  # Set via environment variable
   authorized_users:
-    - "@rabit233:matrix.anarchists.space"
+    - "@rabit232:envs.net"
     - "@rabit232:envs.net"
   command_prefix: "?"
   terminator_mode: true
@@ -1614,7 +1614,7 @@ plugins:
 
 # Matrix Bot Configuration
 export MATRIX_PASSWORD="your_matrix_password"
-export MATRIX_HOMESERVER="https://anarchists.space"
+export MATRIX_HOMESERVER="https://matrix.envs.net"
 
 # API Keys
 export JINA_API_KEY="your_jina_api_key"

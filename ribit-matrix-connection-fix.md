@@ -196,7 +196,7 @@ INFO:ribit_2_0.matrix_bot:🔄 Starting sync loop...
 ```
 @ribit:envs.net
 @alice:matrix.org
-@bob:anarchists.space
+@bob:matrix.envs.net
 @user:example.com
 ```
 
@@ -215,7 +215,7 @@ ribit:envs.net            (missing @ symbol)
 |------------|------------|------------------|
 | Matrix.org | `https://matrix.org` | `@ribit:matrix.org` |
 | Envs.net | `https://envs.net` | `@ribit:envs.net` |
-| Anarchists.space | `https://matrix.anarchists.space` | `@ribit:anarchists.space` |
+| Anarchists.space | `https://envs.net` | `@ribit:matrix.envs.net` |
 | Custom | `https://your-server.com` | `@ribit:your-server.com` |
 
 **Important:** The homeserver URL in `MATRIX_HOMESERVER` should match the domain in your username after the colon.

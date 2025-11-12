@@ -74,7 +74,7 @@ from ribit_2_0.matrix_e2ee_protocol import MatrixE2EEProtocol, EncryptionLevel
 
 # Initialize E2EE protocol
 e2ee = MatrixE2EEProtocol(
-    user_id="@ribit.2.0:matrix.anarchists.space",
+    user_id="@ribit.2.0:envs.net",
     device_id="RIBIT_2_0_SECURE",
     key_storage_path="./secure_keys"
 )
@@ -95,8 +95,8 @@ from ribit_2_0.secure_matrix_bot import SecureMatrixBot
 
 # Create secure bot instance
 bot = SecureMatrixBot(
-    homeserver="https://anarchists.space",
-    user_id="@ribit.2.0:matrix.anarchists.space",
+    homeserver="https://matrix.envs.net",
+    user_id="@ribit.2.0:envs.net",
     password=os.getenv("MATRIX_PASSWORD"),
     device_id="RIBIT_2_0_SECURE"
 )
@@ -160,8 +160,8 @@ Would you like to enable terminator mode? (Just kidding! 😄)
 Create `.env.ribit2.0` file:
 ```bash
 # Matrix Configuration
-MATRIX_HOMESERVER=https://anarchists.space
-MATRIX_USER_ID=@ribit.2.0:matrix.anarchists.space
+MATRIX_HOMESERVER=https://matrix.envs.net
+MATRIX_USER_ID=@ribit.2.0:envs.net
 MATRIX_PASSWORD=your_secure_password
 MATRIX_DEVICE_ID=RIBIT_2_0_SECURE
 
@@ -172,7 +172,7 @@ E2EE_ENABLE_QUANTUM_SAFE=true
 E2EE_KEY_ROTATION_HOURS=24
 
 # Security Configuration
-AUTHORIZED_USERS=@rabit233:matrix.anarchists.space,@rabit232:envs.net
+AUTHORIZED_USERS=@rabit232:envs.net,@rabit232:envs.net
 SECURITY_AUDIT_LOGGING=true
 FAILED_AUTH_THRESHOLD=3
 TERMINATOR_MODE_ENABLED=true
@@ -205,7 +205,7 @@ from ribit_2_0.matrix_e2ee_protocol import MatrixE2EEProtocol
 
 # Generate new device keys
 e2ee = MatrixE2EEProtocol.generate_new_device(
-    user_id="@ribit.2.0:matrix.anarchists.space",
+    user_id="@ribit.2.0:envs.net",
     device_id="RIBIT_2_0_SECURE"
 )
 
@@ -271,7 +271,7 @@ All security events are logged with emotional context:
   "timestamp": "2024-01-15T10:30:00Z",
   "event_type": "unauthorized_access",
   "user_id": "@unknown:suspicious.com",
-  "room_id": "!secure_room:matrix.anarchists.space",
+  "room_id": "!secure_room:envs.net",
   "command_attempted": "open system files",
   "emotional_response": "ALARM",
   "action_taken": "access_denied",

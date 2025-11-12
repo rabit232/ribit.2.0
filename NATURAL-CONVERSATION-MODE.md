@@ -119,15 +119,15 @@ The bot MUST run as a separate account (not your personal account).
 
 **Example:**
 ```
-Bot running as: @ribit:anarchists.space
-Your account: @rabit233:anarchists.space
+Bot running as: @ribit:matrix.envs.net
+Your account: @rabit232:envs.net
 Result: Bot responds to you ✅
 ```
 
 **Wrong:**
 ```
-Bot running as: @rabit233:anarchists.space
-Your account: @rabit233:anarchists.space
+Bot running as: @rabit232:envs.net
+Your account: @rabit232:envs.net
 Result: Bot ignores you ❌
 ```
 

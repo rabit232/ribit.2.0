@@ -39,7 +39,7 @@ wget "https://media.giphy.com/media/6F4TGyw69QRvVrHgRC/giphy.gif" -O ribit_avata
 
 Using Element Web:
 1. Go to https://app.element.io
-2. Log in as Ribit (@rabit233:anarchists.space)
+2. Log in as Ribit (@rabit232:envs.net)
 3. Click profile (top left)
 4. Settings → General
 5. Click avatar circle
@@ -93,7 +93,7 @@ python3 set_avatar.py
 ```bash
 # Check token is valid
 curl -H "Authorization: Bearer YOUR_TOKEN" \
-  https://anarchists.space/_matrix/client/r0/account/whoami
+  https://matrix.envs.net/_matrix/client/r0/account/whoami
 
 # Check file size (should be <1MB)
 ls -lh ribit_avatar.gif
@@ -149,8 +149,8 @@ python3 set_avatar.py
 ### With Custom Credentials
 
 ```bash
-export MATRIX_HOMESERVER="https://anarchists.space"
-export MATRIX_USER_ID="@rabit233:anarchists.space"
+export MATRIX_HOMESERVER="https://matrix.envs.net"
+export MATRIX_USER_ID="@rabit232:envs.net"
 export MATRIX_ACCESS_TOKEN="your_token"
 python3 set_avatar.py
 ```
@@ -174,19 +174,19 @@ After setting the avatar, verify it worked:
 ### Method 1: Element Web
 
 1. Go to https://app.element.io
-2. Search for @rabit233:anarchists.space
+2. Search for @rabit232:envs.net
 3. Check profile picture
 
 ### Method 2: Matrix API
 
 ```bash
-curl https://anarchists.space/_matrix/client/r0/profile/@rabit233:anarchists.space/avatar_url
+curl https://matrix.envs.net/_matrix/client/r0/profile/@rabit232:envs.net/avatar_url
 ```
 
 Should return:
 ```json
 {
-  "avatar_url": "mxc://anarchists.space/..."
+  "avatar_url": "mxc://matrix.envs.net/..."
 }
 ```
 
@@ -262,7 +262,7 @@ wget "https://media.giphy.com/media/6F4TGyw69QRvVrHgRC/giphy.gif" -O ribit_avata
 
 **Verify avatar:**
 ```bash
-curl https://anarchists.space/_matrix/client/r0/profile/@rabit233:anarchists.space/avatar_url
+curl https://matrix.envs.net/_matrix/client/r0/profile/@rabit232:envs.net/avatar_url
 ```
 
 ---

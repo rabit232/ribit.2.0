@@ -575,7 +575,7 @@ async def test_enhanced_e2ee_integration():
             response = await integration.handle_command(
                 command=command,
                 sender="@ribit:envs.net",
-                room_id="!test:matrix.anarchists.space"
+                room_id="!test:envs.net"
             )
             print(f"📝 Response: {response[:100]}...")
         

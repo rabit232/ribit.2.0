@@ -34,7 +34,7 @@ def setup_environment():
     # Check required environment variables
     required_vars = {
         "MATRIX_HOMESERVER": "https://envs.net",
-        "MATRIX_USERNAME": "@ribit.2.0:matrix.anarchists.space", 
+        "MATRIX_USERNAME": "@ribit.2.0:envs.net", 
         "MATRIX_PASSWORD": ""
     }
     
@@ -56,7 +56,7 @@ def setup_environment():
         print("\nPlease set these variables or create a .env file:")
         print("Example .env file:")
         print("MATRIX_HOMESERVER=https://envs.net")
-        print("MATRIX_USERNAME=@ribit.2.0:matrix.anarchists.space")
+        print("MATRIX_USERNAME=@ribit.2.0:envs.net")
         print("MATRIX_PASSWORD=your_password_here")
         return False
     
@@ -115,11 +115,11 @@ def create_sample_env():
 
 # Matrix server settings
 MATRIX_HOMESERVER=https://envs.net
-MATRIX_USERNAME=@ribit.2.0:matrix.anarchists.space
+MATRIX_USERNAME=@ribit.2.0:envs.net
 MATRIX_PASSWORD=your_password_here
 
 # Optional: Authorized users (comma-separated)
-AUTHORIZED_USERS=@rabit233:matrix.anarchists.space,@rabit232:envs.net
+AUTHORIZED_USERS=@rabit232:envs.net,@rabit232:envs.net
 
 # Optional: Bot configuration
 BOT_NAME=ribit.2.0
@@ -153,7 +153,7 @@ async def run_bot():
         
         # Parse authorized users
         auth_users_str = os.getenv("AUTHORIZED_USERS", 
-                                  "@rabit233:matrix.anarchists.space,@rabit232:envs.net")
+                                  "@rabit232:envs.net,@rabit232:envs.net")
         authorized_users = set(user.strip() for user in auth_users_str.split(","))
         
         print(f"\n🚀 Starting Ribit 2.0 Matrix Bot...")
@@ -224,7 +224,7 @@ Options:
 
 Environment Variables:
     MATRIX_HOMESERVER    Matrix server URL (default: https://envs.net)
-    MATRIX_USERNAME      Bot username (default: @ribit.2.0:matrix.anarchists.space)
+    MATRIX_USERNAME      Bot username (default: @ribit.2.0:envs.net)
     MATRIX_PASSWORD      Bot password (required)
     AUTHORIZED_USERS     Comma-separated list of authorized user IDs
     

@@ -3,16 +3,16 @@
 ## Matrix Account Configuration
 
 **Updated Account Information:**
-- **Matrix User ID:** `@rabit233:anarchists.space`
-- **Homeserver:** `https://anarchists.space`
+- **Matrix User ID:** `@rabit232:envs.net`
+- **Homeserver:** `https://matrix.envs.net`
 
 ## Running the Enhanced Autonomous Matrix Bot
 
 ### 1. Set Environment Variables
 
 ```bash
-export MATRIX_HOMESERVER="https://anarchists.space"
-export MATRIX_USER_ID="@rabit233:anarchists.space"
+export MATRIX_HOMESERVER="https://matrix.envs.net"
+export MATRIX_USER_ID="@rabit232:envs.net"
 export MATRIX_ACCESS_TOKEN="your_access_token_here"
 export MATRIX_DEVICE_ID="optional_device_id"
 ```
@@ -43,7 +43,7 @@ python3 ribit_2_0/enhanced_autonomous_matrix_bot.py
 ### Option 2: Using Matrix API
 
 ```bash
-curl -X POST https://anarchists.space/_matrix/client/r0/login \
+curl -X POST https://matrix.envs.net/_matrix/client/r0/login \
   -H "Content-Type: application/json" \
   -d '{
     "type": "m.login.password",
@@ -57,7 +57,7 @@ The response will contain your `access_token`.
 ## Authorized Users
 
 Only these users can send commands to Ribit:
-- `@rabit233:matrix.anarchists.space`
+- `@rabit232:envs.net`
 - `@rabit232:envs.net`
 
 ## Available Commands
@@ -125,8 +125,8 @@ ALL TESTS COMPLETED SUCCESSFULLY ✓
 ```bash
 cd ribit.2.0
 cat > .env << EOF
-MATRIX_HOMESERVER=https://anarchists.space
-MATRIX_USER_ID=@rabit233:anarchists.space
+MATRIX_HOMESERVER=https://matrix.envs.net
+MATRIX_USER_ID=@rabit232:envs.net
 MATRIX_ACCESS_TOKEN=your_token_here
 MATRIX_DEVICE_ID=your_device_id
 EOF
@@ -144,7 +144,7 @@ python3 -m ribit_2_0.enhanced_autonomous_matrix_bot
 ### Bot not responding
 1. Check that environment variables are set: `echo $MATRIX_USER_ID`
 2. Verify access token is valid
-3. Check bot is in the room: invite `@rabit233:anarchists.space`
+3. Check bot is in the room: invite `@rabit232:envs.net`
 4. Check logs for errors
 
 ### Autonomous responses not working
@@ -196,8 +196,8 @@ For issues or questions:
 
 ```
 # Terminal 1: Start the bot
-$ export MATRIX_HOMESERVER="https://anarchists.space"
-$ export MATRIX_USER_ID="@rabit233:anarchists.space"
+$ export MATRIX_HOMESERVER="https://matrix.envs.net"
+$ export MATRIX_USER_ID="@rabit232:envs.net"
 $ export MATRIX_ACCESS_TOKEN="syt_..."
 $ cd ribit.2.0
 $ python3 -m ribit_2_0.enhanced_autonomous_matrix_bot

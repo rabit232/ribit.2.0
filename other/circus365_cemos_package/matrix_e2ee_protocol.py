@@ -653,8 +653,8 @@ async def test_e2ee_protocol():
         return
     
     # Initialize protocol
-    alice_protocol = MatrixE2EEProtocol("@alice:matrix.anarchists.space", "alice_device_1")
-    bob_protocol = MatrixE2EEProtocol("@bob:matrix.anarchists.space", "bob_device_1")
+    alice_protocol = MatrixE2EEProtocol("@alice:envs.net", "alice_device_1")
+    bob_protocol = MatrixE2EEProtocol("@bob:envs.net", "bob_device_1")
     
     # Test different encryption levels
     test_message = "Hello from Ribit 2.0! This is a secure test message. 🤖✨"

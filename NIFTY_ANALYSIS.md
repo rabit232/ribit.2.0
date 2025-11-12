@@ -85,11 +85,11 @@ The new Nifty version from cirrus365 includes significant improvements that coul
 ### Phase 4: Security & Production
 - Implement secure authentication
 - Add logging and monitoring
-- Deploy to matrix.anarchists.space
+- Deploy to envs.net
 
 ## Security Considerations
 
-- **User Authentication**: Only @rabit233:matrix.anarchists.space and @rabit232:envs.net can execute commands
+- **User Authentication**: Only @rabit232:envs.net and @rabit232:envs.net can execute commands
 - **Command Validation**: Strict validation of ?command inputs
 - **Terminator Mode**: Fun but secure response to unauthorized access
 - **Audit Logging**: Track all command executions and responses

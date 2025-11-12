@@ -82,20 +82,20 @@ pip install matrix-nio aiofiles asyncio-throttle psutil
 **Environment Variables:**
 ```bash
 export MATRIX_HOMESERVER="https://envs.net"
-export MATRIX_USERNAME="@ribit.2.0:matrix.anarchists.space"
+export MATRIX_USERNAME="@ribit.2.0:envs.net"
 export MATRIX_PASSWORD="your_password_here"
-export AUTHORIZED_USERS="@rabit233:matrix.anarchists.space,@rabit232:envs.net"
+export AUTHORIZED_USERS="@rabit232:envs.net,@rabit232:envs.net"
 ```
 
 **Configuration File (.env):**
 ```env
 # Matrix server settings
 MATRIX_HOMESERVER=https://envs.net
-MATRIX_USERNAME=@ribit.2.0:matrix.anarchists.space
+MATRIX_USERNAME=@ribit.2.0:envs.net
 MATRIX_PASSWORD=your_password_here
 
 # Authorized users (comma-separated)
-AUTHORIZED_USERS=@rabit233:matrix.anarchists.space,@rabit232:envs.net
+AUTHORIZED_USERS=@rabit232:envs.net,@rabit232:envs.net
 
 # Optional: Bot configuration
 BOT_NAME=ribit.2.0
@@ -265,7 +265,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 ENV MATRIX_HOMESERVER=https://envs.net
-ENV MATRIX_USERNAME=@ribit.2.0:matrix.anarchists.space
+ENV MATRIX_USERNAME=@ribit.2.0:envs.net
 
 CMD ["python", "run_matrix_bot.py"]
 ```
@@ -278,9 +278,9 @@ services:
     build: .
     environment:
       - MATRIX_HOMESERVER=https://envs.net
-      - MATRIX_USERNAME=@ribit.2.0:matrix.anarchists.space
+      - MATRIX_USERNAME=@ribit.2.0:envs.net
       - MATRIX_PASSWORD=${MATRIX_PASSWORD}
-      - AUTHORIZED_USERS=@rabit233:matrix.anarchists.space,@rabit232:envs.net
+      - AUTHORIZED_USERS=@rabit232:envs.net,@rabit232:envs.net
     restart: unless-stopped
     volumes:
       - ./data:/app/data
