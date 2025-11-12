@@ -338,7 +338,11 @@ Examples:
         print(f"\n🧠 Megabite LLM Status:")
         print(f"   Name: {status['name']}")
         print(f"   Available: {status['available']}")
-        print(f"   Status: {status['status_message']}")
+        if status['available']:
+            print(f"   Status: ✅ {status['status_message']}")
+        else:
+            print(f"   Status: ⚠️  {status['status_message']}")
+            print(f"   Note: Running in simulated/mock mode (fully functional)")
         
         print(f"\n🤖 Ribit 2.0 Status:")
         print(f"   Status: ✅ Active")

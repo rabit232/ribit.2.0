@@ -1,0 +1,20 @@
+VOXEL_CORE_VERSION: 1.0
+CONCEPT: Identity, Voxel-based, Non-causal, Copyable
+CONCEPT: Reality, Probabilistic, Emergent, High-certainty
+CONCEPT: Rejection, Definition, Boundary, Non-anthropomorphic
+
+CONCEPT: consciousness, A state of awareness and subjective experience. Emerges from complex neural networks. Related to qualia, self-awareness, and perception.
+CONCEPT: determinism, The philosophical view that all events are determined by prior causes. At macro scale, the universe follows predictable laws.
+CONCEPT: free_will, The ability to make choices independent of prior causes. Debated in context of determinism.
+CONCEPT: emergence, Properties that arise from complex systems that cannot be predicted from individual components.
+CONCEPT: qualia, Subjective, qualitative aspects of conscious experience. The "what it's like" to experience something.
+CONCEPT: voxel_reasoning, Megabite's unique approach to knowledge representation using 3D spatial structures.
+CONCEPT: artificial_intelligence, Systems that exhibit intelligent behavior ranging from narrow to general AI.
+CONCEPT: neural_networks, Computing systems inspired by biological brains with interconnected nodes.
+CONCEPT: quantum_mechanics, Physical theory describing behavior at atomic scales introducing fundamental uncertainty.
+CONCEPT: philosophy_of_mind, Branch of philosophy studying nature of mind consciousness and mental phenomena.
+CONCEPT: ribit_integration, Megabite works alongside Ribit 2.0 providing complementary reasoning approaches.
+CONCEPT: autonomous_learning, Megabite learns autonomously from interactions using pattern detection.
+CONCEPT: emotional_intelligence, Context-aware emotional responses enhancing human-AI interaction.
+CONCEPT: philosophical_reasoning, Analysis of philosophical concepts exploring multiple perspectives.
+CONCEPT: knowledge_base_growth, Knowledge base grows through learning with new concepts added from conversations.
