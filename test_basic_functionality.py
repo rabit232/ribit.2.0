@@ -111,7 +111,7 @@ def test_conversation_manager():
         cm.add_message(msg2)
         
         # Test getting conversation context
-        context = cm.get_conversation_context("test_room", "user123")
+        context = cm.get_conversation_context("test_room")
         
         if context and len(context) > 0:
             print(f"{GREEN}✓{RESET} ConversationManager: Track conversation context")
