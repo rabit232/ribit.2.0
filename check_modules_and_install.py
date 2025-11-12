@@ -39,7 +39,7 @@ MODULE_DEPENDENCIES = {
     'deltabot': {
         'pip_name': 'deltabot',
         'import_test': 'deltabot',
-        'description': 'DeltaChat bot framework'
+        'description': 'DeltaChat bot framework (optional, has compatibility issues)'
     },
     'aiohttp': {
         'pip_name': 'aiohttp',
@@ -170,7 +170,7 @@ def main():
     
     for pkg_name, info in MODULE_DEPENDENCIES.items():
         is_installed = check_dependency(info['pip_name'], info['import_test'])
-        is_optional = pkg_name in ['pyautogui', 'pynput']
+        is_optional = pkg_name in ['pyautogui', 'pynput', 'deltabot']
         
         if is_installed:
             print(f"{GREEN}✓{RESET} {pkg_name:20s} {CYAN}{info['description']}{RESET}")
