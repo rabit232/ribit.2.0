@@ -10,7 +10,14 @@ import logging
 from typing import Dict, List, Optional, Set, Any
 from datetime import datetime, timedelta
 from collections import defaultdict
-from nio import AsyncClient, RoomMessagesResponse
+try:
+    from nio import AsyncClient, RoomMessagesResponse
+    MATRIX_NIO_AVAILABLE = True
+except ImportError:
+    MATRIX_NIO_AVAILABLE = False
+    # Create mock classes for type hints
+    class AsyncClient: pass
+    class RoomMessagesResponse: pass
 import json
 import re
 

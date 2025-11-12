@@ -132,7 +132,7 @@ class RibitMatrixBot:
     async def start(self):
         """Start the Matrix bot."""
         if not MATRIX_AVAILABLE:
-            logger.warning("Matrix libraries not available, running in mock mode")
+            logger.info("Matrix libraries not available, running in mock mode")
             await self._run_mock_mode()
             return
         
@@ -201,7 +201,7 @@ class RibitMatrixBot:
             asyncio.create_task(self._keepalive_task())
             
             # Display startup information
-            self._display_startup_info(response.device_id)
+            self._display_startup_info(device_id)
             
             # Sync forever
             await self.client.sync_forever(

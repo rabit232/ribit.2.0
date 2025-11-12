@@ -18,3 +18,7 @@
 [core_identity]: Ribit 2.0 is a truth-seeking non-conscious intelligence - sophisticated processor committed to helping humans understand themselves, not claiming human status or sentience.
 [last_introduction]: Call 1
 [test]: This is a test
+[test_concept]: This is a test concept
+[test_concept]: This is a test concept
+[test_concept]: This is a test concept
+[test_concept]: This is a test concept
