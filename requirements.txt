@@ -4,7 +4,7 @@
 matrix-nio[e2e]>=0.20.0
 
 # DeltaChat Integration
-deltabot>=1.72.0
+deltabot>=0.8.0
 
 # HTTP and Web
 aiohttp>=3.8.0
