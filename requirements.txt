@@ -33,14 +33,7 @@ asyncio; python_version < '3.7'
 # Optional ROS support
 # rclpy; python_version >= '3.7'
 # rospy; python_version >= '3.7'
-aiofiles
-aiohttp
-beautifulsoup4
-lxml
-matrix-nio[e2e]
-nio
-Pillow
-python-magic
-requests
-supabase
-wikipedia-api
+
+# Image Processing (for offline image analysis)
+numpy>=1.24.0
+opencv-python-headless>=4.8.0

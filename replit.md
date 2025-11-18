@@ -44,6 +44,18 @@ This provides an interactive menu to:
 7. Demonstrate task execution
 8. View conversation history
 
+### NEW: Offline Features Demo
+Test all the new offline capabilities:
+```bash
+python ribit_2_0/ribit_offline_features_demo.py
+```
+
+This demonstrates:
+- Image analysis without external APIs
+- Message history tracking and search
+- Smart natural language queries
+- Word learning from conversations
+
 ### Other Examples
 ```bash
 # Basic usage example
@@ -132,6 +144,32 @@ ribit.2.0/
 *To be added as preferences are discovered*
 
 ## Recent Changes
+
+### November 18, 2025 - Offline Features Implementation
+- ✅ **NEW: Offline Image Analysis Module**
+  - Color detection and dominant color extraction
+  - Shape and edge recognition
+  - Text region detection (basic OCR-like functionality)
+  - Composition analysis and focal point detection
+  - Human/nature/sky scene classification
+  - No external APIs required - fully offline!
+
+- ✅ **NEW: Matrix Message History Tracker**
+  - 90-day message retention with automatic cleanup
+  - Smart search with natural language queries
+  - Word learning system (automatic vocabulary extraction)
+  - Topic and user mention tracking
+  - Searchable SQLite database
+
+- ✅ **NEW: Smart Search Capabilities**
+  - Query examples: "did alice mention python last week?"
+  - Time-based filtering (today, yesterday, last week, etc.)
+  - User and topic correlation
+  - Question detection
+
+- 📚 Added comprehensive offline features guide (OFFLINE_FEATURES_GUIDE.md)
+- 🎯 Created demo script showcasing all new features
+- 📦 Updated dependencies (numpy, opencv-python-headless)
 
 ### November 18, 2025 - Initial Replit Setup
 - Imported GitHub repository

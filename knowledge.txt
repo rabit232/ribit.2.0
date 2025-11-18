@@ -22,3 +22,4 @@
 [test_concept]: This is a test concept
 [test_concept]: This is a test concept
 [test_concept]: This is a test concept
+[query_1]: tell me about te ultimate truth
