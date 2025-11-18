@@ -24,6 +24,7 @@ try:
         AsyncClientConfig,
         LoginResponse,
         RoomMessageText,
+        RoomMessageImage,
         InviteMemberEvent,
         MatrixRoom,
         JoinResponse
@@ -44,9 +45,15 @@ except ImportError:
     class InviteMemberEvent:
         """Mock InviteMemberEvent for type annotations when matrix-nio is not installed."""
         pass
+    
+    class RoomMessageImage:
+        """Mock RoomMessageImage for type annotations when matrix-nio is not installed."""
+        pass
 
 # # from .mock_llm_wrapper import MockRibit20LLM
 from .controller import VisionSystemController
+from .offline_image_analyzer import OfflineImageAnalyzer
+from .matrix_history_tracker import MatrixHistoryTracker
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -94,6 +101,22 @@ class RibitMatrixBot:
         self.controller = VisionSystemController()
         self.enable_bridge = enable_bridge or os.getenv("ENABLE_BRIDGE", "False").lower() == "true"
         self.bridge_relay: Optional[BridgeRelay] = None # Will be set by external bridge runner
+        
+        # Initialize offline features
+        try:
+            self.image_analyzer = OfflineImageAnalyzer()
+            logger.info("✅ Offline image analyzer initialized")
+        except Exception as e:
+            logger.warning(f"Failed to initialize image analyzer: {e}")
+            self.image_analyzer = None
+        
+        try:
+            db_path = os.getenv("MATRIX_HISTORY_DB", "matrix_message_history.db")
+            self.history_tracker = MatrixHistoryTracker(db_path=db_path)
+            logger.info("✅ Message history tracker initialized (90-day retention)")
+        except Exception as e:
+            logger.warning(f"Failed to initialize message history tracker: {e}")
+            self.history_tracker = None
         
         # Initialize enhanced intelligence systems
         try:
@@ -188,6 +211,10 @@ class RibitMatrixBot:
             # Set up event callbacks
             self.client.add_event_callback(self._handle_message, RoomMessageText)
             self.client.add_event_callback(self._handle_invite, InviteMemberEvent)
+            
+            # Add image upload handler if available
+            if MATRIX_AVAILABLE:
+                self.client.add_event_callback(self._handle_image, RoomMessageImage)
             
             # Initial sync
             logger.info("🔄 Performing initial sync...")
@@ -291,6 +318,19 @@ class RibitMatrixBot:
             
             # Process the message
             response = await self._process_message(event.body, event.sender, room.room_id)
+            
+            # Track message in history database
+            if self.history_tracker:
+                try:
+                    sender_name = event.sender.split(':')[0].replace('@', '')
+                    self.history_tracker.add_message(
+                        room_id=room.room_id,
+                        sender=event.sender,
+                        sender_name=sender_name,
+                        message_text=event.body
+                    )
+                except Exception as e:
+                    logger.debug(f"Failed to track message in history: {e}")
 
             if response:
                 await self._send_message(room.room_id, response)
@@ -306,6 +346,91 @@ class RibitMatrixBot:
 
         except Exception as e:
             logger.error(f"Error handling message: {e}")
+    
+    async def _handle_image(self, room: MatrixRoom, event: RoomMessageImage):
+        """Handle incoming image uploads and analyze them."""
+        try:
+            # Skip if already processed
+            if event.event_id in self.processed_events:
+                return
+            
+            # Skip own messages
+            if event.sender == self.client.user_id:
+                return
+            
+            # Mark as processed
+            self.processed_events.add(event.event_id)
+            
+            # Check if image analyzer is available
+            if not self.image_analyzer:
+                logger.warning("Image analyzer not available, skipping image analysis")
+                return
+            
+            try:
+                # Get image URL from event
+                if hasattr(event, 'url'):
+                    # Send initial response
+                    await self._send_message(room.room_id, "🔍 Analyzing image... Please wait.")
+                    
+                    # Download image from Matrix server
+                    download_response = await self.client.download(
+                        server_name=event.url.split("/")[2],
+                        media_id=event.url.split("/")[-1]
+                    )
+                    
+                    if hasattr(download_response, 'body'):
+                        # Save image temporarily
+                        import tempfile
+                        from PIL import Image
+                        import io
+                        
+                        # Convert bytes to image
+                        image_data = io.BytesIO(download_response.body)
+                        image = Image.open(image_data)
+                        
+                        # Analyze the image
+                        analysis = self.image_analyzer.analyze_image(image)
+                        description = analysis.get('description', 'Unable to analyze image')
+                        
+                        # Extract key details
+                        colors = analysis.get('colors', {})
+                        shapes = analysis.get('shapes', {})
+                        features = analysis.get('features', {})
+                        
+                        # Build response
+                        response_parts = [
+                            f"📸 **Image Analysis**",
+                            f"",
+                            f"{description}",
+                            f"",
+                            f"**Key Details:**"
+                        ]
+                        
+                        if colors.get('dominant_colors'):
+                            color_list = ", ".join([f"{c[0]}" for c in colors['dominant_colors'][:3]])
+                            response_parts.append(f"• Colors: {color_list}")
+                        
+                        if shapes.get('complexity'):
+                            response_parts.append(f"• Composition: {shapes['complexity']}")
+                        
+                        if features.get('has_people'):
+                            response_parts.append(f"• Contains people: Yes")
+                        
+                        if features.get('is_nature'):
+                            response_parts.append(f"• Nature scene: Yes")
+                        
+                        response = "\n".join(response_parts)
+                        await self._send_message(room.room_id, response)
+                        
+                    else:
+                        await self._send_message(room.room_id, "❌ Failed to download image for analysis.")
+                        
+            except Exception as e:
+                logger.error(f"Error analyzing image: {e}")
+                await self._send_message(room.room_id, f"❌ Error analyzing image: {str(e)}")
+            
+        except Exception as e:
+            logger.error(f"Error handling image: {e}")
 
     def set_bridge_relay(self, bridge_relay):
         """Set the bridge relay for cross-platform messaging."""
@@ -628,6 +753,15 @@ class RibitMatrixBot:
             elif command.startswith('?command '):
                 return await self._handle_action_command(command[9:])
             
+            elif command.startswith('?search '):
+                return await self._handle_search_command(command[8:], room_id)
+            
+            elif command.startswith('?history'):
+                return await self._handle_history_command(command, room_id)
+            
+            elif command.startswith('?words'):
+                return await self._handle_words_command(command)
+            
             else:
                 return f"Unknown command: {command}. Use ?help for available commands."
                 
@@ -767,10 +901,16 @@ I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. H
 **Chat:**
 • `ribit.2.0 <message>` - Chat with me
 • `!reset` - Clear conversation context
+• Upload an image - Get offline image analysis
+
+**Message History:**
+• `?search <query>` - Search messages (e.g., "did alice mention python")
+• `?history` - View message statistics
+• `?words` - View learned vocabulary (top 20 words)
 
 **General Commands:**
 • `?help` - Show this help
-• `?thought_experiment [topic]` - Generate a philosophical thought experiment on a topic and save the response to the `thoughts` folder.
+• `?thought_experiment [topic]` - Generate a philosophical thought experiment
 
 **Authorized Commands** (restricted users only):
 • `?sys` - System status
@@ -778,13 +918,12 @@ I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. H
 • `?command <action>` - Execute actions
 
 **Examples:**
+• `?search did bob talk about databases`
+• `?search who mentioned AI last week`
 • `?thought_experiment The Nature of Voxel-Based Identity`
-• `?command open ms paint and draw a house`
 • `ribit.2.0 tell me about robotics`
 
-I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. How may I assist you today?"""
-        
-        return self._get_help_command_response()
+I am Ribit 2.0, an elegant AI agent with offline image analysis and message search. How may I assist you today?"""
     
     async def _handle_action_command(self, action: str) -> str:
         """Handle action execution command."""
@@ -819,6 +958,101 @@ I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. H
         if match:
             return (int(match.group(1)), int(match.group(2)))
         return None
+    
+    async def _handle_search_command(self, query: str, room_id: str) -> str:
+        """Handle message search command."""
+        try:
+            if not self.history_tracker:
+                return "❌ Message history tracking is not enabled."
+            
+            if not query.strip():
+                return "❌ Please provide a search query. Example: `?search did alice mention python`"
+            
+            # Search for messages
+            results = self.history_tracker.search_messages(query, room_id=room_id, limit=5)
+            
+            if not results:
+                return f"🔍 No messages found matching: \"{query}\""
+            
+            # Format results
+            response_parts = [
+                f"🔍 **Search Results** for: \"{query}\"",
+                f"Found {len(results)} messages:\n"
+            ]
+            
+            for msg in results:
+                sender_name = msg.get('sender_name', msg.get('sender', 'Unknown'))
+                timestamp = msg.get('timestamp', '')
+                text = msg.get('message_text', '')
+                
+                # Truncate long messages
+                if len(text) > 100:
+                    text = text[:97] + "..."
+                
+                response_parts.append(f"• **{sender_name}** ({timestamp}): {text}")
+            
+            return "\n".join(response_parts)
+            
+        except Exception as e:
+            logger.error(f"Error searching messages: {e}")
+            return f"❌ Error searching messages: {str(e)}"
+    
+    async def _handle_history_command(self, command: str, room_id: str) -> str:
+        """Handle message history command."""
+        try:
+            if not self.history_tracker:
+                return "❌ Message history tracking is not enabled."
+            
+            # Get statistics
+            stats = self.history_tracker.get_statistics(room_id=room_id)
+            
+            response_parts = [
+                "📊 **Message History Statistics**\n",
+                f"• Total Messages: {stats.get('total_messages', 0)}",
+                f"• Unique Senders: {stats.get('unique_senders', 0)}",
+                f"• Words Learned: {stats.get('words_learned', 0)}",
+                f"• Retention Period: {stats.get('retention_days', 90)} days\n"
+            ]
+            
+            # Top topics
+            top_topics = stats.get('top_topics', [])
+            if top_topics:
+                response_parts.append("**Top Topics:**")
+                for topic, count in top_topics[:5]:
+                    response_parts.append(f"  • {topic}: {count} mentions")
+            
+            return "\n".join(response_parts)
+            
+        except Exception as e:
+            logger.error(f"Error getting history: {e}")
+            return f"❌ Error getting history: {str(e)}"
+    
+    async def _handle_words_command(self, command: str) -> str:
+        """Handle word library command."""
+        try:
+            if not self.history_tracker:
+                return "❌ Message history tracking is not enabled."
+            
+            # Get word library stats
+            words = self.history_tracker.get_word_library(limit=20)
+            
+            if not words:
+                return "📚 No words have been learned yet."
+            
+            response_parts = [
+                f"📚 **Word Library** (Top {len(words)} words)\n"
+            ]
+            
+            for word_data in words:
+                word = word_data.get('word', '')
+                frequency = word_data.get('frequency', 0)
+                response_parts.append(f"• {word}: {frequency} times")
+            
+            return "\n".join(response_parts)
+            
+        except Exception as e:
+            logger.error(f"Error getting word library: {e}")
+            return f"❌ Error getting word library: {str(e)}"
     
     def _add_to_context(self, room_id: str, message: str):
         """Add message to conversation context."""
