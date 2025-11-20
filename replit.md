@@ -172,6 +172,29 @@ Once configured, use the demo menu options 10-13 to control the bot!
 
 ## Recent Changes
 
+### November 20, 2025 - Enhanced Word Library & Admin Configuration
+- ✅ **Enhanced ?words Command**
+  - Now accepts parameter: `?words 200` or `?words 120`
+  - Default increased from 20 to 120 words
+  - Maximum cap at 500 words
+  - Shows total learned words from 3-month history
+  - Example usage: `?words` (120), `?words 200` (200 words)
+
+- 🔐 **Admin User Configuration**
+  - @rabit232:envs.net configured as primary admin user
+  - Full command privileges: ?sys, ?status, ?command
+  - Clearly documented in code and help messages
+  
+- 📚 **New Database Method**
+  - Added `get_word_library()` to MatrixHistoryTracker
+  - Efficient database queries with configurable limits
+  - Returns word frequency, first/last seen timestamps
+
+- 🔧 **Environment Variable Loading**
+  - demo.py now loads .env file automatically
+  - Matrix credentials persist across workflow restarts
+  - Simplified bot configuration for users
+
 ### November 20, 2025 - Matrix Bot CLI Controls
 - ✅ **Interactive Bot Management**
   - Start/Stop/Restart Matrix bot from demo CLI

@@ -83,9 +83,12 @@ class RibitMatrixBot:
         self.password = password
         self.access_token = access_token
         self.use_token_auth = bool(access_token)
+        
+        # Admin users with full command privileges (?sys, ?status, ?command)
+        # @rabit232:envs.net is the primary admin user
         self.authorized_users = authorized_users or {
             "@ribit:envs.net",
-            "@rabit232:envs.net"
+            "@rabit232:envs.net"  # Primary admin user
         }
         
         # Initialize components
@@ -798,13 +801,22 @@ class RibitMatrixBot:
 
 **General Commands:**
 • `?help` - Show this help
+• `?search <query>` - Search 3-month message history (natural language)
+• `?history` - View message history statistics
+• `?words [number]` - View learned words (default: 120, max: 500)
 
-**Authorized Commands** (restricted users only):
+**Image Analysis:**
+• Upload any image - I'll analyze it automatically!
+
+**Authorized Commands** (admin users only):
 • `?sys` - System status
 • `?status` - Bot status  
 • `?command <action>` - Execute actions
 
 **Examples:**
+• `?words` - Show top 120 learned words
+• `?words 200` - Show top 200 learned words
+• `?search did alice mention python last week?`
 • `?command open ms paint and draw a house`
 • `ribit.2.0 tell me about robotics`
 
@@ -1028,19 +1040,34 @@ I am Ribit 2.0, an elegant AI agent with offline image analysis and message sear
             return f"❌ Error getting history: {str(e)}"
     
     async def _handle_words_command(self, command: str) -> str:
-        """Handle word library command."""
+        """Handle word library command with optional limit parameter."""
         try:
             if not self.history_tracker:
                 return "❌ Message history tracking is not enabled."
             
+            # Parse limit parameter (e.g., "?words 200" or "?words 120")
+            limit = 120  # Default to 120 words
+            parts = command.strip().split()
+            if len(parts) > 1:
+                try:
+                    limit = int(parts[1])
+                    # Cap at reasonable maximum
+                    limit = min(limit, 500)
+                except ValueError:
+                    return "❌ Invalid number. Usage: `?words` or `?words <number>` (e.g., `?words 200`)"
+            
             # Get word library stats
-            words = self.history_tracker.get_word_library(limit=20)
+            words = self.history_tracker.get_word_library(limit=limit)
             
             if not words:
-                return "📚 No words have been learned yet."
+                return "📚 No words have been learned yet from the past 3 months."
+            
+            # Get total word count
+            stats = self.history_tracker.get_statistics()
+            total_words = stats.get('words_learned', len(words))
             
             response_parts = [
-                f"📚 **Word Library** (Top {len(words)} words)\n"
+                f"📚 **Word Library** (Top {len(words)} of {total_words} words from 3-month history)\n"
             ]
             
             for word_data in words:

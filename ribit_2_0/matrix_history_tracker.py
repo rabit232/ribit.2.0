@@ -346,10 +346,12 @@ class MatrixHistoryTracker:
         elif 'last month' in query_lower or 'month ago' in query_lower:
             month_ago = now - timedelta(days=30)
             parsed['time_range'] = (month_ago, now)
-        elif re.search(r'(\d+)\s+days?\s+ago', query_lower):
-            days = int(re.search(r'(\d+)\s+days?\s+ago', query_lower).group(1))
-            days_ago = now - timedelta(days=days)
-            parsed['time_range'] = (days_ago, now)
+        else:
+            days_match = re.search(r'(\d+)\s+days?\s+ago', query_lower)
+            if days_match:
+                days = int(days_match.group(1))
+                days_ago = now - timedelta(days=days)
+                parsed['time_range'] = (days_ago, now)
         
         # Check for questions
         if 'ask' in query_lower or 'question' in query_lower:
@@ -478,3 +480,41 @@ class MatrixHistoryTracker:
         except Exception as e:
             self.logger.error(f"Statistics failed: {e}")
             return {'error': str(e)}
+    
+    def get_word_library(self, limit: int = 120) -> List[Dict[str, Any]]:
+        """
+        Get learned words from the word library.
+        
+        Args:
+            limit: Maximum number of words to return (default 120)
+            
+        Returns:
+            List of word dictionaries with word, frequency, first_seen, last_seen
+        """
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                SELECT word, frequency, first_seen, last_seen
+                FROM word_library
+                ORDER BY frequency DESC
+                LIMIT ?
+            ''', (limit,))
+            
+            results = cursor.fetchall()
+            conn.close()
+            
+            return [
+                {
+                    'word': row[0],
+                    'frequency': row[1],
+                    'first_seen': row[2],
+                    'last_seen': row[3]
+                }
+                for row in results
+            ]
+            
+        except Exception as e:
+            self.logger.error(f"Failed to get word library: {e}")
+            return []
