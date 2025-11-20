@@ -496,8 +496,7 @@ class RibitMatrixBot:
                     logger.info(f"✅ Joined room: {room.room_id}")
                     
                     # Send welcome message
-                    welcome_msg = ("🤖 Greetings! I am Ribit 2.0, an elegant AI agent. "
-                                 f"Say '{self.bot_name}' to chat with me, or use ?help for commands.")
+                    welcome_msg = "Hello! How can I help you?"
                     await self._send_message(room.room_id, welcome_msg)
                 else:
                     logger.error(f"Failed to join room: {join_response}")
