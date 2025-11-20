@@ -163,6 +163,140 @@ def bot_status():
     
     print()
 
+def learn_words_from_rooms():
+    """Scan Matrix rooms and learn new words."""
+    print("📚 LEARNING WORDS FROM MATRIX ROOMS")
+    print("-" * 70)
+    
+    # Check configuration
+    homeserver = os.getenv("MATRIX_HOMESERVER")
+    username = os.getenv("MATRIX_USERNAME")
+    password = os.getenv("MATRIX_PASSWORD")
+    token = os.getenv("MATRIX_ACCESS_TOKEN")
+    
+    if not homeserver or not username or (not password and not token):
+        print("\n❌ Matrix credentials not configured!")
+        print("💡 Set up your Matrix credentials first (see option 13)")
+        print()
+        return
+    
+    try:
+        import asyncio
+        from nio import AsyncClient, RoomMessagesResponse
+        from ribit_2_0.matrix_history_tracker import MatrixHistoryTracker
+        
+        print("\n🔍 Connecting to Matrix...")
+        
+        # Ask for message limit
+        limit_input = input("👉 How many recent messages per room? (default 100, max 500): ").strip()
+        if limit_input:
+            try:
+                msg_limit = int(limit_input)
+                msg_limit = min(msg_limit, 500)
+            except ValueError:
+                print("⚠️  Invalid number, using default (100)")
+                msg_limit = 100
+        else:
+            msg_limit = 100
+        
+        async def fetch_and_learn():
+            """Async function to fetch messages and learn words."""
+            # Initialize client
+            client = AsyncClient(homeserver, username)
+            
+            # Login
+            if token:
+                client.access_token = token
+                client.user_id = username
+            else:
+                login_response = await client.login(password)
+                if not login_response or hasattr(login_response, 'message'):
+                    print(f"❌ Login failed: {getattr(login_response, 'message', 'Unknown error')}")
+                    await client.close()
+                    return
+            
+            # Sync to get rooms
+            print("🔄 Syncing rooms...")
+            await client.sync(timeout=30000)
+            
+            joined_rooms = list(client.rooms.keys())
+            print(f"✅ Found {len(joined_rooms)} joined rooms")
+            
+            if not joined_rooms:
+                print("⚠️  No rooms found! Invite the bot to some rooms first.")
+                await client.close()
+                return
+            
+            # Initialize history tracker
+            db_path = os.getenv("MATRIX_HISTORY_DB", "matrix_message_history.db")
+            tracker = MatrixHistoryTracker(db_path=db_path)
+            
+            total_messages = 0
+            total_words_before = tracker.get_statistics().get('words_learned', 0)
+            
+            print(f"\n📖 Learning from {len(joined_rooms)} rooms ({msg_limit} messages each)...\n")
+            
+            # Fetch messages from each room
+            for i, room_id in enumerate(joined_rooms, 1):
+                room = client.rooms[room_id]
+                room_name = room.display_name or room.room_id[:20]
+                
+                print(f"  [{i}/{len(joined_rooms)}] {room_name}...", end=" ")
+                
+                try:
+                    # Fetch recent messages
+                    response = await client.room_messages(
+                        room_id=room_id,
+                        start="",
+                        limit=msg_limit
+                    )
+                    
+                    if isinstance(response, RoomMessagesResponse):
+                        message_count = 0
+                        for event in response.chunk:
+                            if hasattr(event, 'body') and hasattr(event, 'sender'):
+                                # Add message to tracker (which learns words)
+                                tracker.add_message(
+                                    room_id=room_id,
+                                    sender=event.sender,
+                                    message_text=event.body,
+                                    sender_name=None
+                                )
+                                message_count += 1
+                        
+                        total_messages += message_count
+                        print(f"✅ {message_count} messages")
+                    else:
+                        print("⚠️  Failed to fetch")
+                        
+                except Exception as e:
+                    print(f"❌ Error: {str(e)[:30]}")
+            
+            await client.close()
+            
+            # Show results
+            total_words_after = tracker.get_statistics().get('words_learned', 0)
+            new_words = total_words_after - total_words_before
+            
+            print(f"\n✅ Learning complete!")
+            print(f"   📊 Processed: {total_messages} messages")
+            print(f"   📚 Total words in library: {total_words_after}")
+            print(f"   🆕 New words learned: {new_words}")
+            print()
+        
+        # Run the async function
+        asyncio.run(fetch_and_learn())
+        
+    except ImportError as e:
+        print(f"\n❌ Required modules not available: {e}")
+        print("💡 Make sure matrix-nio is installed")
+        print()
+    except Exception as e:
+        print(f"\n❌ Error learning words: {e}")
+        import traceback
+        traceback.print_exc()
+        print()
+
 def print_header():
     """Print the Ribit 2.0 welcome header."""
     print("\n" + "=" * 70)
@@ -193,6 +327,7 @@ def print_menu():
     print("  11. Stop Matrix Bot - Stop the bot")
     print("  12. Restart Matrix Bot - Restart the bot")
     print("  13. Bot Status - Check bot status and config")
+    print("  14. Learn Words from Rooms - Scan Matrix rooms and learn new words")
     print("-" * 70)
     print("  0. Exit")
     print("-" * 70)
@@ -213,7 +348,7 @@ def main():
     
     while running:
         print_menu()
-        choice = input("\n👉 Enter your choice (0-13): ").strip()
+        choice = input("\n👉 Enter your choice (0-14): ").strip()
         
         print("\n" + "=" * 70)
         
@@ -380,6 +515,10 @@ def main():
             # Bot Status
             bot_status()
             
+        elif choice == "14":
+            # Learn Words from Rooms
+            learn_words_from_rooms()
+            
         elif choice == "0":
             # Exit
             print("👋 GOODBYE")
@@ -393,7 +532,7 @@ def main():
             running = False
             
         else:
-            print("⚠️  Invalid choice. Please enter 0-13.\n")
+            print("⚠️  Invalid choice. Please enter 0-14.\n")
     
     print("=" * 70)
     print("✅ Demo completed successfully!")

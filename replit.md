@@ -53,6 +53,7 @@ This provides an interactive menu to:
 11. Stop Matrix Bot - Stop the bot
 12. Restart Matrix Bot - Restart the bot
 13. Bot Status - Check bot status and config
+14. Learn Words from Rooms - Scan Matrix rooms and learn new words
 
 ### NEW: Offline Features Demo
 Test all the new offline capabilities:
