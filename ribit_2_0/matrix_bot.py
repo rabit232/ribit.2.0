@@ -54,6 +54,12 @@ except ImportError:
 from .controller import VisionSystemController
 from .offline_image_analyzer import OfflineImageAnalyzer
 from .matrix_history_tracker import MatrixHistoryTracker
+from .image_provider import (
+    ImageAnalysisProvider,
+    OfflineImageProvider,
+    WebAIImageProvider,
+    FallbackImageProvider
+)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -107,8 +113,31 @@ class RibitMatrixBot:
         
         # Initialize offline features
         try:
-            self.image_analyzer = OfflineImageAnalyzer()
-            logger.info("✅ Offline image analyzer initialized")
+            offline_analyzer = OfflineImageAnalyzer()
+            offline_provider = OfflineImageProvider(offline_analyzer)
+            
+            providers = [offline_provider]
+            
+            webai_url = os.getenv("WEBAI_API_URL", "")
+            webai_model = os.getenv("WEBAI_MODEL", "gemini-pro-vision")
+            enable_webai_fallback = os.getenv("ENABLE_WEBAI_FALLBACK", "false").lower() == "true"
+            
+            if enable_webai_fallback and webai_url:
+                webai_provider = WebAIImageProvider(
+                    api_url=webai_url,
+                    model=webai_model,
+                    timeout=30
+                )
+                providers.append(webai_provider)
+                logger.info(f"✅ WebAI fallback enabled: {webai_url} (model: {webai_model})")
+            
+            if len(providers) > 1:
+                self.image_analyzer = FallbackImageProvider(providers)
+                logger.info(f"✅ Image analysis with fallback: {' → '.join([p.get_name() for p in providers])}")
+            else:
+                self.image_analyzer = offline_provider
+                logger.info("✅ Offline image analyzer initialized (no fallback)")
+                
         except Exception as e:
             logger.warning(f"Failed to initialize image analyzer: {e}")
             self.image_analyzer = None
@@ -411,8 +440,16 @@ class RibitMatrixBot:
                             
                             logger.info(f"Image loaded: {image.width}x{image.height}, mode={image.mode}")
                             
-                            # Analyze the image
-                            analysis = self.image_analyzer.analyze_image(image)
+                            # Analyze the image using provider (async)
+                            analysis = await self.image_analyzer.analyze_image(image)
+                            
+                            if 'error' in analysis:
+                                error_msg = analysis.get('error', 'Unknown error')
+                                logger.error(f"Image analysis failed: {error_msg}")
+                                await self._send_message(room.room_id, 
+                                    f"❌ Could not analyze image: {error_msg}")
+                                return
+                            
                             description = analysis.get('description', 'Image uploaded successfully')
                             
                             # Extract key details
