@@ -176,6 +176,23 @@ Once configured, use the demo menu options 10-13 to control the bot!
 
 ## Recent Changes
 
+### November 20, 2025 - Enhanced Conversation & Image Analysis
+- 🤖 **Improved Natural Conversation Detection**
+  - Bot now responds to more natural questions: "tell me", "explain", "what is"
+  - Responds to "hey bot", "hey ai", direct address patterns
+  - Detects question intent better (what/who/when/where/how)
+  - Still ignores group greetings ("good morning everyone")
+  - More responsive and helpful in natural conversations
+
+- 📸 **Fixed Image Analysis Issues**
+  - Better error handling for corrupted or unsupported images
+  - Automatic image format conversion (PNG → RGB)
+  - Validates image dimensions before processing
+  - Detailed error messages with supported formats
+  - More robust PIL image handling
+  - Added logging for debugging image issues
+  - Shows image dimensions and focal points
+
 ### November 20, 2025 - Enhanced Word Library & Admin Configuration
 - ✅ **Enhanced ?words Command**
   - Now accepts parameter: `?words 200` or `?words 120`

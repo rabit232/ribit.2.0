@@ -381,56 +381,99 @@ class RibitMatrixBot:
                         media_id=event.url.split("/")[-1]
                     )
                     
-                    if hasattr(download_response, 'body'):
+                    if hasattr(download_response, 'body') and download_response.body:
                         # Save image temporarily
                         import tempfile
                         from PIL import Image
                         import io
                         
-                        # Convert bytes to image
-                        image_data = io.BytesIO(download_response.body)
-                        image = Image.open(image_data)
-                        
-                        # Analyze the image
-                        analysis = self.image_analyzer.analyze_image(image)
-                        description = analysis.get('description', 'Unable to analyze image')
-                        
-                        # Extract key details
-                        colors = analysis.get('colors', {})
-                        shapes = analysis.get('shapes', {})
-                        features = analysis.get('features', {})
-                        
-                        # Build response
-                        response_parts = [
-                            f"📸 **Image Analysis**",
-                            f"",
-                            f"{description}",
-                            f"",
-                            f"**Key Details:**"
-                        ]
-                        
-                        if colors.get('dominant_colors'):
-                            color_list = ", ".join([f"{c[0]}" for c in colors['dominant_colors'][:3]])
-                            response_parts.append(f"• Colors: {color_list}")
-                        
-                        if shapes.get('complexity'):
-                            response_parts.append(f"• Composition: {shapes['complexity']}")
-                        
-                        if features.get('has_people'):
-                            response_parts.append(f"• Contains people: Yes")
-                        
-                        if features.get('is_nature'):
-                            response_parts.append(f"• Nature scene: Yes")
-                        
-                        response = "\n".join(response_parts)
-                        await self._send_message(room.room_id, response)
+                        try:
+                            # Convert bytes to image
+                            image_data = io.BytesIO(download_response.body)
+                            image = Image.open(image_data)
+                            
+                            # Convert to RGB if necessary (handle PNG, etc.)
+                            if image.mode not in ('RGB', 'L'):
+                                image = image.convert('RGB')
+                            
+                            # Verify image was loaded
+                            if image.width == 0 or image.height == 0:
+                                raise ValueError("Invalid image dimensions")
+                            
+                            logger.info(f"Image loaded: {image.width}x{image.height}, mode={image.mode}")
+                            
+                            # Analyze the image
+                            analysis = self.image_analyzer.analyze_image(image)
+                            description = analysis.get('description', 'Image uploaded successfully')
+                            
+                            # Extract key details
+                            colors = analysis.get('colors', {})
+                            shapes = analysis.get('shapes', {})
+                            features = analysis.get('features', {})
+                            composition = analysis.get('composition', {})
+                            
+                            # Build response
+                            response_parts = [
+                                f"📸 **Image Analysis**",
+                                f"",
+                                f"{description}",
+                                f""
+                            ]
+                            
+                            # Add details section if we have meaningful data
+                            has_details = False
+                            detail_parts = []
+                            
+                            if colors.get('dominant_colors'):
+                                color_list = ", ".join([f"{c[0]}" for c in colors['dominant_colors'][:3]])
+                                detail_parts.append(f"• **Colors:** {color_list}")
+                                has_details = True
+                            
+                            if shapes.get('complexity'):
+                                detail_parts.append(f"• **Composition:** {shapes['complexity']}")
+                                has_details = True
+                            
+                            if composition.get('focal_point'):
+                                detail_parts.append(f"• **Focal Point:** {composition['focal_point']}")
+                                has_details = True
+                            
+                            if features.get('has_people'):
+                                detail_parts.append(f"• **People detected:** Yes")
+                                has_details = True
+                            
+                            if features.get('is_nature'):
+                                detail_parts.append(f"• **Nature scene:** Yes")
+                                has_details = True
+                            
+                            if features.get('has_text_regions'):
+                                detail_parts.append(f"• **Text detected:** Yes")
+                                has_details = True
+                            
+                            # Add image dimensions
+                            detail_parts.append(f"• **Size:** {image.width}x{image.height}px")
+                            
+                            if has_details:
+                                response_parts.append("**Details:**")
+                                response_parts.extend(detail_parts)
+                            
+                            response = "\n".join(response_parts)
+                            await self._send_message(room.room_id, response)
+                            logger.info(f"✅ Image analysis completed successfully")
+                            
+                        except Exception as img_error:
+                            logger.error(f"Error processing image data: {img_error}")
+                            await self._send_message(room.room_id, 
+                                "❌ Could not process image. The file may be corrupted or in an unsupported format. "
+                                "Supported formats: JPEG, PNG, GIF, BMP, WebP")
                         
                     else:
-                        await self._send_message(room.room_id, "❌ Failed to download image for analysis.")
+                        logger.error("Download response has no body")
+                        await self._send_message(room.room_id, "❌ Failed to download image data.")
                         
             except Exception as e:
-                logger.error(f"Error analyzing image: {e}")
-                await self._send_message(room.room_id, f"❌ Error analyzing image: {str(e)}")
+                logger.error(f"Error in image handler: {e}", exc_info=True)
+                await self._send_message(room.room_id, 
+                    f"❌ Error analyzing image. Please try again or use a different image format.")
             
         except Exception as e:
             logger.error(f"Error handling image: {e}")
@@ -623,18 +666,34 @@ class RibitMatrixBot:
         
         Intelligent detection:
         - Responds to questions (ends with ? or contains question words)
-        - Responds to direct mentions (ribit, ribit.2.0)
+        - Responds to direct mentions (ribit, ribit.2.0, bot, ai)
         - Responds to commands (?help, !reset)
+        - Responds to direct address patterns (hey bot, tell me, explain)
         - Ignores group greetings (good morning all, how's everyone, etc.)
         """
         message_lower = message.lower()
         
         # Check for direct mentions (always respond)
-        if self.bot_name in message_lower or 'ribit' in message_lower:
+        bot_mentions = ['ribit', 'bot', 'ai', '@ribit', self.bot_name]
+        if any(mention in message_lower for mention in bot_mentions):
             return True
         
         # Check for commands (always respond)
         if message.startswith('?') or '!reset' in message_lower:
+            return True
+        
+        # Check for direct address patterns (always respond)
+        direct_address = [
+            'hey bot', 'hi bot', 'hello bot',
+            'hey ai', 'hi ai', 'hello ai',
+            'tell me', 'can you tell',
+            'explain', 'describe',
+            'what is', 'what are', 'what was',
+            'who is', 'who are',
+            'help me', 'show me',
+            'do you know'
+        ]
+        if any(pattern in message_lower for pattern in direct_address):
             return True
         
         # Ignore group greetings and social messages
