@@ -45,7 +45,10 @@ This provides an interactive menu to:
 7. Demonstrate task execution
 8. View conversation history
 
-**NEW Matrix Bot Controls:**
+**Matrix Word Library:**
+9. View Learned Words - Show words from Matrix history (CLI access to word library)
+
+**Matrix Bot Controls:**
 10. Start Matrix Bot - Launch the bot
 11. Stop Matrix Bot - Stop the bot
 12. Restart Matrix Bot - Restart the bot

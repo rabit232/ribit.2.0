@@ -185,6 +185,9 @@ def print_menu():
     print("  7. Task Execution - Demonstrate automation capabilities")
     print("  8. Conversation History - View recent context")
     print("-" * 70)
+    print("  Matrix Word Library:")
+    print("  9. View Learned Words - Show words from Matrix history")
+    print("-" * 70)
     print("  Matrix Bot Controls:")
     print("  10. Start Matrix Bot - Launch the bot")
     print("  11. Stop Matrix Bot - Stop the bot")
@@ -304,6 +307,61 @@ def main():
                     print(f"  {i}. {entry[:60]}...")
             else:
                 print("\n⚠️  No conversation history yet.")
+            print()
+            
+        elif choice == "9":
+            # View Learned Words
+            print("📚 MATRIX WORD LIBRARY")
+            print("-" * 70)
+            try:
+                from ribit_2_0.matrix_history_tracker import MatrixHistoryTracker
+                import os
+                
+                # Ask for limit
+                limit_input = input("\n👉 How many words to show? (default 120, max 500): ").strip()
+                if limit_input:
+                    try:
+                        limit = int(limit_input)
+                        limit = min(limit, 500)  # Cap at 500
+                    except ValueError:
+                        print("⚠️  Invalid number, using default (120)")
+                        limit = 120
+                else:
+                    limit = 120
+                
+                # Initialize tracker
+                db_path = os.getenv("MATRIX_HISTORY_DB", "matrix_message_history.db")
+                if not os.path.exists(db_path):
+                    print(f"\n⚠️  No Matrix history database found at {db_path}")
+                    print("💡 Start the Matrix bot first to begin learning words!")
+                else:
+                    tracker = MatrixHistoryTracker(db_path=db_path)
+                    
+                    # Get words
+                    words = tracker.get_word_library(limit=limit)
+                    
+                    if not words:
+                        print("\n📚 No words have been learned yet from Matrix conversations.")
+                        print("💡 The bot learns words automatically as people chat!")
+                    else:
+                        stats = tracker.get_statistics()
+                        total_words = stats.get('words_learned', len(words))
+                        
+                        print(f"\n📚 Top {len(words)} of {total_words} learned words (from 3-month history):\n")
+                        
+                        # Display in columns
+                        for i, word_data in enumerate(words, 1):
+                            word = word_data.get('word', '')
+                            frequency = word_data.get('frequency', 0)
+                            print(f"  {i:3d}. {word:20s} ({frequency} times)")
+                        
+                        print(f"\n✅ Showing {len(words)} words from {total_words} total learned words")
+                        
+            except ImportError:
+                print("\n❌ Matrix history tracker not available")
+            except Exception as e:
+                print(f"\n❌ Error accessing word library: {e}")
+            
             print()
             
         elif choice == "10":
