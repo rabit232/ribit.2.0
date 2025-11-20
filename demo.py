@@ -338,6 +338,13 @@ def print_menu():
     print("  13. Bot Status - Check bot status and config")
     print("  14. Learn Words from Rooms - Scan Matrix rooms and learn new words")
     print("-" * 70)
+    print("  Matrix Bot Commands (test simulation):")
+    print("  15. Teach Bot (?learn) - Teach the bot new knowledge")
+    print("  16. Switch Model (?model) - Change image analysis model")
+    print("  17. Switch Personality (?personality) - Change bot personality")
+    print("  18. Bot Help (?help) - Show bot command reference")
+    print("  19. Bot Status (?status) - Check bot settings")
+    print("-" * 70)
     print("  0. Exit")
     print("-" * 70)
 
@@ -357,7 +364,7 @@ def main():
     
     while running:
         print_menu()
-        choice = input("\n👉 Enter your choice (0-14): ").strip()
+        choice = input("\n👉 Enter your choice (0-19): ").strip()
         
         print("\n" + "=" * 70)
         
@@ -527,7 +534,126 @@ def main():
         elif choice == "14":
             # Learn Words from Rooms
             learn_words_from_rooms()
-            
+        
+        elif choice == "15":
+            # Teach Bot (?learn command)
+            print("📚 TEACH RIBIT (?learn)")
+            print("-" * 70)
+            text = input("\n👉 What would you like to teach? (e.g., 'Python is a programming language'): ").strip()
+            if text:
+                print(f"\n✅ **Knowledge Learned!**")
+                print(f"\n📝 **Text:** {text[:100]}{'...' if len(text) > 100 else ''}")
+                print(f"\n📊 **Learning Progress:**")
+                print(f"• Vocabulary size: Learning...")
+                print(f"• Patterns learned: Tracking...")
+                print(f"• Words tracked: Updating...")
+                print(f"\n🧠 I've added this to my knowledge base and will use it in future conversations!")
+            else:
+                print("⚠️  No text entered.\n")
+            print()
+        
+        elif choice == "16":
+            # Switch Model (?model command)
+            print("🎨 IMAGE ANALYSIS MODELS (?model)")
+            print("-" * 70)
+            print("\n✅ offline (currently selected)")
+            print("   Private, no external APIs needed")
+            print("\n○ webai-gemini")
+            print("   Google Gemini Vision API")
+            print("\n○ webai-gpt4")
+            print("   OpenAI GPT-4 Vision")
+            print("\n○ webai-claude")
+            print("   Claude 3 Vision")
+            model = input("\n👉 Enter model name (or press Enter to skip): ").strip().lower()
+            if model:
+                print(f"\n✅ Image analysis model updated!")
+                print(f"\n**New model:** {model}")
+                print(f"Upload an image to test the new model!")
+            print()
+        
+        elif choice == "17":
+            # Switch Personality (?personality command)
+            print("🎭 BOT PERSONALITY (?personality)")
+            print("-" * 70)
+            print("\n✅ ribit (currently selected)")
+            print("   Technical AI assistant mode")
+            print("\n○ megabite")
+            print("   Friendly companion mode")
+            personality = input("\n👉 Enter personality name (ribit/megabite or press Enter to skip): ").strip().lower()
+            if personality in ['ribit', 'megabite']:
+                print(f"\n✅ Personality updated!")
+                print(f"\n**New personality:** {personality}")
+                print(f"Try chatting with me to see the difference!")
+            elif personality:
+                print(f"\n❌ Unknown personality: {personality}")
+            print()
+        
+        elif choice == "18":
+            # Bot Help (?help command)
+            print("📚 RIBIT COMMANDS REFERENCE (?help)")
+            print("-" * 70)
+            help_msg = """
+**Chat:**
+• ribit.2.0 <message> - Chat with me
+• !reset - Clear conversation context
+
+**General Commands:**
+• ?help - Show this help
+• ?status - Show your current settings
+• ?search <query> - Search 3-month message history
+• ?history - View message history statistics
+• ?words [number] - View learned words (default: 120, max: 500)
+• ?learn <text> - Teach me new knowledge and add to my vocabulary
+
+**Image Analysis:**
+• Upload any image - I'll analyze it automatically!
+• ?model list - Show available image analysis models
+• ?model <name> - Switch to different model
+
+**Personality:**
+• ?personality list - Show available personalities
+• ?personality ribit - Technical AI assistant mode
+• ?personality megabite - Friendly companion mode
+
+**Authorized Commands** (admin users only):
+• ?sys - System status
+• ?command <action> - Execute actions
+
+**Examples:**
+• ?model webai-gemini - Use Gemini for image analysis
+• ?personality megabite - Switch to friendly mode
+• ?learn Python is a powerful programming language
+• ?search did alice mention python last week?
+"""
+            print(help_msg)
+        
+        elif choice == "19":
+            # Bot Status (?status command)
+            print("🤖 RIBIT BOT STATUS (?status)")
+            print("-" * 70)
+            status_msg = """
+**Core Status:** Operational ✅
+**LLM Emulator:** Active
+**Controller:** Ready
+
+**Your Settings:**
+• Image Model: **offline**
+  Private, no external APIs needed
+• Personality: **ribit**
+  Technical AI assistant mode
+
+**Capabilities:**
+• Image Analysis: ✅
+• Message Search: ✅
+• Knowledge Learning: ✅
+• Personality Switching: ✅
+• Word Learning: ✅
+
+**Personality:** analytical, helpful, wise, direct
+"""
+            print(status_msg)
+            print()
+        
         elif choice == "0":
             # Exit
             print("👋 GOODBYE")
@@ -541,7 +667,7 @@ def main():
             running = False
             
         else:
-            print("⚠️  Invalid choice. Please enter 0-14.\n")
+            print("⚠️  Invalid choice. Please enter 0-19.\n")
     
     print("=" * 70)
     print("✅ Demo completed successfully!")
