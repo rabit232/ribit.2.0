@@ -22,6 +22,9 @@ Author: Manus AI for rabit232/ribit.2.0
 
 import sys
 import os
+import subprocess
+import psutil
+import time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ribit_2_0'))
 
 from ribit_2_0.megabite_llm import MegabiteLLM
@@ -35,6 +38,145 @@ import logging
 # Set up logging
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
+
+# Global Matrix bot process
+bot_process = None
+
+# Load environment variables from .env file
+def load_env_file():
+    """Load environment variables from .env file."""
+    env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+    if os.path.exists(env_path):
+        with open(env_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    os.environ[key.strip()] = value.strip()
+
+# Load .env at startup
+load_env_file()
+
+# Matrix Bot Control Functions
+def start_matrix_bot():
+    """Start the Matrix bot as a background process."""
+    global bot_process
+    
+    if bot_process and bot_process.poll() is None:
+        print("⚠️  Matrix bot is already running!")
+        return False
+    
+    print("🚀 Starting Matrix bot...")
+    
+    homeserver = os.getenv("MATRIX_HOMESERVER")
+    username = os.getenv("MATRIX_USERNAME")
+    password = os.getenv("MATRIX_PASSWORD")
+    token = os.getenv("MATRIX_ACCESS_TOKEN")
+    
+    if not homeserver or not username:
+        print("❌ Missing configuration! Please set:")
+        print("   - MATRIX_HOMESERVER (e.g., https://matrix.envs.net)")
+        print("   - MATRIX_USERNAME (e.g., @ribit.2.0:envs.net)")
+        return False
+    
+    if not password and not token:
+        print("❌ Missing credentials! Please set either MATRIX_PASSWORD or MATRIX_ACCESS_TOKEN")
+        return False
+    
+    try:
+        log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logs')
+        os.makedirs(log_dir, exist_ok=True)
+        log_file = os.path.join(log_dir, 'matrix_bot.log')
+        
+        with open(log_file, 'w') as log_f:
+            bot_process = subprocess.Popen(
+                [sys.executable, "-m", "ribit_2_0.matrix_bot"],
+                stdout=log_f,
+                stderr=subprocess.STDOUT,
+                env=os.environ.copy()
+            )
+        time.sleep(2)
+        
+        if bot_process.poll() is None:
+            print(f"✅ Matrix bot started! (PID: {bot_process.pid})")
+            print(f"   Server: {homeserver}")
+            print(f"   Logs: {log_file}")
+            return True
+        else:
+            print(f"❌ Bot failed to start")
+            bot_process = None
+            return False
+    except Exception as e:
+        print(f"❌ Error starting bot: {e}")
+        bot_process = None
+        return False
+
+def stop_matrix_bot():
+    """Stop the Matrix bot gracefully."""
+    global bot_process
+    
+    if not bot_process or bot_process.poll() is not None:
+        print("⚠️  Matrix bot is not running!")
+        return False
+    
+    print("🛑 Stopping Matrix bot...")
+    
+    try:
+        bot_process.terminate()
+        bot_process.wait(timeout=5)
+        print("✅ Matrix bot stopped!")
+        bot_process = None
+        return True
+    except subprocess.TimeoutExpired:
+        print("⚠️  Forcing shutdown...")
+        bot_process.kill()
+        bot_process.wait()
+        print("✅ Matrix bot force-stopped!")
+        bot_process = None
+        return True
+    except Exception as e:
+        print(f"❌ Error stopping bot: {e}")
+        return False
+
+def restart_matrix_bot():
+    """Restart the Matrix bot."""
+    print("🔄 Restarting Matrix bot...")
+    stop_matrix_bot()
+    time.sleep(1)
+    return start_matrix_bot()
+
+def bot_status():
+    """Check and display Matrix bot status."""
+    global bot_process
+    
+    print("\n📊 MATRIX BOT STATUS")
+    print("-" * 60)
+    
+    homeserver = os.getenv("MATRIX_HOMESERVER", "Not set")
+    username = os.getenv("MATRIX_USERNAME", "Not set")
+    has_password = "✅" if os.getenv("MATRIX_PASSWORD") else "❌"
+    has_token = "✅" if os.getenv("MATRIX_ACCESS_TOKEN") else "❌"
+    
+    print(f"📡 Configuration:")
+    print(f"   Homeserver: {homeserver}")
+    print(f"   Username: {username}")
+    print(f"   Password: {has_password}")
+    print(f"   Token: {has_token}")
+    
+    if bot_process and bot_process.poll() is None:
+        print(f"\n🟢 Bot Status: RUNNING (PID: {bot_process.pid})")
+        try:
+            process = psutil.Process(bot_process.pid)
+            print(f"   CPU: {process.cpu_percent():.1f}%")
+            print(f"   Memory: {process.memory_info().rss / 1024 / 1024:.1f} MB")
+            uptime = int(time.time() - process.create_time())
+            print(f"   Uptime: {uptime}s")
+        except:
+            pass
+    else:
+        print(f"\n🔴 Bot Status: NOT RUNNING")
+    
+    print()
 
 class RibitMegabiteCLI:
     """Unified CLI for Ribit 2.0 and Megabite AI."""
@@ -76,17 +218,23 @@ class RibitMegabiteCLI:
 
 🎯 Current Mode: {self.mode.upper()}
 
-📝 Basic Commands:
+📝 AI Commands:
   ask <question>         Ask the current AI a question
   thought <experiment>   Post a thought experiment for analysis
   learn <text>          Learn from text and add to knowledge base
   opinion <topic>       Get AI's opinion on a topic
   
-🔄 Mode Commands:
-  mode ribit            Switch to Ribit 2.0 only
-  mode megabite         Switch to Megabite only
-  mode both             Use both AIs (get responses from both)
-  switch                Toggle between Ribit and Megabite
+🔄 Model Swap Commands:
+  mode ribit            Swap to Ribit 2.0 only
+  mode megabite         Swap to Megabite only
+  mode both             Swap to both AIs (get responses from both)
+  swap / switch         Toggle between Ribit and Megabite
+  
+🤖 Matrix Bot Commands:
+  bot start             Start the Matrix bot
+  bot stop              Stop the Matrix bot
+  bot restart           Restart the Matrix bot
+  bot status            Check bot status and config
   
 🔧 System Commands:
   status                Check system status
@@ -97,19 +245,19 @@ class RibitMegabiteCLI:
 
 💡 Tips:
   - Use 'mode both' to get responses from both AIs
-  - Use 'switch' to quickly toggle between systems
+  - Use 'swap' to quickly toggle between systems
   - Both AIs share the same learning system
   - All interactions are saved to the knowledge base
 
 Examples:
-  mode both
+  mode megabite
   ask What is consciousness?
   
-  mode megabite
-  thought If a tree falls in a forest...
-  
-  switch
+  swap
   opinion free will vs determinism
+  
+  bot start
+  bot status
 """
         print(help_text)
     
@@ -118,7 +266,8 @@ Examples:
         new_mode = new_mode.lower().strip()
         if new_mode in ["ribit", "megabite", "both"]:
             self.mode = new_mode
-            print(f"\n🎯 Mode changed to: {self.mode.upper()}\n")
+            model_name = "RIBIT 2.0" if new_mode == "ribit" else "MEGABITE" if new_mode == "megabite" else "BOTH MODELS"
+            print(f"\n✅ Swapped to {model_name} model!\n")
         else:
             print(f"\n❌ Invalid mode: {new_mode}")
             print("Valid modes: ribit, megabite, both\n")
@@ -127,12 +276,13 @@ Examples:
         """Toggle between Ribit and Megabite."""
         if self.mode == "ribit":
             self.mode = "megabite"
+            print(f"\n✅ Swapped to MEGABITE model!\n")
         elif self.mode == "megabite":
             self.mode = "ribit"
+            print(f"\n✅ Swapped to RIBIT 2.0 model!\n")
         else:
             self.mode = "megabite"  # Default from "both"
-        
-        print(f"\n🔄 Switched to: {self.mode.upper()}\n")
+            print(f"\n✅ Swapped to MEGABITE model!\n")
     
     def ask_question(self, question: str):
         """Ask AI a question."""
@@ -414,7 +564,7 @@ Examples:
                 elif command == 'mode':
                     self.set_mode(args)
                 
-                elif command == 'switch':
+                elif command in ['switch', 'swap']:
                     self.switch_mode()
                 
                 elif command == 'status':
@@ -422,6 +572,18 @@ Examples:
                 
                 elif command == 'stats':
                     self.show_stats()
+                
+                elif command == 'bot':
+                    if args == 'start':
+                        start_matrix_bot()
+                    elif args == 'stop':
+                        stop_matrix_bot()
+                    elif args == 'restart':
+                        restart_matrix_bot()
+                    elif args == 'status':
+                        bot_status()
+                    else:
+                        print("❌ Unknown bot command. Use: bot start/stop/restart/status")
                 
                 elif command == 'ask':
                     self.ask_question(args)

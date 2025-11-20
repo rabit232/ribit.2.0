@@ -55,6 +55,25 @@ This provides an interactive menu to:
 13. Bot Status - Check bot status and config
 14. Learn Words from Rooms - Scan Matrix rooms and learn new words
 
+### Unified CLI with Matrix Bot Controls
+Enhanced unified CLI for Ribit 2.0 + Megabite:
+```bash
+python ribit_megabite_cli.py
+```
+
+Features:
+- **AI Commands**: ask, thought, learn, opinion
+- **Model Swap Commands**: 
+  - `mode ribit` / `mode megabite` / `mode both` - Swap to specific model
+  - `swap` or `switch` - Toggle between models (shows "Swapped to [MODEL] model!")
+- **Matrix Bot Controls** (NEW!):
+  - `bot start` - Start the Matrix bot
+  - `bot stop` - Stop the Matrix bot
+  - `bot restart` - Restart the Matrix bot
+  - `bot status` - Check bot status and configuration
+- **System Commands**: status, stats, help, clear, exit
+- **Automatic Credential Loading**: Loads Matrix credentials from .env file
+
 ### NEW: Offline Features Demo
 Test all the new offline capabilities:
 ```bash
