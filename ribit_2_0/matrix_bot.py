@@ -433,19 +433,34 @@ class RibitMatrixBot:
                             has_details = False
                             detail_parts = []
                             
-                            if colors.get('dominant_colors'):
-                                color_list = ", ".join([f"{c[0]}" for c in colors['dominant_colors'][:3]])
-                                detail_parts.append(f"• **Colors:** {color_list}")
-                                has_details = True
+                            # Safely extract color information
+                            dominant_colors = colors.get('dominant_colors', [])
+                            if dominant_colors and isinstance(dominant_colors, list) and len(dominant_colors) > 0:
+                                try:
+                                    color_names = []
+                                    for c in dominant_colors[:3]:
+                                        if isinstance(c, dict) and 'name' in c:
+                                            color_names.append(c['name'])
+                                        elif isinstance(c, (list, tuple)) and len(c) > 0:
+                                            color_names.append(str(c[0]))
+                                    if color_names:
+                                        color_list = ", ".join(color_names)
+                                        detail_parts.append(f"• **Colors:** {color_list}")
+                                        has_details = True
+                                except Exception as e:
+                                    logger.debug(f"Could not extract color names: {e}")
                             
+                            # Safely extract composition complexity
                             if shapes.get('complexity'):
                                 detail_parts.append(f"• **Composition:** {shapes['complexity']}")
                                 has_details = True
                             
+                            # Safely extract focal point
                             if composition.get('focal_point'):
                                 detail_parts.append(f"• **Focal Point:** {composition['focal_point']}")
                                 has_details = True
                             
+                            # Feature detection (already safe with .get())
                             if features.get('likely_contains_people'):
                                 detail_parts.append(f"• **People detected:** Yes")
                                 has_details = True
@@ -464,7 +479,7 @@ class RibitMatrixBot:
                                 detail_parts.append(f"• **Text detected:** Yes")
                                 has_details = True
                             
-                            # Add image dimensions
+                            # Add image dimensions (always safe)
                             detail_parts.append(f"• **Size:** {image.width}x{image.height}px")
                             
                             if has_details:
