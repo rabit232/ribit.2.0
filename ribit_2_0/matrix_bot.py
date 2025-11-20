@@ -446,15 +446,21 @@ class RibitMatrixBot:
                                 detail_parts.append(f"• **Focal Point:** {composition['focal_point']}")
                                 has_details = True
                             
-                            if features.get('has_people'):
+                            if features.get('likely_contains_people'):
                                 detail_parts.append(f"• **People detected:** Yes")
                                 has_details = True
                             
-                            if features.get('is_nature'):
+                            if features.get('likely_nature_scene'):
                                 detail_parts.append(f"• **Nature scene:** Yes")
                                 has_details = True
                             
-                            if features.get('has_text_regions'):
+                            if features.get('likely_has_sky'):
+                                detail_parts.append(f"• **Sky detected:** Yes")
+                                has_details = True
+                            
+                            # Check for text in the image
+                            text_info = analysis.get('text_regions', {})
+                            if text_info.get('contains_text'):
                                 detail_parts.append(f"• **Text detected:** Yes")
                                 has_details = True
                             
