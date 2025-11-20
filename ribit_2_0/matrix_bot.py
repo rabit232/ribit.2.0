@@ -884,6 +884,9 @@ class RibitMatrixBot:
             elif command.startswith('?words'):
                 return await self._handle_words_command(command)
             
+            elif command.startswith('?learn '):
+                return await self._handle_learn_command(command[7:], sender, room_id)
+            
             else:
                 return f"Unknown command: {command}. Use ?help for available commands."
                 
@@ -927,6 +930,7 @@ class RibitMatrixBot:
 • `?search <query>` - Search 3-month message history (natural language)
 • `?history` - View message history statistics
 • `?words [number]` - View learned words (default: 120, max: 500)
+• `?learn <text>` - Teach me new knowledge and add to my vocabulary
 
 **Image Analysis:**
 • Upload any image - I'll analyze it automatically!
@@ -951,6 +955,8 @@ class RibitMatrixBot:
 • `?personality megabite` - Switch to friendly mode
 • `?words 200` - Show top 200 learned words
 • `?search did alice mention python last week?`
+• `?learn Python is a powerful programming language for AI`
+• `?thought_experiment What if artificial intelligence became conscious?`
 
 I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. How may I assist you today?"""
     
@@ -1151,6 +1157,41 @@ Upload an image to test the new model!"""
         except Exception as e:
             logger.error(f"Error handling thought experiment: {e}")
             return f"❌ An error occurred while processing the thought experiment: {e}"
+    
+    async def _handle_learn_command(self, text: str, sender: str, room_id: str) -> str:
+        """Handle learn command to teach the bot new knowledge."""
+        try:
+            if not text.strip():
+                return "❌ Please provide text to learn from. Example: `?learn Python is a programming language`"
+            
+            # Learn from the text using word learning system
+            if self.word_learner:
+                self.word_learner.learn_from_message(text)
+                stats = self.word_learner.get_statistics()
+                
+                # Update LLM knowledge base
+                try:
+                    concept = text.split('.')[0][:50] if '.' in text else text[:50]
+                    self.llm.update_knowledge(concept, text[:200])
+                except:
+                    pass
+                
+                return f"""✅ **Knowledge Learned!**
+
+📝 **Text:** {text[:100]}{'...' if len(text) > 100 else ''}
+
+📊 **Learning Progress:**
+• Vocabulary size: {stats.get('vocabulary_size', 0)} words
+• Patterns learned: {stats.get('unique_patterns', 0)}
+• Words tracked: {stats.get('word_pairs_known', 0)} pairs
+
+🧠 I've added this to my knowledge base and will use it in future conversations!"""
+            else:
+                return "⚠️ Learning system not available, but I'll remember what you said!"
+            
+        except Exception as e:
+            logger.error(f"Error handling learn command: {e}")
+            return f"❌ Error learning from text: {str(e)}"
     
     async def _handle_action_command(self, action: str) -> str:
         """Handle action execution command."""

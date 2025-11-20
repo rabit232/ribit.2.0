@@ -309,7 +309,7 @@ Examples:
                     print("\n👋 Goodbye! Megabite shutting down...\n")
                     break
                 
-                elif command == 'help':
+                elif command in ['help', '?help']:
                     self.show_help()
                 
                 elif command == 'clear':
