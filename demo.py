@@ -6,11 +6,149 @@ Demonstrates the core functionality of Ribit 2.0 AI agent
 
 import sys
 import os
+import subprocess
+import signal
+import time
+import psutil
 
 # Add the current directory to the path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from ribit_2_0.mock_llm_wrapper import MockRibit20LLM
+
+# Global variable to track Matrix bot process
+bot_process = None
+
+def start_matrix_bot():
+    """Start the Matrix bot as a background process."""
+    global bot_process
+    
+    if bot_process and bot_process.poll() is None:
+        print("⚠️  Matrix bot is already running!")
+        return False
+    
+    print("🚀 Starting Matrix bot...")
+    
+    homeserver = os.getenv("MATRIX_HOMESERVER")
+    username = os.getenv("MATRIX_USERNAME")
+    password = os.getenv("MATRIX_PASSWORD")
+    token = os.getenv("MATRIX_ACCESS_TOKEN")
+    
+    if not homeserver or not username:
+        print("❌ Missing configuration! Please set:")
+        print("   - MATRIX_HOMESERVER (e.g., https://matrix.envs.net)")
+        print("   - MATRIX_USERNAME (e.g., @ribit.2.0:envs.net)")
+        print("   And either:")
+        print("   - MATRIX_PASSWORD")
+        print("   - MATRIX_ACCESS_TOKEN")
+        return False
+    
+    if not password and not token:
+        print("❌ Missing credentials! Please set either MATRIX_PASSWORD or MATRIX_ACCESS_TOKEN")
+        return False
+    
+    try:
+        bot_process = subprocess.Popen(
+            [sys.executable, "-m", "ribit_2_0.matrix_bot"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        time.sleep(2)
+        
+        if bot_process.poll() is None:
+            print(f"✅ Matrix bot started successfully! (PID: {bot_process.pid})")
+            print(f"   Server: {homeserver}")
+            print(f"   User: {username}")
+            return True
+        else:
+            stderr = bot_process.stderr.read()
+            print(f"❌ Bot failed to start: {stderr}")
+            bot_process = None
+            return False
+            
+    except Exception as e:
+        print(f"❌ Error starting bot: {e}")
+        bot_process = None
+        return False
+
+def stop_matrix_bot():
+    """Stop the Matrix bot gracefully."""
+    global bot_process
+    
+    if not bot_process or bot_process.poll() is not None:
+        print("⚠️  Matrix bot is not running!")
+        return False
+    
+    print("🛑 Stopping Matrix bot...")
+    
+    try:
+        pid = bot_process.pid
+        parent = psutil.Process(pid)
+        children = parent.children(recursive=True)
+        
+        bot_process.terminate()
+        
+        try:
+            bot_process.wait(timeout=5)
+            print("✅ Matrix bot stopped gracefully!")
+        except subprocess.TimeoutExpired:
+            print("⚠️  Bot didn't stop gracefully, forcing...")
+            bot_process.kill()
+            bot_process.wait()
+            print("✅ Matrix bot force-stopped!")
+        
+        for child in children:
+            try:
+                child.terminate()
+            except:
+                pass
+        
+        bot_process = None
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error stopping bot: {e}")
+        return False
+
+def restart_matrix_bot():
+    """Restart the Matrix bot."""
+    print("🔄 Restarting Matrix bot...")
+    stop_matrix_bot()
+    time.sleep(1)
+    return start_matrix_bot()
+
+def bot_status():
+    """Check and display Matrix bot status."""
+    global bot_process
+    
+    print("📊 MATRIX BOT STATUS")
+    print("-" * 70)
+    
+    homeserver = os.getenv("MATRIX_HOMESERVER", "Not set")
+    username = os.getenv("MATRIX_USERNAME", "Not set")
+    has_password = "✅" if os.getenv("MATRIX_PASSWORD") else "❌"
+    has_token = "✅" if os.getenv("MATRIX_ACCESS_TOKEN") else "❌"
+    
+    print(f"\n📡 Configuration:")
+    print(f"   Homeserver: {homeserver}")
+    print(f"   Username: {username}")
+    print(f"   Password: {has_password}")
+    print(f"   Access Token: {has_token}")
+    
+    if bot_process and bot_process.poll() is None:
+        print(f"\n🟢 Bot Status: RUNNING (PID: {bot_process.pid})")
+        try:
+            process = psutil.Process(bot_process.pid)
+            print(f"   CPU: {process.cpu_percent():.1f}%")
+            print(f"   Memory: {process.memory_info().rss / 1024 / 1024:.1f} MB")
+            print(f"   Uptime: {int(time.time() - process.create_time())} seconds")
+        except:
+            pass
+    else:
+        print(f"\n🔴 Bot Status: NOT RUNNING")
+    
+    print()
 
 def print_header():
     """Print the Ribit 2.0 welcome header."""
@@ -33,7 +171,14 @@ def print_menu():
     print("  6. Recall Knowledge - Ask Ribit to recall information")
     print("  7. Task Execution - Demonstrate automation capabilities")
     print("  8. Conversation History - View recent context")
-    print("  9. Exit")
+    print("-" * 70)
+    print("  Matrix Bot Controls:")
+    print("  10. Start Matrix Bot - Launch the bot")
+    print("  11. Stop Matrix Bot - Stop the bot")
+    print("  12. Restart Matrix Bot - Restart the bot")
+    print("  13. Bot Status - Check bot status and config")
+    print("-" * 70)
+    print("  0. Exit")
     print("-" * 70)
 
 def main():
@@ -52,7 +197,7 @@ def main():
     
     while running:
         print_menu()
-        choice = input("\n👉 Enter your choice (1-9): ").strip()
+        choice = input("\n👉 Enter your choice (0-13): ").strip()
         
         print("\n" + "=" * 70)
         
@@ -148,17 +293,36 @@ def main():
                 print("\n⚠️  No conversation history yet.")
             print()
             
-        elif choice == "9":
+        elif choice == "10":
+            # Start Matrix Bot
+            start_matrix_bot()
+            
+        elif choice == "11":
+            # Stop Matrix Bot
+            stop_matrix_bot()
+            
+        elif choice == "12":
+            # Restart Matrix Bot
+            restart_matrix_bot()
+            
+        elif choice == "13":
+            # Bot Status
+            bot_status()
+            
+        elif choice == "0":
             # Exit
             print("👋 GOODBYE")
             print("-" * 70)
             print("\nThank you for exploring Ribit 2.0!")
+            if bot_process and bot_process.poll() is None:
+                print("🛑 Stopping Matrix bot before exit...")
+                stop_matrix_bot()
             print("🤖 Shutting down gracefully...\n")
             llm.close()
             running = False
             
         else:
-            print("⚠️  Invalid choice. Please enter a number between 1 and 9.\n")
+            print("⚠️  Invalid choice. Please enter 0-13.\n")
     
     print("=" * 70)
     print("✅ Demo completed successfully!")
