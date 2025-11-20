@@ -50,9 +50,8 @@ def start_matrix_bot():
     try:
         bot_process = subprocess.Popen(
             [sys.executable, "-m", "ribit_2_0.matrix_bot"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
         )
         time.sleep(2)
         
@@ -62,8 +61,7 @@ def start_matrix_bot():
             print(f"   User: {username}")
             return True
         else:
-            stderr = bot_process.stderr.read()
-            print(f"❌ Bot failed to start: {stderr}")
+            print(f"❌ Bot failed to start - check Matrix credentials and homeserver")
             bot_process = None
             return False
             
@@ -332,8 +330,15 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\n\n⚠️  Demo interrupted by user. Exiting gracefully...\n")
+        print("\n\n⚠️  Demo interrupted by user. Exiting gracefully...")
+        if bot_process and bot_process.poll() is None:
+            print("🛑 Stopping Matrix bot...")
+            stop_matrix_bot()
+        print()
     except Exception as e:
         print(f"\n\n❌ Unexpected error: {e}")
+        if bot_process and bot_process.poll() is None:
+            print("🛑 Stopping Matrix bot...")
+            stop_matrix_bot()
         import traceback
         traceback.print_exc()
