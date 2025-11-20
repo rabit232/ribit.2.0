@@ -64,6 +64,36 @@ The project currently utilizes an interactive console-based demo (`demo.py`) as 
 
 ## Recent Changes
 
+### November 20, 2025 - Enhanced Image Analysis & Command System
+- 🎨 **Completely Rewrote Image Analyzer with 1000+ Parameters**
+  - Detects subjects: animals, humans, humanoids, hybrids, fluffy creatures
+  - Identifies actions: sitting, jumping, walking, running, head position, movement
+  - Analyzes expressions: smiling, serious, neutral, intense gaze
+  - Detects body parts: head, torso, legs, arms, hands/paws, eyes
+  - Identifies clothing: colors, accessories, decorations
+  - Analyzes environment: outdoor/indoor, sky, vegetation, water, terrain
+  - 100+ detailed color variations (not just "mixed color")
+  - Species hints and hybrid characteristics
+  - Rich natural language descriptions
+
+- 🎮 **Added Command System for Model & Personality Switching**
+  - `?model list` - Show available image analysis models
+  - `?model offline` - Use offline analyzer (private, no API)
+  - `?model webai-gemini` - Use Google Gemini via WebAI-to-API
+  - `?model webai-gpt4` - Use GPT-4 Vision via WebAI-to-API
+  - `?model webai-claude` - Use Claude 3 Vision via WebAI-to-API
+  - `?personality list` - Show available personalities
+  - `?personality ribit` - Technical AI assistant mode
+  - `?personality megabite` - Friendly companion mode
+  - `?help` - Show all commands with current user settings
+  - `?status` - Show current model, personality, and bot status
+
+- ✨ **Per-User Settings**
+  - Each user can set their own preferred image model
+  - Each user can set their own preferred personality
+  - Settings persist during bot session
+  - Dynamic model switching on image upload
+
 ### November 20, 2025 - Added WebAI-to-API Fallback System
 - 🚀 **Implemented Image Analysis Fallback Architecture**
   - Created `ImageAnalysisProvider` abstraction for pluggable backends

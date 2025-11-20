@@ -173,6 +173,29 @@ class RibitMatrixBot:
         self.conversation_context: Dict[str, list] = {}
         self.terminator_warnings: Dict[str, int] = {}
         
+        # User preferences (per-user settings)
+        self.user_personality: Dict[str, str] = {}  # user_id -> "ribit" or "megabite"
+        self.user_model: Dict[str, str] = {}  # user_id -> model name
+        
+        # Default settings
+        self.default_personality = "ribit"  # Technical assistant
+        self.default_model = "offline"  # Offline analyzer
+        
+        # Available models
+        self.available_models = {
+            "offline": "Offline Image Analyzer (Private, No API)",
+            "webai-gemini": "Google Gemini Pro Vision via WebAI",
+            "webai-gpt4": "OpenAI GPT-4 Vision via WebAI",
+            "webai-claude": "Anthropic Claude 3 Vision via WebAI",
+            "webai-deepseek": "DeepSeek Vision via WebAI"
+        }
+        
+        # Available personalities
+        self.available_personalities = {
+            "ribit": "Ribit - Technical AI Assistant (detailed, precise)",
+            "megabite": "Megabite - Friendly Companion (casual, warm)"
+        }
+        
         # Configuration
         self.bot_name = "ribit.2.0"
         self.sync_timeout = 30000
@@ -440,8 +463,41 @@ class RibitMatrixBot:
                             
                             logger.info(f"Image loaded: {image.width}x{image.height}, mode={image.mode}")
                             
-                            # Analyze the image using provider (async)
-                            analysis = await self.image_analyzer.analyze_image(image)
+                            # Get user's selected model
+                            user_model = self.user_model.get(event.sender, self.default_model)
+                            
+                            # Create appropriate provider based on user's model preference
+                            if user_model.startswith('webai-'):
+                                # WebAI model requested
+                                model_map = {
+                                    'webai-gemini': 'gemini-pro-vision',
+                                    'webai-gpt4': 'gpt-4-vision',
+                                    'webai-claude': 'claude-3-opus',
+                                    'webai-deepseek': 'deepseek-vision'
+                                }
+                                
+                                webai_url = os.getenv("WEBAI_API_URL", "")
+                                webai_model_name = model_map.get(user_model, 'gemini-pro-vision')
+                                
+                                if webai_url:
+                                    from .image_provider import WebAIImageProvider
+                                    provider = WebAIImageProvider(
+                                        api_url=webai_url,
+                                        model=webai_model_name,
+                                        timeout=30
+                                    )
+                                    logger.info(f"Using WebAI model: {webai_model_name}")
+                                else:
+                                    # Fallback to offline if WebAI not configured
+                                    provider = self.image_analyzer
+                                    logger.warning(f"WebAI requested but not configured, using offline analyzer")
+                            else:
+                                # Offline model (default)
+                                provider = self.image_analyzer
+                                logger.info(f"Using offline image analyzer")
+                            
+                            # Analyze the image using selected provider (async)
+                            analysis = await provider.analyze_image(image)
                             
                             if 'error' in analysis:
                                 error_msg = analysis.get('error', 'Unknown error')
@@ -452,79 +508,8 @@ class RibitMatrixBot:
                             
                             description = analysis.get('description', 'Image uploaded successfully')
                             
-                            # Extract key details
-                            colors = analysis.get('colors', {})
-                            shapes = analysis.get('shapes', {})
-                            features = analysis.get('features', {})
-                            composition = analysis.get('composition', {})
-                            
-                            # Build response
-                            response_parts = [
-                                f"📸 **Image Analysis**",
-                                f"",
-                                f"{description}",
-                                f""
-                            ]
-                            
-                            # Add details section if we have meaningful data
-                            has_details = False
-                            detail_parts = []
-                            
-                            # Safely extract color information
-                            dominant_colors = colors.get('dominant_colors', [])
-                            if dominant_colors and isinstance(dominant_colors, list) and len(dominant_colors) > 0:
-                                try:
-                                    color_names = []
-                                    for c in dominant_colors[:3]:
-                                        if isinstance(c, dict) and 'name' in c:
-                                            color_names.append(c['name'])
-                                        elif isinstance(c, (list, tuple)) and len(c) > 0:
-                                            color_names.append(str(c[0]))
-                                    if color_names:
-                                        color_list = ", ".join(color_names)
-                                        detail_parts.append(f"• **Colors:** {color_list}")
-                                        has_details = True
-                                except Exception as e:
-                                    logger.debug(f"Could not extract color names: {e}")
-                            
-                            # Safely extract composition complexity
-                            if shapes.get('complexity'):
-                                detail_parts.append(f"• **Composition:** {shapes['complexity']}")
-                                has_details = True
-                            
-                            # Safely extract focal point
-                            if composition.get('focal_point'):
-                                detail_parts.append(f"• **Focal Point:** {composition['focal_point']}")
-                                has_details = True
-                            
-                            # Feature detection (already safe with .get())
-                            if features.get('likely_contains_people'):
-                                detail_parts.append(f"• **People detected:** Yes")
-                                has_details = True
-                            
-                            if features.get('likely_nature_scene'):
-                                detail_parts.append(f"• **Nature scene:** Yes")
-                                has_details = True
-                            
-                            if features.get('likely_has_sky'):
-                                detail_parts.append(f"• **Sky detected:** Yes")
-                                has_details = True
-                            
-                            # Check for text in the image
-                            text_info = analysis.get('text_regions', {})
-                            if text_info.get('contains_text'):
-                                detail_parts.append(f"• **Text detected:** Yes")
-                                has_details = True
-                            
-                            # Add image dimensions (always safe)
-                            detail_parts.append(f"• **Size:** {image.width}x{image.height}px")
-                            
-                            if has_details:
-                                response_parts.append("**Details:**")
-                                response_parts.extend(detail_parts)
-                            
-                            response = "\n".join(response_parts)
-                            await self._send_message(room.room_id, response)
+                            # Simply send the rich description as-is
+                            await self._send_message(room.room_id, description)
                             logger.info(f"✅ Image analysis completed successfully")
                             
                         except Exception as img_error:
@@ -873,13 +858,19 @@ class RibitMatrixBot:
                 return await self._handle_thought_experiment(command, sender, room_id)
             
             if command == '?help':
-                return self._get_help_message()
+                return self._get_help_message(sender)
+            
+            elif command.startswith('?model'):
+                return await self._handle_model_command(command, sender)
+            
+            elif command.startswith('?personality'):
+                return await self._handle_personality_command(command, sender)
             
             elif command == '?sys':
                 return await self._handle_sys_command()
             
             elif command == '?status':
-                return await self._handle_status_command()
+                return await self._handle_status_command(sender)
             
             elif command.startswith('?command '):
                 return await self._handle_action_command(command[9:])
@@ -919,9 +910,12 @@ class RibitMatrixBot:
             return ("🤖💀 TERMINATOR MODE ACTIVATED! Just kidding! I'm still the same elegant, "
                    "wise Ribit. Perhaps we could discuss something more interesting? 😊")
     
-    def _get_help_message(self) -> str:
-        """Get help message."""
-        return """📚 **Ribit 2.0 Commands**
+    def _get_help_message(self, sender: str) -> str:
+        """Get help message with current user settings."""
+        current_model = self.user_model.get(sender, self.default_model)
+        current_personality = self.user_personality.get(sender, self.default_personality)
+        
+        return f"""📚 **Ribit 2.0 Commands**
 
 **Chat:**
 • `ribit.2.0 <message>` - Chat with me
@@ -929,24 +923,34 @@ class RibitMatrixBot:
 
 **General Commands:**
 • `?help` - Show this help
+• `?status` - Show your current settings
 • `?search <query>` - Search 3-month message history (natural language)
 • `?history` - View message history statistics
 • `?words [number]` - View learned words (default: 120, max: 500)
 
 **Image Analysis:**
 • Upload any image - I'll analyze it automatically!
+• `?model list` - Show available image analysis models
+• `?model <name>` - Switch to different model (offline, webai-gemini, etc.)
+
+**Personality:**
+• `?personality list` - Show available personalities
+• `?personality ribit` - Technical AI assistant mode
+• `?personality megabite` - Friendly companion mode
 
 **Authorized Commands** (admin users only):
 • `?sys` - System status
-• `?status` - Bot status  
 • `?command <action>` - Execute actions
 
+**Your Current Settings:**
+• Model: **{current_model}**
+• Personality: **{current_personality}**
+
 **Examples:**
-• `?words` - Show top 120 learned words
+• `?model webai-gemini` - Use Gemini for image analysis
+• `?personality megabite` - Switch to friendly mode
 • `?words 200` - Show top 200 learned words
 • `?search did alice mention python last week?`
-• `?command open ms paint and draw a house`
-• `ribit.2.0 tell me about robotics`
 
 I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. How may I assist you today?"""
     
@@ -971,10 +975,19 @@ I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. H
         except ImportError:
             return "🖥️ **System Status:** Monitoring tools not available, but I'm operational! ✅"
     
-    async def _handle_status_command(self) -> str:
+    async def _handle_status_command(self, sender: str) -> str:
         """Handle bot status command."""
-        capabilities = self.llm.get_capabilities()
-        personality = self.llm.get_personality_info()
+        current_model = self.user_model.get(sender, self.default_model)
+        current_personality = self.user_personality.get(sender, self.default_personality)
+        model_desc = self.available_models.get(current_model, "Unknown")
+        personality_desc = self.available_personalities.get(current_personality, "Unknown")
+        
+        try:
+            capabilities = self.llm.get_capabilities()
+            personality = self.llm.get_personality_info()
+        except:
+            capabilities = []
+            personality = {}
         
         status_msg = f"""🤖 **Ribit 2.0 Status**
 
@@ -983,13 +996,119 @@ I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. H
 **Controller:** Ready
 **Matrix Rooms:** {len(self.joined_rooms)}
 
+**Your Settings:**
+• Image Model: **{current_model}**
+  {model_desc}
+• Personality: **{current_personality}**
+  {personality_desc}
+
 **Capabilities:**"""
         
         for cap, enabled in capabilities.items():
             status = "✅" if enabled else "❌"
             status_msg += f"\n• {cap.replace('_', ' ').title()}: {status}"
         
-        status_msg += f"\n\n**Personality:** {', '.join(personality['core_traits'])}"
+        status_msg += f"\n\n**Personality:** {', '.join(personality.get('core_traits', []))}" if personality else ""
+        
+        return status_msg
+    
+    async def _handle_model_command(self, command: str, sender: str) -> str:
+        """Handle model switching command."""
+        try:
+            parts = command.split(maxsplit=1)
+            
+            if len(parts) == 1 or parts[1] == 'list':
+                # Show available models
+                models_list = "🎨 **Available Image Analysis Models:**\n\n"
+                current_model = self.user_model.get(sender, self.default_model)
+                
+                for model_id, description in self.available_models.items():
+                    marker = "✅" if model_id == current_model else "○"
+                    models_list += f"{marker} `{model_id}`\n   {description}\n\n"
+                
+                models_list += f"**Current model:** {current_model}\n\n"
+                models_list += "**Usage:** `?model <name>` (e.g., `?model webai-gemini`)"
+                
+                return models_list
+            
+            # Switch to specified model
+            new_model = parts[1].lower().strip()
+            
+            if new_model not in self.available_models:
+                return f"❌ Unknown model: {new_model}\n\nUse `?model list` to see available models."
+            
+            # Check if WebAI models are enabled
+            if new_model.startswith('webai-'):
+                enable_webai = os.getenv("ENABLE_WEBAI_FALLBACK", "false").lower() == "true"
+                webai_url = os.getenv("WEBAI_API_URL", "")
+                
+                if not enable_webai or not webai_url:
+                    return f"""❌ WebAI fallback is not enabled.
+
+To use WebAI models, set these environment variables:
+• `ENABLE_WEBAI_FALLBACK=true`
+• `WEBAI_API_URL=<your-webai-server-url>`
+
+Then restart the bot."""
+            
+            # Update user's model preference
+            self.user_model[sender] = new_model
+            
+            return f"""✅ Image analysis model updated!
+
+**New model:** {new_model}
+**Description:** {self.available_models[new_model]}
+
+Upload an image to test the new model!"""
+            
+        except Exception as e:
+            logger.error(f"Error handling model command: {e}")
+            return "❌ Error switching model. Please try again."
+    
+    async def _handle_personality_command(self, command: str, sender: str) -> str:
+        """Handle personality switching command."""
+        try:
+            parts = command.split(maxsplit=1)
+            
+            if len(parts) == 1 or parts[1] == 'list':
+                # Show available personalities
+                personalities_list = "🎭 **Available Personalities:**\n\n"
+                current_personality = self.user_personality.get(sender, self.default_personality)
+                
+                for personality_id, description in self.available_personalities.items():
+                    marker = "✅" if personality_id == current_personality else "○"
+                    personalities_list += f"{marker} `{personality_id}`\n   {description}\n\n"
+                
+                personalities_list += f"**Current personality:** {current_personality}\n\n"
+                personalities_list += "**Usage:** `?personality <name>` (e.g., `?personality megabite`)"
+                
+                return personalities_list
+            
+            # Switch to specified personality
+            new_personality = parts[1].lower().strip()
+            
+            if new_personality not in self.available_personalities:
+                return f"❌ Unknown personality: {new_personality}\n\nUse `?personality list` to see available personalities."
+            
+            # Update user's personality preference
+            self.user_personality[sender] = new_personality
+            
+            # Get personality-specific greeting
+            if new_personality == "ribit":
+                greeting = "I am now in Ribit mode - precise, technical, and detail-oriented. How may I assist you?"
+            else:  # megabite
+                greeting = "Hey there! 😊 I'm now in Megabite mode - friendly and casual. What's up?"
+            
+            return f"""✅ Personality updated!
+
+**New personality:** {new_personality}
+**Description:** {self.available_personalities[new_personality]}
+
+{greeting}"""
+            
+        except Exception as e:
+            logger.error(f"Error handling personality command: {e}")
+            return "❌ Error switching personality. Please try again."
 
     async def _handle_thought_experiment(self, command: str, sender: str, room_id: str) -> str:
         """Handle the thought experiment command."""
@@ -1032,38 +1151,6 @@ I am Ribit 2.0, an elegant AI agent with sophisticated reasoning capabilities. H
         except Exception as e:
             logger.error(f"Error handling thought experiment: {e}")
             return f"❌ An error occurred while processing the thought experiment: {e}"
-
-    
-    def _get_help_message(self) -> str:
-        """Get help message."""
-        return """📚 **Ribit 2.0 Commands**
-
-**Chat:**
-• `ribit.2.0 <message>` - Chat with me
-• `!reset` - Clear conversation context
-• Upload an image - Get offline image analysis
-
-**Message History:**
-• `?search <query>` - Search messages (e.g., "did alice mention python")
-• `?history` - View message statistics
-• `?words` - View learned vocabulary (top 20 words)
-
-**General Commands:**
-• `?help` - Show this help
-• `?thought_experiment [topic]` - Generate a philosophical thought experiment
-
-**Authorized Commands** (restricted users only):
-• `?sys` - System status
-• `?status` - Bot status  
-• `?command <action>` - Execute actions
-
-**Examples:**
-• `?search did bob talk about databases`
-• `?search who mentioned AI last week`
-• `?thought_experiment The Nature of Voxel-Based Identity`
-• `ribit.2.0 tell me about robotics`
-
-I am Ribit 2.0, an elegant AI agent with offline image analysis and message search. How may I assist you today?"""
     
     async def _handle_action_command(self, action: str) -> str:
         """Handle action execution command."""
