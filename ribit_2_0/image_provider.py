@@ -55,7 +55,9 @@ class OfflineImageProvider(ImageAnalysisProvider):
         self.name = "Offline Analyzer"
     
     async def analyze_image(self, image: Image.Image) -> Dict[str, Any]:
-        """Run offline image analysis."""
+        """Run offline image analysis in a thread pool to avoid blocking."""
+        import asyncio
+        
         try:
             if not self.analyzer:
                 return {
@@ -63,7 +65,7 @@ class OfflineImageProvider(ImageAnalysisProvider):
                     'description': 'Image analysis unavailable'
                 }
             
-            result = self.analyzer.analyze_image(image)
+            result = await asyncio.to_thread(self.analyzer.analyze_image, image)
             
             if not result or 'error' in result:
                 return {

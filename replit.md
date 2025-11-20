@@ -58,3 +58,27 @@ The project currently utilizes an interactive console-based demo (`demo.py`) as 
 - `MATRIX_HOMESERVER`: Matrix server URL.
 - `MATRIX_USERNAME`: Bot's Matrix ID.
 - `MATRIX_PASSWORD` or `MATRIX_ACCESS_TOKEN`: Matrix account credentials (stored as Replit Secrets).
+- `ENABLE_WEBAI_FALLBACK`: Enable WebAI-to-API fallback for image analysis (true/false).
+- `WEBAI_API_URL`: WebAI-to-API service URL (e.g., http://localhost:5000).
+- `WEBAI_MODEL`: Model for fallback analysis (gemini-pro-vision, gpt-4-vision, claude-3-opus, etc.).
+
+## Recent Changes
+
+### November 20, 2025 - Added WebAI-to-API Fallback System
+- 🚀 **Implemented Image Analysis Fallback Architecture**
+  - Created `ImageAnalysisProvider` abstraction for pluggable backends
+  - Added `OfflineImageProvider` wrapper for local offline analysis
+  - Added `WebAIImageProvider` for WebAI-to-API service integration
+  - Added `FallbackImageProvider` with automatic failover logic
+  - Fixed `KeyError: 0` crash from incorrect color data access
+  - Bot tries offline analyzer first, falls back to WebAI-to-API if enabled
+  - Supports multiple AI models via WebAI-to-API: Gemini, ChatGPT, Claude, DeepSeek
+  - Configuration via environment variables (see `.env.example`)
+  - Inspired by gemini-xmpp pattern for reliable image analysis
+
+### November 20, 2025 - Fixed Image Detection Crashes
+- 🐛 **Fixed Image Analysis Errors**
+  - Added defensive checks for all optional fields (colors, shapes, features)
+  - Fixed color extraction to handle both dict and list formats safely
+  - Added proper error handling for analyzer failures
+  - Bot no longer crashes on malformed image data
