@@ -9,13 +9,14 @@
 - **Type**: Console Application / Library
 - **Purpose**: AI agent for automation, robotics, and intelligent conversation
 
-## Current State (November 18, 2025)
+## Current State (November 20, 2025)
 
 ### Setup Complete
 ✅ Python 3.11 installed  
 ✅ All dependencies installed from requirements.txt  
 ✅ Interactive demo workflow configured and running  
 ✅ Project structure preserved from GitHub import  
+✅ Matrix bot controls added to CLI demo (November 20, 2025)  
 
 ### Available Features
 - **Mock LLM Emulator**: Production-ready AI decision-making without external LLM services
@@ -43,6 +44,12 @@ This provides an interactive menu to:
 6. Recall knowledge
 7. Demonstrate task execution
 8. View conversation history
+
+**NEW Matrix Bot Controls:**
+10. Start Matrix Bot - Launch the bot
+11. Stop Matrix Bot - Stop the bot
+12. Restart Matrix Bot - Restart the bot
+13. Bot Status - Check bot status and config
 
 ### NEW: Offline Features Demo
 Test all the new offline capabilities:
@@ -139,11 +146,49 @@ ribit.2.0/
 - Conversation history maintained in memory during session
 - Persistent across restarts via file storage
 
+### Matrix Bot Configuration
+To use the Matrix bot features from the demo CLI, configure these environment variables:
+
+**Required Environment Variables:**
+- `MATRIX_HOMESERVER` - Your Matrix server URL (e.g., `https://matrix.envs.net`)
+- `MATRIX_USERNAME` - Your bot's Matrix ID (e.g., `@ribit.2.0:envs.net`)
+
+**Required Secrets (add via Replit Secrets tab):**
+- `MATRIX_PASSWORD` - Your Matrix account password, OR
+- `MATRIX_ACCESS_TOKEN` - Your Matrix access token
+
+**How to Add Secrets:**
+1. Click on the "Tools" icon in the left sidebar
+2. Select "Secrets"
+3. Add `MATRIX_PASSWORD` or `MATRIX_ACCESS_TOKEN`
+4. Paste your credential value
+5. Click "Add secret"
+
+Once configured, use the demo menu options 10-13 to control the bot!
+
 ## User Preferences
 
 *To be added as preferences are discovered*
 
 ## Recent Changes
+
+### November 20, 2025 - Matrix Bot CLI Controls
+- ✅ **Interactive Bot Management**
+  - Start/Stop/Restart Matrix bot from demo CLI
+  - Real-time bot status monitoring (CPU, memory, uptime)
+  - Graceful shutdown on all exit paths (normal, Ctrl+C, errors)
+  - Production-ready subprocess management
+
+- 🔧 **Technical Improvements**
+  - Added psutil for process monitoring
+  - Fixed subprocess deadlock risk (redirected I/O to DEVNULL)
+  - Implemented cleanup handlers for all exit scenarios
+  - Architect-reviewed and approved implementation
+
+- 📚 **Documentation**
+  - Added Matrix bot configuration guide to replit.md
+  - Documented environment variable setup
+  - Added instructions for Replit Secrets
 
 ### November 18, 2025 - Complete Offline Features Integration
 - ✅ **Offline Image Analysis Module**
