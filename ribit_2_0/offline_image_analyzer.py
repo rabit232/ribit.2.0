@@ -138,10 +138,14 @@ class OfflineImageAnalyzer:
             
             # Get top colors
             dominant = []
+            total_pixels = len(pixels)
+            if total_pixels == 0:
+                return []
+            
             for color, count in color_counts.most_common(n_colors):
                 rgb = color
                 color_name = self._rgb_to_name(rgb)
-                percentage = (count / len(pixels)) * 100
+                percentage = (count / total_pixels) * 100
                 
                 dominant.append({
                     'rgb': list(rgb),
@@ -275,6 +279,8 @@ class OfflineImageAnalyzer:
             v_transitions = np.sum(np.abs(np.diff(binary, axis=0)) > 0)
             
             total_pixels = image.width * image.height
+            if total_pixels == 0:
+                raise ValueError("Invalid image dimensions")
             transition_density = (h_transitions + v_transitions) / total_pixels
             
             # Estimate text presence
@@ -356,6 +362,9 @@ class OfflineImageAnalyzer:
             img_array = np.array(image)
             pixels = img_array.reshape(-1, 3)
             
+            if len(pixels) == 0:
+                return {}
+            
             # Skin tone range (very basic)
             skin_pixels = np.sum(
                 (pixels[:, 0] > 95) & (pixels[:, 0] < 255) &
@@ -378,8 +387,11 @@ class OfflineImageAnalyzer:
             
             # Check for sky (blue in upper portion)
             upper_pixels = img_array[:img_array.shape[0]//3, :, :].reshape(-1, 3)
-            blue_upper = np.sum(upper_pixels[:, 2] > 150)
-            features['likely_has_sky'] = (blue_upper / len(upper_pixels)) > 0.3
+            if len(upper_pixels) > 0:
+                blue_upper = np.sum(upper_pixels[:, 2] > 150)
+                features['likely_has_sky'] = (blue_upper / len(upper_pixels)) > 0.3
+            else:
+                features['likely_has_sky'] = False
             
             return features
             

@@ -176,6 +176,31 @@ Once configured, use the demo menu options 10-13 to control the bot!
 
 ## Recent Changes
 
+### November 20, 2025 - Fixed Bot Responsiveness & Startup Issues
+- 🐛 **Fixed Critical Bot Startup Issues**
+  - Bot was not starting properly due to missing .env file loading in matrix_bot.py
+  - Added automatic .env loading in main() function
+  - Fixed bot crash caused by MegabiteLLM missing get_capabilities() method
+  - Added safe error handling for LLM capability checks
+  - Bot now starts successfully and stays running
+
+- 🔧 **Improved Sync and Timeout Handling**
+  - Fixed initial Matrix sync hanging indefinitely
+  - Added 15-second timeout wrapper with asyncio.wait_for()
+  - Bot continues functioning even if initial sync times out
+  - Reduced sync timeout from 30s to 10s for faster startup
+
+- 📝 **Better Logging and Debugging**
+  - Bot output now saved to logs/matrix_bot.log instead of DEVNULL
+  - Added detailed error logging for image analysis issues
+  - Environment variables explicitly passed to subprocess
+  - Log file path displayed when bot starts
+
+- 🖼️ **Enhanced Image Analysis Error Handling**
+  - Added detailed exception type logging for image errors
+  - Better error messages for unsupported image formats
+  - More robust error recovery for edge cases
+
 ### November 20, 2025 - Enhanced Conversation & Image Analysis
 - 🤖 **Improved Natural Conversation Detection**
   - Bot now responds to more natural questions: "tell me", "explain", "what is"

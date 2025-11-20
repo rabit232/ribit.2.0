@@ -63,17 +63,26 @@ def start_matrix_bot():
         return False
     
     try:
-        bot_process = subprocess.Popen(
-            [sys.executable, "-m", "ribit_2_0.matrix_bot"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
-        )
+        # Create logs directory if it doesn't exist
+        log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logs')
+        os.makedirs(log_dir, exist_ok=True)
+        log_file = os.path.join(log_dir, 'matrix_bot.log')
+        
+        # Start bot with output redirected to log file
+        with open(log_file, 'w') as log_f:
+            bot_process = subprocess.Popen(
+                [sys.executable, "-m", "ribit_2_0.matrix_bot"],
+                stdout=log_f,
+                stderr=subprocess.STDOUT,
+                env=os.environ.copy()
+            )
         time.sleep(2)
         
         if bot_process.poll() is None:
             print(f"✅ Matrix bot started successfully! (PID: {bot_process.pid})")
             print(f"   Server: {homeserver}")
             print(f"   User: {username}")
+            print(f"   📝 Logs: {log_file}")
             return True
         else:
             print(f"❌ Bot failed to start - check Matrix credentials and homeserver")

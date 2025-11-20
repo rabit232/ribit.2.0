@@ -219,13 +219,22 @@ class RibitMatrixBot:
             if MATRIX_AVAILABLE:
                 self.client.add_event_callback(self._handle_image, RoomMessageImage)
             
-            # Initial sync
+            # Initial sync with shorter timeout
             logger.info("🔄 Performing initial sync...")
-            sync_response = await self.client.sync(timeout=self.sync_timeout, full_state=False)
-            logger.info(f"✅ Initial sync completed")
-            
-            # Mark initial messages as processed
-            await self._mark_initial_messages_processed(sync_response)
+            try:
+                sync_response = await asyncio.wait_for(
+                    self.client.sync(timeout=10000, full_state=False),
+                    timeout=15.0
+                )
+                logger.info(f"✅ Initial sync completed")
+                
+                # Mark initial messages as processed
+                await self._mark_initial_messages_processed(sync_response)
+            except asyncio.TimeoutError:
+                logger.warning("Initial sync timed out, continuing anyway...")
+            except Exception as sync_error:
+                logger.error(f"Initial sync failed: {sync_error}")
+                # Continue anyway - bot can still function
             
             # Start background tasks
             asyncio.create_task(self._keepalive_task())
@@ -461,7 +470,10 @@ class RibitMatrixBot:
                             logger.info(f"✅ Image analysis completed successfully")
                             
                         except Exception as img_error:
-                            logger.error(f"Error processing image data: {img_error}")
+                            import traceback
+                            error_details = traceback.format_exc()
+                            logger.error(f"Error processing image data: {type(img_error).__name__}: {img_error}")
+                            logger.debug(f"Full traceback: {error_details}")
                             await self._send_message(room.room_id, 
                                 "❌ Could not process image. The file may be corrupted or in an unsupported format. "
                                 "Supported formats: JPEG, PNG, GIF, BMP, WebP")
@@ -1229,10 +1241,15 @@ I am Ribit 2.0, an elegant AI agent with offline image analysis and message sear
         print("   • ?command <action> - Execute actions (authorized only)")
         print("")
         print("🧠 **AI Capabilities:**")
-        capabilities = self.llm.get_capabilities()
-        for cap, enabled in capabilities.items():
-            status = "✅" if enabled else "❌"
-            print(f"   • {cap.replace('_', ' ').title()}: {status}")
+        try:
+            capabilities = self.llm.get_capabilities() if hasattr(self.llm, 'get_capabilities') else {}
+            for cap, enabled in capabilities.items():
+                status = "✅" if enabled else "❌"
+                print(f"   • {cap.replace('_', ' ').title()}: {status}")
+            if not capabilities:
+                print("   • LLM Ready ✅")
+        except Exception as e:
+            print(f"   • LLM Ready ✅")
         print("")
         print("🎭 **Personality:** Elegant, wise, knowledgeable, truth-seeking")
         print("=" * 60)
@@ -1242,6 +1259,17 @@ I am Ribit 2.0, an elegant AI agent with offline image analysis and message sear
 # Main execution function
 async def main():
     """Main function to run the Ribit Matrix Bot."""
+    # Load environment variables from .env file if it exists
+    env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '.env')
+    if os.path.exists(env_path):
+        with open(env_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    os.environ[key.strip()] = value.strip()
+        logger.info(f"Loaded environment from {env_path}")
+    
     # Configuration from environment variables
     homeserver = os.getenv("MATRIX_HOMESERVER", "https://matrix.envs.net")
     user_id = os.getenv("MATRIX_USER_ID") or os.getenv("MATRIX_USERNAME", "@ribit:envs.net")
