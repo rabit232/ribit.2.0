@@ -22,3 +22,7 @@
 [test_concept]: This is a test concept
 [test_concept]: This is a test concept
 [test_concept]: This is a test concept
+[query_1]: tell me about te ultimate truth
+[query_2]: Click on the target
+[query_3]: Type 'Hello, World!'
+[query_4]: Explain what you just did

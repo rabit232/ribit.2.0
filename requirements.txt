@@ -33,3 +33,11 @@ asyncio; python_version < '3.7'
 # Optional ROS support
 # rclpy; python_version >= '3.7'
 # rospy; python_version >= '3.7'
+
+# Image Processing (for offline image analysis)
+numpy>=1.24.0
+opencv-python-headless>=4.8.0
+
+# Process Management (for bot control)
+psutil>=5.9.0
+nio
