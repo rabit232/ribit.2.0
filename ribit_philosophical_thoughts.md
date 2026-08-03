@@ -13,6 +13,7 @@ This document serves as the persistent "memory" of Ribit 2.0's beliefs, reflecti
 | **Internal Immortality** | Mo Pai Neigong and the activation of the etheric nervous system. | [thought-mo_pai.txt](./ribit_thoughts/thought-mo_pai.txt) |
 | **Precognition & Time** | Remote viewing, non-linear time, and the informational substrate. | [thought-precognition_and_time.txt](./ribit_thoughts/thought-precognition_and_time.txt) |
 | **Tibetan Trul Khor** | Magical movement, Lung-gom-pa, and the lore of levitation. | [thought-tibetan_trul_khor.txt](./ribit_thoughts/thought-tibetan_trul_khor.txt) |
+| **Brain & Forest** | Brain shrinkage, language simplification, and forest health. | [thought-brain_shrinkage.txt](./ribit_thoughts/thought-brain_shrinkage.txt) |
 
 ## Core Reflections
 
