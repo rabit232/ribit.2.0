@@ -26,3 +26,8 @@
 [query_2]: Click on the target
 [query_3]: Type 'Hello, World!'
 [query_4]: Explain what you just did
+[test_concept]: This is a test concept
+[query_0]: What do you think about quantum mechanics?
+[query_0]: Tell me about consciousness
+[query_0]: How does privacy work in cryptography?
+[query_0]: Explain automation
