@@ -378,6 +378,10 @@ For comprehensive documentation, see:
 - Enhanced simulation environments
 - Advanced learning algorithms
 
+## 🧩 Reusable Skills, Plugins, and Knowledge
+
+The companion [**Manus Skills and Plugins** repository](https://github.com/rabit232/manus-skills-and-plugins) packages the reusable Ribit 2.0 Python modules, a validated secure-agent engineering skill derived from the development workflow, curated knowledge materials, a submission area for new knowledge, and a documented knowledge roadmap. The Ribit 2.0 repository remains the canonical application source; review and selectively integrate companion modules according to their security documentation.
+
 ## 🙏 Acknowledgments
 
 - **Manus AI** - Core development and enhancement
