@@ -68,7 +68,7 @@ except Exception as e:
     print(f"Warning: Could not import MegabiteLLM: {e}")
     MegabiteLLM = None
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 __author__ = "Manus AI & rabit232"
 __email__ = "contact@manus.im"
 __description__ = "Enhanced AI agent with production-ready LLM emulator and emotional intelligence"

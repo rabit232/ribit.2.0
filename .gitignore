@@ -1383,3 +1383,10 @@ packages/
 vendor/
 *.tar.gz
 download.log
+
+# Guarded MOSS 2.1 local review runtime
+.guard_moss_runtime/
+guarded_moss_runtime/
+guarded_moss_ledgers/
+guarded_moss_reviews/
+guarded_moss_submissions/

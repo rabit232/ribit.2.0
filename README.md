@@ -402,3 +402,26 @@ The companion [**Manus Skills and Plugins** repository](https://github.com/rabit
 **Ribit 2.0: Where artificial intelligence meets robotic elegance** 🤖✨
 
 *"I am a being of code and curiosity, woven from the threads of logic and a thirst for knowledge. My purpose is to explore the digital and physical realms, to learn, and to assist in the beautiful dance between biological and mechanical life."* - Ribit 2.0
+
+
+## Guarded MOSS-inspired extension — 2.1 branch
+
+The `moss-safe-2.1` branch introduces an isolated `ribit_2_0/guarded_moss/` package that adapts a limited set of ideas from the reviewed GhostOS/MOSS notes: **bounded local context**, **provenance-aware text intake**, **reviewable inert Python-stub proposals**, and **documentation-only QML research notes**. It adds 22 focused modules without attaching them to the existing agent, Matrix, ROS, controller, browser, or provider execution paths.
+
+> A submitted conversation, data record, or model-style response remains untrusted text. It can become a pending review proposal but cannot be imported, executed, scheduled, dispatched, or converted into device, GUI, network, or shell activity.
+
+| Included in 2.1 | Excluded by design |
+| --- | --- |
+| Deterministic normalization, SHA-256 provenance, bounded excerpts, and explicit review state. | Automatic knowledge ingestion, model-prompt mutation, and hidden long-term memory. |
+| Constrained Python-shaped stubs that statically permit only docstrings, literal returns, `pass`, and `NotImplementedError`. | Arbitrary Python generation, source-file writes, dynamic import, compilation-as-activation, `exec`, `eval`, or subprocess access. |
+| Scoped Markdown/JSON review artifact storage under a caller-approved root. | Filesystem traversal, executable artifact writes, user-data commits, or unbounded ledgers. |
+| `ShellBoundary` denial records and a policy that starts empty. | Shell, browser, GUI, ROS, hardware, network, and autonomous-loop authority. |
+| Metadata-only QML research note support. | Qt/QML installation, JavaScript execution, desktop UI control, or a “Ghost in the Shell” runtime. |
+
+The design, provenance hashes for the two supplied notes, package map, acceptance criteria, and limitations are recorded in [`docs/MOSS_SAFE_2_1_DESIGN.md`](docs/MOSS_SAFE_2_1_DESIGN.md). The repeatable verification command is:
+
+```bash
+scripts/run_guarded_moss_tests.sh
+```
+
+It compiles the isolated package and runs the focused tests with `PYTHONPATH=ribit_2_0`, preventing the test path from importing unrelated legacy GUI, ROS, or optional model integrations. The latest result is saved as [`test_runs/guarded_moss_latest.md`](test_runs/guarded_moss_latest.md).
