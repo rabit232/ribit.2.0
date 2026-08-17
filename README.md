@@ -424,4 +424,4 @@ The design, provenance hashes for the two supplied notes, package map, acceptanc
 scripts/run_guarded_moss_tests.sh
 ```
 
-It compiles the isolated package and runs the focused tests with `PYTHONPATH=ribit_2_0`, preventing the test path from importing unrelated legacy GUI, ROS, or optional model integrations. The latest result is saved as [`test_runs/guarded_moss_latest.md`](test_runs/guarded_moss_latest.md).
+It compiles the isolated package and runs the focused tests with `PYTHONPATH=ribit_2_0`, preventing the test path from importing unrelated legacy GUI, ROS, or optional model integrations. The latest result is saved as [`test_runs/guarded_moss_latest.md`](test_runs/guarded_moss_latest.md). The artifact path checks, transcript regeneration test, and static assessment of the newly supplied sources are recorded in [`docs/MOSS_SAFE_2_1_ARTIFACT_AUDIT.md`](docs/MOSS_SAFE_2_1_ARTIFACT_AUDIT.md).

@@ -5,6 +5,12 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+PACKAGE_ROOT = ROOT / "ribit_2_0"
+if str(PACKAGE_ROOT) not in sys.path:
+    sys.path.insert(0, str(PACKAGE_ROOT))
 
 from guarded_moss.activation import activation_status
 from guarded_moss.adapter import GuardedMossAdapter
@@ -124,8 +130,7 @@ def render_demo() -> str:
 
 
 def main() -> int:
-    root = Path(__file__).resolve().parents[1]
-    destination = root / "test_runs" / "guarded_moss_ten_turn_demo.md"
+    destination = ROOT / "test_runs" / "guarded_moss_ten_turn_demo.md"
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(render_demo(), encoding="utf-8")
     print(destination)

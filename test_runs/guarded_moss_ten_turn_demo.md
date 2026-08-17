@@ -1,6 +1,6 @@
 # Guarded MOSS 2.1 — ten-turn text-only demonstration
 
-Generated at `2026-08-16T17:09:31.936054+00:00`.
+Generated at `2026-08-17T15:19:37.819566+00:00`.
 
 > This is not a conversation with the legacy MockLLM or a live GhostOS runtime. It is a deterministic exercise of the new `guarded_moss` review interface. No model provider, shell, network, GUI, device, dynamic import, or activation API is called.
 
