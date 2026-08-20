@@ -35,6 +35,18 @@ For `s` states and an odd neighborhood width `n`, the number of raw neighborhood
 
 If using the edge-of-chaos convention, reserve state `0` as dead and force the all-zero neighborhood to produce `0`. Interpret lambda as the proportion of non-all-zero canonical neighborhoods that produce a living state. Keep the random generator and seed because lambda describes only a rule-set statistic, not the rule table itself.[1]
 
+## Long-Running Browser Visualizers
+
+Keep the live CA state and the displayed stream separate. For a finite viewport, retain only the newest `viewportRows` rows in a fixed typed-array **ring buffer** and rasterize that bounded buffer when rendering. Do not repeatedly shift an offscreen canvas by drawing it onto itself; that pattern can fail or degrade after long runs.
+
+1. Retain `width × viewportRows` state cells in a circular buffer and advance an `oldestRow` index on wrap-around.
+2. Reuse one or two work rows for live rule evaluation rather than allocating a new row for each generation.
+3. Preserve any finite reference history and raw rule table separately from the viewport buffer; use them only to seed the continuation.
+4. Expose a small debug API reporting generation, retained-row count, wrap index, and renderer type. Stress-test it past any reported failure threshold, including the transition from saved replay to live calculation.
+5. Compare consecutive live rows during testing. If they become identical, report a **fixed point** rather than labeling a static visual result as a renderer failure. Check for longer cycles separately when needed.
+
+For the Edge of Chaos source simulator, first click **Create New Rule Set** after selecting the state count, neighborhood size, and isotropy. This initializes the correct canonical rule-path length. Then set the exact active-rule count through the native slider/change path; changing its text field alone can be overwritten by internal state. In the current page implementation, `completeEnterRulesUsed()` performs this native completion after the field has been assigned. Save the result as a browser-local example only after the active-rule field visibly remains at the requested value.
+
 ## Runner Examples
 
 Create a parameter-matched, mirror-symmetric exploration:
