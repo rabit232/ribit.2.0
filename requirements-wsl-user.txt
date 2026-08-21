@@ -1,0 +1,9 @@
+# No-sudo user-level WSL compatibility overlay for Ribit 2.0.
+# Installs the complete baseline dependency set plus conservative compatibility pins.
+-r requirements.txt
+
+# DeltaBot 0.8 imports DeltaChat 1.x APIs removed by DeltaChat 2.x.
+deltachat>=1.40.1,<2
+
+# Keep the test runner on the validated major version.
+pytest>=8.0,<9.0
